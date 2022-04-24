@@ -18,28 +18,28 @@ This can be considered a fork of the awesome project by mellinoe [ImGui.Net](htt
 # Status (WIP)
 **ImGuiSharp**:
 
-[![NuGet stable version](https://badgen.net/nuget/v/newtonsoft.json)](https://nuget.org/packages/ImGuiSharp)
-[![NuGet pre version](https://badgen.net/nuget/v/newtonsoft.json/pre)](https://nuget.org/packages/ImGuiSharp)
+[![NuGet stable version](https://badgen.net/nuget/v/ImGuiSharp)](https://nuget.org/packages/ImGuiSharp)
+[![NuGet pre version](https://badgen.net/nuget/v/ImGuiSharp/pre)](https://nuget.org/packages/ImGuiSharp)
 
 **ImGuiSharp.Veldrid**:
 
-[![NuGet stable version](https://badgen.net/nuget/v/newtonsoft.json)](https://nuget.org/packages/ImGuiSharp.Veldrid)
-[![NuGet pre version](https://badgen.net/nuget/v/newtonsoft.json/pre)](https://nuget.org/packages/ImGuiSharp.Veldrid)
+[![NuGet stable version](https://badgen.net/nuget/v/ImGuiSharp.Veldrid)](https://nuget.org/packages/ImGuiSharp.Veldrid)
+[![NuGet pre version](https://badgen.net/nuget/v/ImGuiSharp.Veldrid/pre)](https://nuget.org/packages/ImGuiSharp.Veldrid)
 
 **ImNodesSharp**:
 
-[![NuGet stable version](https://badgen.net/nuget/v/newtonsoft.json)](https://nuget.org/packages/ImNodesSharp)
-[![NuGet pre version](https://badgen.net/nuget/v/newtonsoft.json/pre)](https://nuget.org/packages/ImNodesSharp)
+[![NuGet stable version](https://badgen.net/nuget/v/ImNodesSharp)](https://nuget.org/packages/ImNodesSharp)
+[![NuGet pre version](https://badgen.net/nuget/v/ImNodesSharp/pre)](https://nuget.org/packages/ImNodesSharp)
 
 **ImGuizmoSharp**:
 
-[![NuGet stable version](https://badgen.net/nuget/v/newtonsoft.json)](https://nuget.org/packages/ImGuizmoSharp)
-[![NuGet pre version](https://badgen.net/nuget/v/newtonsoft.json/pre)](https://nuget.org/packages/ImGuizmoSharp)
+[![NuGet stable version](https://badgen.net/nuget/v/ImGuizmoSharp)](https://nuget.org/packages/ImGuizmoSharp)
+[![NuGet pre version](https://badgen.net/nuget/v/ImGuizmoSharp/pre)](https://nuget.org/packages/ImGuizmoSharp)
 
 **ImPlotSharp**:
 
-[![NuGet stable version](https://badgen.net/nuget/v/newtonsoft.json)](https://www.nuget.org/packages/ImPlotSharp)
-[![NuGet pre version](https://badgen.net/nuget/v/newtonsoft.json/pre)](https://www.nuget.org/packages/ImPlotSharp)
+[![NuGet stable version](https://badgen.net/nuget/v/ImPlotSharp)](https://www.nuget.org/packages/ImPlotSharp)
+[![NuGet pre version](https://badgen.net/nuget/v/ImPlotSharp/pre)](https://www.nuget.org/packages/ImPlotSharp)
 
 # Community 
 
