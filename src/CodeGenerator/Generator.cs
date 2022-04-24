@@ -58,6 +58,7 @@ internal static class Generator
         foreach (var ed in defs.Enums)
         {
             using var writer = new CSharpCodeWriter(Path.Combine(output, ed.FriendlyName + ".gen.cs"));
+            writer.WriteLine("// ReSharper disable once CheckNamespace");
             writer.PushBlock($"namespace {projectNamespace}");
             if (ed.FriendlyName.Contains("Flags"))
             {
@@ -85,12 +86,14 @@ internal static class Generator
             writer.Using("System.Text");
             if (referencesImGui)
             {
-                writer.Using("ImGuiNET");
+                writer.Using("ImGuiSharp");
             }
+            writer.Using("ImGuiSharp.Structs");
             writer.WriteLine(string.Empty);
+            writer.WriteLine("// ReSharper disable once CheckNamespace");
             writer.PushBlock($"namespace {projectNamespace}");
 
-            writer.PushBlock($"public unsafe partial struct {td.Name}");
+            writer.PushBlock($"public unsafe partial struct {td.Name}"); //Needs to be partial
             foreach (var field in td.Fields)
             {
                 var typeStr = GetTypeString(field.Type, field.IsFunctionPointer);
@@ -117,7 +120,7 @@ internal static class Generator
             writer.PopBlock();
 
             var ptrTypeName = td.Name + "Ptr";
-            writer.PushBlock($"public unsafe partial struct {ptrTypeName}");
+            writer.PushBlock($"public unsafe partial struct {ptrTypeName}"); //Needs to be partial
             writer.WriteLine($"public {td.Name}* NativePtr {{ get; }}");
             writer.WriteLine($"public {ptrTypeName}({td.Name}* nativePtr) => NativePtr = nativePtr;");
             writer.WriteLine($"public {ptrTypeName}(IntPtr nativePtr) => NativePtr = ({td.Name}*)nativePtr;");
@@ -252,11 +255,13 @@ internal static class Generator
             writer.Using("System.Runtime.InteropServices");
             if (referencesImGui)
             {
-                writer.Using("ImGuiNET");
+                writer.Using("ImGuiSharp");
             }
+            writer.Using("ImGuiSharp.Structs");
             writer.WriteLine(string.Empty);
+            writer.WriteLine("// ReSharper disable once CheckNamespace");
             writer.PushBlock($"namespace {projectNamespace}");
-            writer.PushBlock($"public static unsafe partial class {classPrefix}Native");
+            writer.PushBlock($"public static unsafe class {classPrefix}Native"); //Does not need to be partial
             foreach (var fd in defs.Functions)
             {
                 foreach (var overload in fd.Overloads)
@@ -318,11 +323,14 @@ internal static class Generator
             writer.Using("System.Text");
             if (referencesImGui)
             {
-                writer.Using("ImGuiNET");
+                writer.Using("ImGuiSharp");
+                
             }
+            writer.Using("ImGuiSharp.Structs");
             writer.WriteLine(string.Empty);
+            writer.WriteLine("// ReSharper disable once CheckNamespace");
             writer.PushBlock($"namespace {projectNamespace}");
-            writer.PushBlock($"public static unsafe partial class {classPrefix}");
+            writer.PushBlock($"public static unsafe class {classPrefix}"); //Does not need to be partial
             foreach (var fd in defs.Functions)
             {
                 if (TypeInfo.SkippedFunctions.Contains(fd.Name)) { continue; }
@@ -717,20 +725,18 @@ internal static class Generator
 
     private static string GetSafeType(string nativeRet)
     {
-        if (nativeRet == "bool")
+        switch (nativeRet)
         {
-            return "bool";
+            case "bool":
+                return "bool";
+            case "char*":
+                return "string";
+            case "ImWchar*":
+            case "void*":
+                return "IntPtr";
+            default:
+                return GetTypeString(nativeRet, false);
         }
-        else if (nativeRet == "char*")
-        {
-            return "string";
-        }
-        else if (nativeRet == "ImWchar*" || nativeRet == "void*")
-        {
-            return "IntPtr";
-        }
-
-        return GetTypeString(nativeRet, false);
     }
 
     private static string GetSafeType(TypeReference typeRef)
@@ -769,7 +775,7 @@ internal static class Generator
 
     private static bool CorrectDefaultValue(string defaultVal, TypeReference tr, out string correctedDefault)
     {
-        if (tr.Type == "ImGuiContext*" || tr.Type == "ImPlotContext*" || tr.Type == "EditorContext*")
+        if (tr.Type is "ImGuiContext*" or "ImPlotContext*" or "EditorContext*")
         {
             correctedDefault = "IntPtr.Zero";
             return true;
@@ -783,18 +789,11 @@ internal static class Generator
             return true;
         }
 
-        if (defaultVal.Contains("%")) { correctedDefault = null; return false; }
+        if (defaultVal.Contains('%')) { correctedDefault = null; return false; }
 
         if (tr.IsEnum)
         {
-            if (defaultVal.StartsWith("-"))
-            {
-                correctedDefault = $"({tr.Type})({defaultVal})";
-            }
-            else
-            {
-                correctedDefault = $"({tr.Type}){defaultVal}";
-            }
+            correctedDefault = defaultVal.StartsWith("-") ? $"({tr.Type})({defaultVal})" : $"({tr.Type}){defaultVal}";
             return true;
         }
 

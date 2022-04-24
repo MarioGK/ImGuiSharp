@@ -2,7 +2,9 @@ using System;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Text;
+using ImGuiSharp.Structs;
 
+// ReSharper disable once CheckNamespace
 namespace ImGuiSharp
 {
     public unsafe partial struct ImDrawData

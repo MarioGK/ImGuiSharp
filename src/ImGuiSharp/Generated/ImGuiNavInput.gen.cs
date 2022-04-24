@@ -1,3 +1,4 @@
+// ReSharper disable once CheckNamespace
 namespace ImGuiSharp
 {
     public enum ImGuiNavInput

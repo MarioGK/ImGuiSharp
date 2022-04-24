@@ -1,5 +1,4 @@
 ﻿using System.Numerics;
-using ImGuiNET;
 using ImGuiSharp;
 using Veldrid;
 using Veldrid.Sdl2;

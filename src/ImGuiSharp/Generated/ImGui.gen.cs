@@ -2,10 +2,12 @@ using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Text;
+using ImGuiSharp.Structs;
 
+// ReSharper disable once CheckNamespace
 namespace ImGuiSharp
 {
-    public static unsafe partial class ImGui
+    public static unsafe class ImGui
     {
         public static ImGuiPayloadPtr AcceptDragDropPayload(string type)
         {

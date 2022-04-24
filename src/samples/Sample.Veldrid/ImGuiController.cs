@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Numerics;
-using System.Reflection;
-using System.IO;
-using Veldrid;
 using System.Runtime.CompilerServices;
 using ImGuiSharp;
+using Veldrid;
 
-namespace ImGuiNET;
+namespace Sample.Veldrid;
 
 /// <summary>
 /// A modified version of Veldrid.ImGui's ImGuiRenderer.
