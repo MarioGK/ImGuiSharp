@@ -35,7 +35,7 @@ foreach ($project in $projects) {
 }
 
 #Build Native libs
-.\build.ps1
+.\native\build.ps1
 
 
 #Build generator

@@ -1,5 +1,5 @@
 # ImGuiSharp
-ImGuiSharp is a binding library for [ImGui](https://github.com/ocornut/imgui) for C#
+ImGuiSharp is a binding library for [ImGui](https://github.com/ocornut/imgui) for C# that aims to expose as many apis as possible and stay at the most updated version of imgui and cimgui.
 
 This can be considered a fork of the awesome project by mellinoe [ImGui.Net](https://github.com/mellinoe/ImGui.NET), the main differences between the two are:
 
