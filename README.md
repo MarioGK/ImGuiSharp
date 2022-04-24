@@ -24,3 +24,6 @@ https://github.com/ocornut/imgui
 
 https://github.com/cimgui/cimgui
 > This is a thin c-api wrapper for the excellent C++ intermediate gui imgui. This library is intended as a intermediate layer to be able to use imgui from other languages that can interface with C .
+
+https://github.com/sonoro1234/LuaJIT-ImGui
+>This is a LuaJIT binding for the excellent C++ intermediate gui imgui. Uses cimgui to be the most "up to date" as possible.
