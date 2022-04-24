@@ -50,7 +50,7 @@ internal class TypeReference
                 ArraySize = ParseSizeString(sizePart, enums);
             }
 
-            Name = Name.Substring(0, startBracket);
+            Name = Name[..startBracket];
         }
         IsFunctionPointer = Type.IndexOf('(') != -1;
             

@@ -9,11 +9,11 @@ ImGuiSharp is a binding library for [ImGui](https://github.com/ocornut/imgui) fo
 
 This can be considered a fork of the awesome project by mellinoe [ImGui.Net](https://github.com/mellinoe/ImGui.NET), the main differences between the two are:
 
-- ImGuiSharp will expose the ImGui internal headers
-- ImPlot
-- ImNodes
-- ImGuizmo
-- Provides easy to use scripts to update, build and test ImGuiSharp
+- This library will be "bloated" it will contain all ImGui's features including internal ones and 3rd party libraries as well, if you want/need a smaller version of ImGuiSharp, you can use the [ImGui.Net](https://github.com/mellinoe/ImGui.NET) instead.
+- CodeGenerator is being refactored to be easier to read and modify.
+- ImGuiSharp will expose the ImGui internal headers.
+- ImPlot,ImNodes,ImGuizmo added to the list of supported libraries.
+- Provides easy to use scripts to update, build and test ImGuiSharp.
 
 
 # Credits

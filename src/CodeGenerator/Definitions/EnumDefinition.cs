@@ -14,16 +14,9 @@ internal class EnumDefinition
 
     public EnumDefinition(string name, EnumMemberDefinition[] elements)
     {
-        Name = name;
-        if (Name.EndsWith('_'))
-        {
-            FriendlyName = Name.Substring(0, Name.Length - 1);
-        }
-        else
-        {
-            FriendlyName = Name;
-        }
-        Members = elements;
+        Name         = name;
+        FriendlyName = Name.EndsWith('_') ? Name[..^1] : Name;
+        Members      = elements;
 
         _sanitizedNames = new Dictionary<string, string>();
         foreach (var el in elements)
@@ -34,12 +27,7 @@ internal class EnumDefinition
 
     public string SanitizeNames(string text)
     {
-        foreach (var kvp in _sanitizedNames)
-        {
-            text = text.Replace(kvp.Key, kvp.Value);
-        }
-
-        return text;
+        return _sanitizedNames.Aggregate(text, (current, kvp) => current.Replace(kvp.Key, kvp.Value));
     }
 
     private string SanitizeMemberName(string memberName)
@@ -47,20 +35,22 @@ internal class EnumDefinition
         var ret = memberName;
         if (memberName.StartsWith(Name))
         {
-            ret = memberName.Substring(Name.Length);
+            ret = memberName[Name.Length..];
             if (ret.StartsWith("_"))
             {
-                ret = ret.Substring(1);
+                ret = ret[1..];
             }
         }
 
         if (ret.EndsWith('_'))
         {
-            ret = ret.Substring(0, ret.Length - 1);
+            ret = ret[..^1];
         }
 
-        if (Char.IsDigit(ret.First()))
+        if (char.IsDigit(ret.First()))
+        {
             ret = "_" + ret;
+        }
 
         return ret;
     }

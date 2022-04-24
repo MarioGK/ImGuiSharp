@@ -50,7 +50,7 @@ namespace CodeGenerator
             
             //Going to root folder to get definitions
             var definitionsPath = Path.Combine(AppContext.BaseDirectory , "..", "..", "..", "..", "..", "definitions", project);
-            var defs            = new ImGuiDefinitions();
+            var defs            = new DefinitionsParser();
             defs.LoadFrom(definitionsPath);
 
             Console.WriteLine($"Outputting generated code files to {output}.");

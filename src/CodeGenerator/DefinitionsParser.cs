@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using CodeGenerator.Definitions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace CodeGenerator.Definitions
+namespace CodeGenerator
 {
-    internal class ImGuiDefinitions
+    internal class DefinitionsParser
     {
         public EnumDefinition[] Enums;
         public TypeDefinition[] Types;
@@ -18,33 +19,17 @@ namespace CodeGenerator.Definitions
             var v = token[key];
             return v?.ToObject<int>() ?? 0;
         }
-        public void LoadFrom(string directory)
+
+        private void ParseVariants(string directory)
         {
-            
-            JObject typesJson;
-            using (var fs = File.OpenText(Path.Combine(directory, "structs_and_enums.json")))
-            using (var jr = new JsonTextReader(fs))
-            {
-                typesJson = JObject.Load(jr);
-            }
-
-            JObject functionsJson;
-            using (var fs = File.OpenText(Path.Combine(directory, "definitions.json")))
-            using (var jr = new JsonTextReader(fs))
-            {
-                functionsJson = JObject.Load(jr);
-            }
-
             JObject variantsJson = null;
             if (File.Exists(Path.Combine(directory, "variants.json")))
             {
-                using (var fs = File.OpenText(Path.Combine(directory, "variants.json")))
-                using (var jr = new JsonTextReader(fs))
-                {
-                    variantsJson = JObject.Load(jr);
-                }
+                using var fs = File.OpenText(Path.Combine(directory, "variants.json"));
+                using var jr = new JsonTextReader(fs);
+                variantsJson = JObject.Load(jr);
             }
-
+            
             Variants = new Dictionary<string, MethodVariant>();
             foreach (var jt in variantsJson.Children())
             {
@@ -55,12 +40,22 @@ namespace CodeGenerator.Definitions
                 }).ToArray();
                 Variants.Add(jp.Name, new MethodVariant(jp.Name, methodVariants));
             }
+        }
 
+        private void ParseTypes(string directory)
+        {
+            JObject typesJson;
+            using (var fs = File.OpenText(Path.Combine(directory, "structs_and_enums.json")))
+            using (var jr = new JsonTextReader(fs))
+            {
+                typesJson = JObject.Load(jr);
+            }
+            
             var typeLocations = typesJson["locations"];
 
             Enums = typesJson["enums"].Select(jt =>
             {
-                var jp = (JProperty)jt;
+                var jp   = (JProperty)jt;
                 var name = jp.Name;
                 if (typeLocations?[jp.Name]?.Value<string>().Contains("internal") ?? false) {
                     return null;
@@ -74,7 +69,7 @@ namespace CodeGenerator.Definitions
 
             Types = typesJson["structs"].Select(jt =>
             {
-                var jp = (JProperty)jt;
+                var jp   = (JProperty)jt;
                 var name = jp.Name;
                 if (typeLocations?[jp.Name]?.Value<string>().Contains("internal") ?? false) {
                     return null;
@@ -93,7 +88,17 @@ namespace CodeGenerator.Definitions
                 }).Where(tr => tr != null).ToArray();
                 return new TypeDefinition(name, fields);
             }).Where(x => x != null).ToArray();
+        }
 
+        private void ParseFunctions(string directory)
+        {
+            JObject functionsJson;
+            using (var fs = File.OpenText(Path.Combine(directory, "definitions.json")))
+            using (var jr = new JsonTextReader(fs))
+            {
+                functionsJson = JObject.Load(jr);
+            }
+            
             Functions = functionsJson.Children().Select(jt =>
             {
                 var jp = (JProperty)jt;
@@ -101,8 +106,8 @@ namespace CodeGenerator.Definitions
                 var hasNonUdtVariants = jp.Values().Any(val => val["ov_cimguiname"]?.ToString().EndsWith("nonUDT") ?? false);
                 var overloads = jp.Values().Select(val =>
                 {
-                    var ov_cimguiname = val["ov_cimguiname"]?.ToString();
-                    var cimguiname = val["cimguiname"].ToString();
+                    var ovCimguiname = val["ov_cimguiname"]?.ToString();
+                    var cimguiname = val["cimguiname"]?.ToString();
                     var friendlyName = val["funcname"]?.ToString();
                     if (cimguiname.EndsWith("_destroy"))
                     {
@@ -117,9 +122,12 @@ namespace CodeGenerator.Definitions
                         }
                     }
                     if (friendlyName == null) { return null; }
-                    if (val["location"]?.ToString().Contains("internal") ?? false) return null;
+                    if (val["location"]?.ToString().Contains("internal") ?? false)
+                    {
+                        return null;
+                    }
 
-                    var exportedName = ov_cimguiname;
+                    var exportedName = ovCimguiname;
                     if (exportedName == null)
                     {
                         exportedName = cimguiname;
@@ -143,26 +151,26 @@ namespace CodeGenerator.Definitions
                     MethodVariant methodVariants = null;
                     Variants.TryGetValue(jp.Name, out methodVariants);
 
-                    foreach (var p in val["argsT"])
+                    foreach (var p in val["argsT"]!)
                     {
-                        var pType = p["type"].ToString();
-                        var pName = p["name"].ToString();
+                        var pType = p["type"]?.ToString();
+                        var pName = p["name"]?.ToString();
 
                         // if there are possible variants for this method then try to match them based on the parameter name and expected type
-                        var matchingVariant = methodVariants?.Parameters.Where(pv => pv.Name == pName && pv.OriginalType == pType).FirstOrDefault() ?? null;
-                        if (matchingVariant != null) matchingVariant.Used = true;
+                        var matchingVariant =
+                            (methodVariants?.Parameters).FirstOrDefault(pv => pv.Name         == pName &&
+                                                                              pv.OriginalType == pType) ?? null;
+                        if (matchingVariant != null)
+                        {
+                            matchingVariant.Used = true;
+                        }
 
                         parameters.Add(new TypeReference(pName, pType, 0, Enums, matchingVariant?.VariantTypes));
                     }
 
-                    var defaultValues = new Dictionary<string, string>();
-                    foreach (var dv in val["defaults"])
-                    {
-                        var dvProp = (JProperty)dv;
-                        defaultValues.Add(dvProp.Name, dvProp.Value.ToString());
-                    }
-                    var returnType = val["ret"]?.ToString() ?? "void";
-                    string comment = null;
+                    var    defaultValues = val["defaults"].Cast<JProperty>().ToDictionary(dvProp => dvProp.Name, dvProp => dvProp.Value.ToString());
+                    var    returnType    = val["ret"]?.ToString() ?? "void";
+                    string comment       = null;
 
                     var structName = val["stname"].ToString();
                     var isConstructor = val.Value<bool>("constructor");
@@ -183,9 +191,20 @@ namespace CodeGenerator.Definitions
                                                   isConstructor,
                                                   isDestructor);
                 }).Where(od => od != null).ToArray();
-                if(overloads.Length == 0) return null;
+                if(overloads.Length == 0)
+                {
+                    return null;
+                }
+
                 return new FunctionDefinition(name, overloads, Enums);
             }).Where(x => x != null).OrderBy(fd => fd.Name).ToArray();
+        }
+        
+        public void LoadFrom(string directory)
+        {
+            ParseTypes(directory);
+            ParseFunctions(directory);
+            ParseVariants(directory);
         }
     }
 }

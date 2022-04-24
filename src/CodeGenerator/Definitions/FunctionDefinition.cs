@@ -51,7 +51,10 @@ internal class FunctionDefinition
 
                         parameters[j] = overload.Parameters[j].WithVariant(k, enums);
 
-                        if (j > 0) div *= variantCounts[j];
+                        if (j > 0)
+                        {
+                            div *= variantCounts[j];
+                        }
                     }
 
                     newDefinitions.Add(overload.WithParameters(parameters));

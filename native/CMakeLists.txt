@@ -6,6 +6,11 @@ project(cimgui)
 
 set (CMAKE_CXX_STANDARD 11)
 
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+add_definitions("-DIMGUI_DISABLE_OBSOLETE_FUNCTIONS=1")
+add_definitions("-DIMNODES_NAMESPACE=imnodes")
+
 #general settings
 include_directories(cimgui)
 include_directories(cimgui/imgui)
@@ -19,8 +24,6 @@ include_directories(cimguizmo_quat/imGuIZMO.quat/imGuIZMO.quat)
 include_directories(cimnodes)
 include_directories(cimnodes/ImNodes)
 
-add_definitions("-DIMGUI_DISABLE_OBSOLETE_FUNCTIONS=1")
-add_definitions(-DIMNODES_NAMESPACE=imnodes)
 
 #general settings
 

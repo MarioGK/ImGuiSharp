@@ -51,18 +51,8 @@ namespace ImGuiSharp.Veldrid
         /// <param name="outputDescription">The output format.</param>
         /// <param name="width">The initial width of the rendering target. Can be resized.</param>
         /// <param name="height">The initial height of the rendering target. Can be resized.</param>
-        public ImGuiRenderer(GraphicsDevice gd, OutputDescription outputDescription, int width, int height)
-            : this(gd, outputDescription, width, height, ColorSpaceHandling.Legacy) { }
-
-        /// <summary>
-        /// Constructs a new ImGuiRenderer.
-        /// </summary>
-        /// <param name="gd">The GraphicsDevice used to create and update resources.</param>
-        /// <param name="outputDescription">The output format.</param>
-        /// <param name="width">The initial width of the rendering target. Can be resized.</param>
-        /// <param name="height">The initial height of the rendering target. Can be resized.</param>
         /// <param name="colorSpaceHandling">Identifies how the renderer should treat vertex colors.</param>
-        public ImGuiRenderer(GraphicsDevice gd, OutputDescription outputDescription, int width, int height, ColorSpaceHandling colorSpaceHandling)
+        public ImGuiRenderer(GraphicsDevice gd, OutputDescription outputDescription, int width, int height, ColorSpaceHandling colorSpaceHandling = ColorSpaceHandling.Linear)
         {
             _gd = gd;
             _assembly = typeof(ImGuiRenderer).GetTypeInfo().Assembly;
@@ -76,7 +66,7 @@ namespace ImGuiSharp.Veldrid
             ImGui.GetIO().Fonts.AddFontDefault();
 
             CreateDeviceResources(gd, outputDescription);
-            SetOpenTKKeyMappings();
+            SetOpenTkKeyMappings();
 
             SetPerFrameImGuiData(1f / 60f);
 
@@ -198,12 +188,14 @@ namespace ImGuiSharp.Veldrid
         /// </summary>
         public IntPtr GetOrCreateImGuiBinding(ResourceFactory factory, Texture texture)
         {
-            if (!_autoViewsByTexture.TryGetValue(texture, out var textureView))
+            if (_autoViewsByTexture.TryGetValue(texture, out var textureView))
             {
-                textureView = factory.CreateTextureView(texture);
-                _autoViewsByTexture.Add(texture, textureView);
-                _ownedResources.Add(textureView);
+                return GetOrCreateImGuiBinding(factory, textureView);
             }
+
+            textureView = factory.CreateTextureView(texture);
+            _autoViewsByTexture.Add(texture, textureView);
+            _ownedResources.Add(textureView);
 
             return GetOrCreateImGuiBinding(factory, textureView);
         }
@@ -304,7 +296,7 @@ namespace ImGuiSharp.Veldrid
         /// <summary>
         /// Recreates the device texture used to render text.
         /// </summary>
-        public unsafe void RecreateFontDeviceTexture() => RecreateFontDeviceTexture(_gd);
+        public void RecreateFontDeviceTexture() => RecreateFontDeviceTexture(_gd);
 
         /// <summary>
         /// Recreates the device texture used to render text.
@@ -349,14 +341,16 @@ namespace ImGuiSharp.Veldrid
         /// <summary>
         /// Renders the ImGui draw list data.
         /// </summary>
-        public unsafe void Render(GraphicsDevice gd, CommandList cl)
+        public void Render(GraphicsDevice gd, CommandList cl)
         {
-            if (_frameBegun)
+            if (!_frameBegun)
             {
-                _frameBegun = false;
-                ImGui.Render();
-                RenderImDrawData(ImGui.GetDrawData(), gd, cl);
+                return;
             }
+
+            _frameBegun = false;
+            ImGui.Render();
+            RenderImDrawData(ImGui.GetDrawData(), gd, cl);
         }
 
         /// <summary>
@@ -397,7 +391,7 @@ namespace ImGuiSharp.Veldrid
         /// Sets per-frame data based on the associated window.
         /// This is called by Update(float).
         /// </summary>
-        private unsafe void SetPerFrameImGuiData(float deltaSeconds)
+        private void SetPerFrameImGuiData(float deltaSeconds)
         {
             var io = ImGui.GetIO();
             io.DisplaySize = new Vector2(
@@ -407,7 +401,7 @@ namespace ImGuiSharp.Veldrid
             io.DeltaTime = deltaSeconds; // DeltaTime is in seconds.
         }
 
-        private unsafe void UpdateImGuiInput(InputSnapshot snapshot)
+        private void UpdateImGuiInput(InputSnapshot snapshot)
         {
             var io = ImGui.GetIO();
 
@@ -472,7 +466,7 @@ namespace ImGuiSharp.Veldrid
             io.KeyShift = _shiftDown;
         }
 
-        private static unsafe void SetOpenTKKeyMappings()
+        private static void SetOpenTkKeyMappings()
         {
             var io = ImGui.GetIO();
             io.KeyMap[(int)ImGuiKey.Tab] = (int)Key.Tab;
@@ -497,48 +491,48 @@ namespace ImGuiSharp.Veldrid
             io.KeyMap[(int)ImGuiKey.Z] = (int)Key.Z;
         }
 
-        private unsafe void RenderImDrawData(ImDrawDataPtr draw_data, GraphicsDevice gd, CommandList cl)
+        private unsafe void RenderImDrawData(ImDrawDataPtr drawData, GraphicsDevice gd, CommandList cl)
         {
             uint vertexOffsetInVertices = 0;
             uint indexOffsetInElements = 0;
 
-            if (draw_data.CmdListsCount == 0)
+            if (drawData.CmdListsCount == 0)
             {
                 return;
             }
 
-            var totalVBSize = (uint)(draw_data.TotalVtxCount * sizeof(ImDrawVert));
+            var totalVBSize = (uint)(drawData.TotalVtxCount * sizeof(ImDrawVert));
             if (totalVBSize > _vertexBuffer.SizeInBytes)
             {
                 _vertexBuffer.Dispose();
                 _vertexBuffer = gd.ResourceFactory.CreateBuffer(new BufferDescription((uint)(totalVBSize * 1.5f), BufferUsage.VertexBuffer | BufferUsage.Dynamic));
             }
 
-            var totalIBSize = (uint)(draw_data.TotalIdxCount * sizeof(ushort));
+            var totalIBSize = (uint)(drawData.TotalIdxCount * sizeof(ushort));
             if (totalIBSize > _indexBuffer.SizeInBytes)
             {
                 _indexBuffer.Dispose();
                 _indexBuffer = gd.ResourceFactory.CreateBuffer(new BufferDescription((uint)(totalIBSize * 1.5f), BufferUsage.IndexBuffer | BufferUsage.Dynamic));
             }
 
-            for (var i = 0; i < draw_data.CmdListsCount; i++)
+            for (var i = 0; i < drawData.CmdListsCount; i++)
             {
-                var cmd_list = draw_data.CmdListsRange[i];
+                var cmdList = drawData.CmdListsRange[i];
 
                 cl.UpdateBuffer(
                     _vertexBuffer,
                     vertexOffsetInVertices * (uint)sizeof(ImDrawVert),
-                    cmd_list.VtxBuffer.Data,
-                    (uint)(cmd_list.VtxBuffer.Size * sizeof(ImDrawVert)));
+                    cmdList.VtxBuffer.Data,
+                    (uint)(cmdList.VtxBuffer.Size * sizeof(ImDrawVert)));
 
                 cl.UpdateBuffer(
                     _indexBuffer,
                     indexOffsetInElements * sizeof(ushort),
-                    cmd_list.IdxBuffer.Data,
-                    (uint)(cmd_list.IdxBuffer.Size * sizeof(ushort)));
+                    cmdList.IdxBuffer.Data,
+                    (uint)(cmdList.IdxBuffer.Size * sizeof(ushort)));
 
-                vertexOffsetInVertices += (uint)cmd_list.VtxBuffer.Size;
-                indexOffsetInElements += (uint)cmd_list.IdxBuffer.Size;
+                vertexOffsetInVertices += (uint)cmdList.VtxBuffer.Size;
+                indexOffsetInElements += (uint)cmdList.IdxBuffer.Size;
             }
 
             // Setup orthographic projection matrix into our constant buffer
@@ -561,17 +555,17 @@ namespace ImGuiSharp.Veldrid
             cl.SetPipeline(_pipeline);
             cl.SetGraphicsResourceSet(0, _mainResourceSet);
 
-            draw_data.ScaleClipRects(ImGui.GetIO().DisplayFramebufferScale);
+            drawData.ScaleClipRects(ImGui.GetIO().DisplayFramebufferScale);
 
             // Render command lists
-            var vtx_offset = 0;
-            var idx_offset = 0;
-            for (var n = 0; n < draw_data.CmdListsCount; n++)
+            var vtxOffset = 0;
+            var idxOffset = 0;
+            for (var n = 0; n < drawData.CmdListsCount; n++)
             {
-                var cmd_list = draw_data.CmdListsRange[n];
-                for (var cmd_i = 0; cmd_i < cmd_list.CmdBuffer.Size; cmd_i++)
+                var cmdList = drawData.CmdListsRange[n];
+                for (var cmdI = 0; cmdI < cmdList.CmdBuffer.Size; cmdI++)
                 {
-                    var pcmd = cmd_list.CmdBuffer[cmd_i];
+                    var pcmd = cmdList.CmdBuffer[cmdI];
                     if (pcmd.UserCallback != IntPtr.Zero)
                     {
                         throw new NotImplementedException();
@@ -597,12 +591,12 @@ namespace ImGuiSharp.Veldrid
                             (uint)(pcmd.ClipRect.Z - pcmd.ClipRect.X),
                             (uint)(pcmd.ClipRect.W - pcmd.ClipRect.Y));
 
-                        cl.DrawIndexed(pcmd.ElemCount, 1, pcmd.IdxOffset + (uint)idx_offset, (int)(pcmd.VtxOffset + vtx_offset), 0);
+                        cl.DrawIndexed(pcmd.ElemCount, 1, pcmd.IdxOffset + (uint)idxOffset, (int)(pcmd.VtxOffset + vtxOffset), 0);
                     }
                 }
 
-                idx_offset += cmd_list.IdxBuffer.Size;
-                vtx_offset += cmd_list.VtxBuffer.Size;
+                idxOffset += cmdList.IdxBuffer.Size;
+                vtxOffset += cmdList.VtxBuffer.Size;
             }
         }
 
