@@ -2,9 +2,9 @@ using System.Collections.Generic;
 
 namespace CodeGenerator
 {
-    public class TypeInfo
+    public static class TypeInfo
     {
-        public static readonly Dictionary<string, string> WellKnownTypes = new Dictionary<string, string>()
+        public static readonly Dictionary<string, string> WellKnownTypes = new()
         {
             { "bool", "byte" },
             { "unsigned char", "byte" },
@@ -54,17 +54,17 @@ namespace CodeGenerator
             { "unsigned char[256]", "byte*"},
         };
         
-        public static readonly List<string> WellKnownEnums = new List<string>()
+        public static readonly List<string> WellKnownEnums = new()
         {
             "ImGuiMouseButton"
         };
         
-        public static readonly Dictionary<string, string> WellKnownFieldReplacements = new Dictionary<string, string>()
+        public static readonly Dictionary<string, string> WellKnownFieldReplacements = new()
         {
             { "bool", "bool" }, // Force bool to remain as bool in type-safe wrappers.
         };
 
-        public static readonly HashSet<string> CustomDefinedTypes = new HashSet<string>()
+        public static readonly HashSet<string> CustomDefinedTypes = new()
         {
             "ImVector",
             "ImVec2",
@@ -72,7 +72,7 @@ namespace CodeGenerator
             "ImGuiStoragePair",
         };
 
-        public static readonly Dictionary<string, string> WellKnownDefaultValues = new Dictionary<string, string>()
+        public static readonly Dictionary<string, string> WellKnownDefaultValues = new()
         {
             { "((void *)0)", "null" },
             { "((void*)0)", "null" },
@@ -113,14 +113,14 @@ namespace CodeGenerator
             { "sizeof(ImS64)", "sizeof(long)"}
         };
 
-        public static readonly Dictionary<string, string> IdentifierReplacements = new Dictionary<string, string>()
+        public static readonly Dictionary<string, string> IdentifierReplacements = new()
         {
             { "in", "@in" },
             { "out", "@out" },
             { "ref", "@ref" },
         };
 
-        public static readonly HashSet<string> LegalFixedTypes = new HashSet<string>()
+        public static readonly HashSet<string> LegalFixedTypes = new()
         {
             "byte",
             "sbyte",
@@ -135,7 +135,7 @@ namespace CodeGenerator
             "double",
         };
 
-        public static readonly HashSet<string> SkippedFunctions = new HashSet<string>()
+        public static readonly HashSet<string> SkippedFunctions = new()
         {
             "igInputText",
             "igInputTextMultiline",

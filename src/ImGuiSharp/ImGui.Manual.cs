@@ -10,37 +10,37 @@ namespace ImGuiSharp
         public static bool InputText(
             string label,
             byte[] buf,
-            uint buf_size)
+            uint bufSize)
         {
-            return InputText(label, buf, buf_size, 0, null, IntPtr.Zero);
+            return InputText(label, buf, bufSize, 0, null, IntPtr.Zero);
         }
 
         public static bool InputText(
             string label,
             byte[] buf,
-            uint buf_size,
+            uint bufSize,
             ImGuiInputTextFlags flags)
         {
-            return InputText(label, buf, buf_size, flags, null, IntPtr.Zero);
+            return InputText(label, buf, bufSize, flags, null, IntPtr.Zero);
         }
 
         public static bool InputText(
             string label,
             byte[] buf,
-            uint buf_size,
+            uint bufSize,
             ImGuiInputTextFlags flags,
             ImGuiInputTextCallback callback)
         {
-            return InputText(label, buf, buf_size, flags, callback, IntPtr.Zero);
+            return InputText(label, buf, bufSize, flags, callback, IntPtr.Zero);
         }
 
         public static bool InputText(
             string label,
             byte[] buf,
-            uint buf_size,
+            uint bufSize,
             ImGuiInputTextFlags flags,
             ImGuiInputTextCallback callback,
-            IntPtr user_data)
+            IntPtr userData)
         {
             var utf8LabelByteCount = Encoding.UTF8.GetByteCount(label);
             byte* utf8LabelBytes;
@@ -58,7 +58,7 @@ namespace ImGuiSharp
             bool ret;
             fixed (byte* bufPtr = buf)
             {
-                ret = ImGuiNative.igInputText(utf8LabelBytes, bufPtr, buf_size, flags, callback, user_data.ToPointer()) != 0;
+                ret = ImGuiNative.igInputText(utf8LabelBytes, bufPtr, bufSize, flags, callback, userData.ToPointer()) != 0;
             }
 
             if (utf8LabelByteCount > Util.StackAllocationSizeLimit)
@@ -93,7 +93,7 @@ namespace ImGuiSharp
             uint maxLength,
             ImGuiInputTextFlags flags,
             ImGuiInputTextCallback callback,
-            IntPtr user_data)
+            IntPtr userData)
         {
             var utf8LabelByteCount = Encoding.UTF8.GetByteCount(label);
             byte* utf8LabelBytes;
@@ -136,7 +136,7 @@ namespace ImGuiSharp
                                                  (uint)inputBufSize,
                                                  flags,
                                                  callback,
-                                                 user_data.ToPointer());
+                                                 userData.ToPointer());
             if (!Util.AreStringsEqual(originalUtf8InputBytes, inputBufSize, utf8InputBytes))
             {
                 input = Util.StringFromPtr(utf8InputBytes);
@@ -183,7 +183,7 @@ namespace ImGuiSharp
             Vector2 size,
             ImGuiInputTextFlags flags,
             ImGuiInputTextCallback callback,
-            IntPtr user_data)
+            IntPtr userData)
         {
             var utf8LabelByteCount = Encoding.UTF8.GetByteCount(label);
             byte* utf8LabelBytes;
@@ -227,7 +227,7 @@ namespace ImGuiSharp
                                                           size,
                                                           flags,
                                                           callback,
-                                                          user_data.ToPointer());
+                                                          userData.ToPointer());
             if (!Util.AreStringsEqual(originalUtf8InputBytes, inputBufSize, utf8InputBytes))
             {
                 input = Util.StringFromPtr(utf8InputBytes);
@@ -274,7 +274,7 @@ namespace ImGuiSharp
             uint maxLength,
             ImGuiInputTextFlags flags,
             ImGuiInputTextCallback callback,
-            IntPtr user_data)
+            IntPtr userData)
         {
             var utf8LabelByteCount = Encoding.UTF8.GetByteCount(label);
             byte* utf8LabelBytes;
@@ -331,7 +331,7 @@ namespace ImGuiSharp
                                                          (uint)inputBufSize,
                                                          flags,
                                                          callback,
-                                                         user_data.ToPointer());
+                                                         userData.ToPointer());
             if (!Util.AreStringsEqual(originalUtf8InputBytes, inputBufSize, utf8InputBytes))
             {
                 input = Util.StringFromPtr(utf8InputBytes);
@@ -430,37 +430,37 @@ namespace ImGuiSharp
         public static bool InputText(
             string label,
             IntPtr buf,
-            uint buf_size)
+            uint bufSize)
         {
-            return InputText(label, buf, buf_size, 0, null, IntPtr.Zero);
+            return InputText(label, buf, bufSize, 0, null, IntPtr.Zero);
         }
 
         public static bool InputText(
             string label,
             IntPtr buf,
-            uint buf_size,
+            uint bufSize,
             ImGuiInputTextFlags flags)
         {
-            return InputText(label, buf, buf_size, flags, null, IntPtr.Zero);
+            return InputText(label, buf, bufSize, flags, null, IntPtr.Zero);
         }
 
         public static bool InputText(
             string label,
             IntPtr buf,
-            uint buf_size,
+            uint bufSize,
             ImGuiInputTextFlags flags,
             ImGuiInputTextCallback callback)
         {
-            return InputText(label, buf, buf_size, flags, callback, IntPtr.Zero);
+            return InputText(label, buf, bufSize, flags, callback, IntPtr.Zero);
         }
 
         public static bool InputText(
             string label,
             IntPtr buf,
-            uint buf_size,
+            uint bufSize,
             ImGuiInputTextFlags flags,
             ImGuiInputTextCallback callback,
-            IntPtr user_data)
+            IntPtr userData)
         {
             var utf8LabelByteCount = Encoding.UTF8.GetByteCount(label);
             byte* utf8LabelBytes;
@@ -475,7 +475,7 @@ namespace ImGuiSharp
             }
             Util.GetUtf8(label, utf8LabelBytes, utf8LabelByteCount);
 
-            var ret = ImGuiNative.igInputText(utf8LabelBytes, (byte*)buf.ToPointer(), buf_size, flags, callback, user_data.ToPointer()) != 0;
+            var ret = ImGuiNative.igInputText(utf8LabelBytes, (byte*)buf.ToPointer(), bufSize, flags, callback, userData.ToPointer()) != 0;
 
             if (utf8LabelByteCount > Util.StackAllocationSizeLimit)
             {
@@ -500,8 +500,8 @@ namespace ImGuiSharp
             }
             Util.GetUtf8(name, utf8NameBytes, utf8NameByteCount);
 
-            byte* p_open = null;
-            var ret = ImGuiNative.igBegin(utf8NameBytes, p_open, flags);
+            byte* pOpen = null;
+            var ret = ImGuiNative.igBegin(utf8NameBytes, pOpen, flags);
 
             if (utf8NameByteCount > Util.StackAllocationSizeLimit)
             {

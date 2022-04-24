@@ -5,33 +5,33 @@ namespace ImGuiSharp
 {
     public unsafe partial struct ImDrawListPtr
     {
-        public void AddText(Vector2 pos, uint col, string text_begin)
+        public void AddText(Vector2 pos, uint col, string textBegin)
         {
-            var text_begin_byteCount = Encoding.UTF8.GetByteCount(text_begin);
-            var native_text_begin = stackalloc byte[text_begin_byteCount + 1];
-            fixed (char* text_begin_ptr = text_begin)
+            var textBeginByteCount = Encoding.UTF8.GetByteCount(textBegin);
+            var nativeTextBegin = stackalloc byte[textBeginByteCount + 1];
+            fixed (char* textBeginPtr = textBegin)
             {
-                var native_text_begin_offset = Encoding.UTF8.GetBytes(text_begin_ptr, text_begin.Length, native_text_begin, text_begin_byteCount);
-                native_text_begin[native_text_begin_offset] = 0;
+                var nativeTextBeginOffset = Encoding.UTF8.GetBytes(textBeginPtr, textBegin.Length, nativeTextBegin, textBeginByteCount);
+                nativeTextBegin[nativeTextBeginOffset] = 0;
             }
-            byte* native_text_end = null;
-            ImGuiNative.ImDrawList_AddText_Vec2(NativePtr, pos, col, native_text_begin, native_text_end);
+            byte* nativeTextEnd = null;
+            ImGuiNative.ImDrawList_AddText_Vec2(NativePtr, pos, col, nativeTextBegin, nativeTextEnd);
         }
 
-        public void AddText(ImFontPtr font, float font_size, Vector2 pos, uint col, string text_begin)
+        public void AddText(ImFontPtr font, float fontSize, Vector2 pos, uint col, string textBegin)
         {
-            var native_font = font.NativePtr;
-            var text_begin_byteCount = Encoding.UTF8.GetByteCount(text_begin);
-            var native_text_begin = stackalloc byte[text_begin_byteCount + 1];
-            fixed (char* text_begin_ptr = text_begin)
+            var nativeFont = font.NativePtr;
+            var textBeginByteCount = Encoding.UTF8.GetByteCount(textBegin);
+            var nativeTextBegin = stackalloc byte[textBeginByteCount + 1];
+            fixed (char* textBeginPtr = textBegin)
             {
-                var native_text_begin_offset = Encoding.UTF8.GetBytes(text_begin_ptr, text_begin.Length, native_text_begin, text_begin_byteCount);
-                native_text_begin[native_text_begin_offset] = 0;
+                var nativeTextBeginOffset = Encoding.UTF8.GetBytes(textBeginPtr, textBegin.Length, nativeTextBegin, textBeginByteCount);
+                nativeTextBegin[nativeTextBeginOffset] = 0;
             }
-            byte* native_text_end = null;
-            var wrap_width = 0.0f;
-            Vector4* cpu_fine_clip_rect = null;
-            ImGuiNative.ImDrawList_AddText_FontPtr(NativePtr, native_font, font_size, pos, col, native_text_begin, native_text_end, wrap_width, cpu_fine_clip_rect);
+            byte* nativeTextEnd = null;
+            var wrapWidth = 0.0f;
+            Vector4* cpuFineClipRect = null;
+            ImGuiNative.ImDrawList_AddText_FontPtr(NativePtr, nativeFont, fontSize, pos, col, nativeTextBegin, nativeTextEnd, wrapWidth, cpuFineClipRect);
         }
     }
 }

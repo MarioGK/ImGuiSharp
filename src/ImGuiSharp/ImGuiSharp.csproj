@@ -12,6 +12,7 @@
     <PackageProjectUrl>https://github.com/mellinoe/imgui.net</PackageProjectUrl>
     <DocumentationFile Condition="'$(Configuration)' == 'Release'">$(OutputPath)\ImGui.NET.xml</DocumentationFile>
     <TargetFramework>net6.0</TargetFramework>
+    <LangVersion>preview</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="System.Numerics.Vectors" Version="4.4.0" />
@@ -20,10 +21,10 @@
   </ItemGroup>
   <ItemGroup>
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-      <_Parameter1>ImPlot.NET</_Parameter1>
+      <_Parameter1>ImPlotSharp</_Parameter1>
     </AssemblyAttribute>
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-      <_Parameter1>ImNodes.NET</_Parameter1>
+      <_Parameter1>ImNodesSharp</_Parameter1>
     </AssemblyAttribute>
   </ItemGroup>
 </Project>
