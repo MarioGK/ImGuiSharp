@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="defs\cimgui\structs_and_enums.json" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="defs\cimgui\definitions.json" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="defs\cimgui\variants.json" CopyToOutputDirectory="PreserveNewest" />
+
+    <Content Include="defs\cimplot\structs_and_enums.json" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="defs\cimplot\definitions.json" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="defs\cimplot\variants.json" CopyToOutputDirectory="PreserveNewest" />
+
+    <Content Include="defs\cimnodes\structs_and_enums.json" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="defs\cimnodes\definitions.json" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="defs\cimnodes\variants.json" CopyToOutputDirectory="PreserveNewest" />
+
+    <Content Include="defs\cimguizmo\structs_and_enums.json" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="defs\cimguizmo\definitions.json" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="defs\cimguizmo\variants.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+</Project>

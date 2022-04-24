@@ -24,7 +24,7 @@ If NOT exist ".\build\%BUILD_ARCH%" (
   mkdir build\%BUILD_ARCH%
 )
 pushd build\%BUILD_ARCH%
-cmake -DCMAKE_GENERATOR_PLATFORM=%BUILD_CMAKE_GENERATOR_PLATFORM% ..\..
+cmake -G "Visual Studio 17 2022" -DCMAKE_GENERATOR_PLATFORM=%BUILD_CMAKE_GENERATOR_PLATFORM% ..\..
 
 echo Calling cmake --build . --config %BUILD_CONFIG%
 cmake --build . --config %BUILD_CONFIG%
