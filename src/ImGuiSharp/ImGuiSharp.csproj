@@ -40,4 +40,8 @@
       <_Parameter1>ImNodesSharp</_Parameter1>
     </AssemblyAttribute>
   </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="Generated" />
+  </ItemGroup>
 </Project>
