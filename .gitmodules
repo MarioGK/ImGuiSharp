@@ -1,0 +1,12 @@
+[submodule "native/cimgui"]
+	path = native/cimgui
+	url = https://github.com/cimgui/cimgui
+[submodule "native/cimplot"]
+	path = native/cimplot
+	url = https://github.com/cimgui/cimplot
+[submodule "native/cimguizmo"]
+	path = native/cimguizmo
+	url = https://github.com/cimgui/cimguizmo
+[submodule "native/cimnodes"]
+	path = native/cimnodes
+	url = https://github.com/cimgui/cimnodes
