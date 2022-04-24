@@ -9,15 +9,15 @@ set (CMAKE_CXX_STANDARD 11)
 #general settings
 include_directories(cimgui)
 include_directories(cimgui/imgui)
-# include_directories(cimplot)
-# include_directories(cimplot/implot)
-# include_directories(cimguizmo)
-# include_directories(cimguizmo/ImGuizmo)
-# include_directories(cimguizmo_quat)
-# include_directories(cimguizmo_quat/imGuIZMO.quat)
-# include_directories(cimguizmo_quat/imGuIZMO.quat/imGuIZMO.quat)
-# include_directories(cimnodes)
-# include_directories(cimnodes/ImNodes)
+include_directories(cimplot)
+include_directories(cimplot/implot)
+include_directories(cimguizmo)
+include_directories(cimguizmo/ImGuizmo)
+include_directories(cimguizmo_quat)
+include_directories(cimguizmo_quat/imGuIZMO.quat)
+include_directories(cimguizmo_quat/imGuIZMO.quat/imGuIZMO.quat)
+include_directories(cimnodes)
+include_directories(cimnodes/ImNodes)
 
 #add_definitions("-DIMGUI_DISABLE_OBSOLETE_FUNCTIONS=1")
 add_definitions(-DIMNODES_NAMESPACE=imnodes)
@@ -32,21 +32,21 @@ file(GLOB IMGUI_SOURCES
     ./cimgui/imgui/imgui_widgets.cpp
     ./cimgui/imgui/imgui_tables.cpp
 	#cimplot
-	# ./cimplot/cimplot.cpp
-	# ./cimplot/implot/implot.cpp
-	# ./cimplot/implot/implot_items.cpp  
-	# ./cimplot/implot/implot_demo.cpp
-	# #cimguizmo
-	# ./cimguizmo/cimguizmo.cpp
-	# ./cimguizmo/ImGuizmo/ImGuizmo.cpp
-	# ./cimguizmo_quat/imGuIZMO.quat/imGuIZMO.quat/imGuIZMOquat.cpp  
-	# ./cimguizmo_quat/cimguizmo_quat.cpp
-	# #cimnodes
-	# ./cimnodes/cimnodes.cpp
-	# ./cimnodes/imnodes/imnodes.cpp
-	# ./cimnodes_r/cimnodes_r.cpp
-	# ./cimnodes_r/ImNodes/ImNodes.cpp
-	# ./cimnodes_r/ImNodes/ImNodesEz.cpp
+	./cimplot/cimplot.cpp
+	./cimplot/implot/implot.cpp
+	./cimplot/implot/implot_items.cpp  
+	./cimplot/implot/implot_demo.cpp
+	#cimguizmo
+	./cimguizmo/cimguizmo.cpp
+	./cimguizmo/ImGuizmo/ImGuizmo.cpp
+	./cimguizmo_quat/imGuIZMO.quat/imGuIZMO.quat/imGuIZMOquat.cpp  
+	./cimguizmo_quat/cimguizmo_quat.cpp
+	#cimnodes
+	./cimnodes/cimnodes.cpp
+	./cimnodes/imnodes/imnodes.cpp
+	./cimnodes_r/cimnodes_r.cpp
+	./cimnodes_r/ImNodes/ImNodes.cpp
+	./cimnodes_r/ImNodes/ImNodesEz.cpp
 )
 
 
