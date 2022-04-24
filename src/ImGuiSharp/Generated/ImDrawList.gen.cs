@@ -48,7 +48,7 @@ namespace ImGuiSharp
         public ref float _FringeScale => ref Unsafe.AsRef<float>(&NativePtr->_FringeScale);
         public int _CalcCircleAutoSegmentCount(float radius)
         {
-            var ret = ImGuiNative.ImDrawList__CalcCircleAutoSegmentCount((ImDrawList*)(NativePtr), radius);
+            int ret = ImGuiNative.ImDrawList__CalcCircleAutoSegmentCount((ImDrawList*)(NativePtr), radius);
             return ret;
         }
         public void _ClearFreeMemory()
@@ -89,7 +89,7 @@ namespace ImGuiSharp
         }
         public void AddBezierCubic(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4, uint col, float thickness)
         {
-            var num_segments = 0;
+            int num_segments = 0;
             ImGuiNative.ImDrawList_AddBezierCubic((ImDrawList*)(NativePtr), p1, p2, p3, p4, col, thickness, num_segments);
         }
         public void AddBezierCubic(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4, uint col, float thickness, int num_segments)
@@ -98,7 +98,7 @@ namespace ImGuiSharp
         }
         public void AddBezierQuadratic(Vector2 p1, Vector2 p2, Vector2 p3, uint col, float thickness)
         {
-            var num_segments = 0;
+            int num_segments = 0;
             ImGuiNative.ImDrawList_AddBezierQuadratic((ImDrawList*)(NativePtr), p1, p2, p3, col, thickness, num_segments);
         }
         public void AddBezierQuadratic(Vector2 p1, Vector2 p2, Vector2 p3, uint col, float thickness, int num_segments)
@@ -107,18 +107,18 @@ namespace ImGuiSharp
         }
         public void AddCallback(IntPtr callback, IntPtr callback_data)
         {
-            var native_callback_data = (void*)callback_data.ToPointer();
+            void* native_callback_data = (void*)callback_data.ToPointer();
             ImGuiNative.ImDrawList_AddCallback((ImDrawList*)(NativePtr), callback, native_callback_data);
         }
         public void AddCircle(Vector2 center, float radius, uint col)
         {
-            var num_segments = 0;
-            var thickness = 1.0f;
+            int num_segments = 0;
+            float thickness = 1.0f;
             ImGuiNative.ImDrawList_AddCircle((ImDrawList*)(NativePtr), center, radius, col, num_segments, thickness);
         }
         public void AddCircle(Vector2 center, float radius, uint col, int num_segments)
         {
-            var thickness = 1.0f;
+            float thickness = 1.0f;
             ImGuiNative.ImDrawList_AddCircle((ImDrawList*)(NativePtr), center, radius, col, num_segments, thickness);
         }
         public void AddCircle(Vector2 center, float radius, uint col, int num_segments, float thickness)
@@ -127,7 +127,7 @@ namespace ImGuiSharp
         }
         public void AddCircleFilled(Vector2 center, float radius, uint col)
         {
-            var num_segments = 0;
+            int num_segments = 0;
             ImGuiNative.ImDrawList_AddCircleFilled((ImDrawList*)(NativePtr), center, radius, col, num_segments);
         }
         public void AddCircleFilled(Vector2 center, float radius, uint col, int num_segments)
@@ -147,20 +147,20 @@ namespace ImGuiSharp
         }
         public void AddImage(IntPtr user_texture_id, Vector2 p_min, Vector2 p_max)
         {
-            var uv_min = new Vector2();
-            var uv_max = new Vector2(1, 1);
-            var col = 4294967295;
+            Vector2 uv_min = new Vector2();
+            Vector2 uv_max = new Vector2(1, 1);
+            uint col = 4294967295;
             ImGuiNative.ImDrawList_AddImage((ImDrawList*)(NativePtr), user_texture_id, p_min, p_max, uv_min, uv_max, col);
         }
         public void AddImage(IntPtr user_texture_id, Vector2 p_min, Vector2 p_max, Vector2 uv_min)
         {
-            var uv_max = new Vector2(1, 1);
-            var col = 4294967295;
+            Vector2 uv_max = new Vector2(1, 1);
+            uint col = 4294967295;
             ImGuiNative.ImDrawList_AddImage((ImDrawList*)(NativePtr), user_texture_id, p_min, p_max, uv_min, uv_max, col);
         }
         public void AddImage(IntPtr user_texture_id, Vector2 p_min, Vector2 p_max, Vector2 uv_min, Vector2 uv_max)
         {
-            var col = 4294967295;
+            uint col = 4294967295;
             ImGuiNative.ImDrawList_AddImage((ImDrawList*)(NativePtr), user_texture_id, p_min, p_max, uv_min, uv_max, col);
         }
         public void AddImage(IntPtr user_texture_id, Vector2 p_min, Vector2 p_max, Vector2 uv_min, Vector2 uv_max, uint col)
@@ -169,37 +169,37 @@ namespace ImGuiSharp
         }
         public void AddImageQuad(IntPtr user_texture_id, Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4)
         {
-            var uv1 = new Vector2();
-            var uv2 = new Vector2(1, 0);
-            var uv3 = new Vector2(1, 1);
-            var uv4 = new Vector2(0, 1);
-            var col = 4294967295;
+            Vector2 uv1 = new Vector2();
+            Vector2 uv2 = new Vector2(1, 0);
+            Vector2 uv3 = new Vector2(1, 1);
+            Vector2 uv4 = new Vector2(0, 1);
+            uint col = 4294967295;
             ImGuiNative.ImDrawList_AddImageQuad((ImDrawList*)(NativePtr), user_texture_id, p1, p2, p3, p4, uv1, uv2, uv3, uv4, col);
         }
         public void AddImageQuad(IntPtr user_texture_id, Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4, Vector2 uv1)
         {
-            var uv2 = new Vector2(1, 0);
-            var uv3 = new Vector2(1, 1);
-            var uv4 = new Vector2(0, 1);
-            var col = 4294967295;
+            Vector2 uv2 = new Vector2(1, 0);
+            Vector2 uv3 = new Vector2(1, 1);
+            Vector2 uv4 = new Vector2(0, 1);
+            uint col = 4294967295;
             ImGuiNative.ImDrawList_AddImageQuad((ImDrawList*)(NativePtr), user_texture_id, p1, p2, p3, p4, uv1, uv2, uv3, uv4, col);
         }
         public void AddImageQuad(IntPtr user_texture_id, Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4, Vector2 uv1, Vector2 uv2)
         {
-            var uv3 = new Vector2(1, 1);
-            var uv4 = new Vector2(0, 1);
-            var col = 4294967295;
+            Vector2 uv3 = new Vector2(1, 1);
+            Vector2 uv4 = new Vector2(0, 1);
+            uint col = 4294967295;
             ImGuiNative.ImDrawList_AddImageQuad((ImDrawList*)(NativePtr), user_texture_id, p1, p2, p3, p4, uv1, uv2, uv3, uv4, col);
         }
         public void AddImageQuad(IntPtr user_texture_id, Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4, Vector2 uv1, Vector2 uv2, Vector2 uv3)
         {
-            var uv4 = new Vector2(0, 1);
-            var col = 4294967295;
+            Vector2 uv4 = new Vector2(0, 1);
+            uint col = 4294967295;
             ImGuiNative.ImDrawList_AddImageQuad((ImDrawList*)(NativePtr), user_texture_id, p1, p2, p3, p4, uv1, uv2, uv3, uv4, col);
         }
         public void AddImageQuad(IntPtr user_texture_id, Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4, Vector2 uv1, Vector2 uv2, Vector2 uv3, Vector2 uv4)
         {
-            var col = 4294967295;
+            uint col = 4294967295;
             ImGuiNative.ImDrawList_AddImageQuad((ImDrawList*)(NativePtr), user_texture_id, p1, p2, p3, p4, uv1, uv2, uv3, uv4, col);
         }
         public void AddImageQuad(IntPtr user_texture_id, Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4, Vector2 uv1, Vector2 uv2, Vector2 uv3, Vector2 uv4, uint col)
@@ -208,7 +208,7 @@ namespace ImGuiSharp
         }
         public void AddImageRounded(IntPtr user_texture_id, Vector2 p_min, Vector2 p_max, Vector2 uv_min, Vector2 uv_max, uint col, float rounding)
         {
-            var flags = (ImDrawFlags)0;
+            ImDrawFlags flags = (ImDrawFlags)0;
             ImGuiNative.ImDrawList_AddImageRounded((ImDrawList*)(NativePtr), user_texture_id, p_min, p_max, uv_min, uv_max, col, rounding, flags);
         }
         public void AddImageRounded(IntPtr user_texture_id, Vector2 p_min, Vector2 p_max, Vector2 uv_min, Vector2 uv_max, uint col, float rounding, ImDrawFlags flags)
@@ -217,7 +217,7 @@ namespace ImGuiSharp
         }
         public void AddLine(Vector2 p1, Vector2 p2, uint col)
         {
-            var thickness = 1.0f;
+            float thickness = 1.0f;
             ImGuiNative.ImDrawList_AddLine((ImDrawList*)(NativePtr), p1, p2, col, thickness);
         }
         public void AddLine(Vector2 p1, Vector2 p2, uint col, float thickness)
@@ -226,7 +226,7 @@ namespace ImGuiSharp
         }
         public void AddNgon(Vector2 center, float radius, uint col, int num_segments)
         {
-            var thickness = 1.0f;
+            float thickness = 1.0f;
             ImGuiNative.ImDrawList_AddNgon((ImDrawList*)(NativePtr), center, radius, col, num_segments, thickness);
         }
         public void AddNgon(Vector2 center, float radius, uint col, int num_segments, float thickness)
@@ -246,7 +246,7 @@ namespace ImGuiSharp
         }
         public void AddQuad(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4, uint col)
         {
-            var thickness = 1.0f;
+            float thickness = 1.0f;
             ImGuiNative.ImDrawList_AddQuad((ImDrawList*)(NativePtr), p1, p2, p3, p4, col, thickness);
         }
         public void AddQuad(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4, uint col, float thickness)
@@ -259,20 +259,20 @@ namespace ImGuiSharp
         }
         public void AddRect(Vector2 p_min, Vector2 p_max, uint col)
         {
-            var rounding = 0.0f;
-            var flags = (ImDrawFlags)0;
-            var thickness = 1.0f;
+            float rounding = 0.0f;
+            ImDrawFlags flags = (ImDrawFlags)0;
+            float thickness = 1.0f;
             ImGuiNative.ImDrawList_AddRect((ImDrawList*)(NativePtr), p_min, p_max, col, rounding, flags, thickness);
         }
         public void AddRect(Vector2 p_min, Vector2 p_max, uint col, float rounding)
         {
-            var flags = (ImDrawFlags)0;
-            var thickness = 1.0f;
+            ImDrawFlags flags = (ImDrawFlags)0;
+            float thickness = 1.0f;
             ImGuiNative.ImDrawList_AddRect((ImDrawList*)(NativePtr), p_min, p_max, col, rounding, flags, thickness);
         }
         public void AddRect(Vector2 p_min, Vector2 p_max, uint col, float rounding, ImDrawFlags flags)
         {
-            var thickness = 1.0f;
+            float thickness = 1.0f;
             ImGuiNative.ImDrawList_AddRect((ImDrawList*)(NativePtr), p_min, p_max, col, rounding, flags, thickness);
         }
         public void AddRect(Vector2 p_min, Vector2 p_max, uint col, float rounding, ImDrawFlags flags, float thickness)
@@ -281,13 +281,13 @@ namespace ImGuiSharp
         }
         public void AddRectFilled(Vector2 p_min, Vector2 p_max, uint col)
         {
-            var rounding = 0.0f;
-            var flags = (ImDrawFlags)0;
+            float rounding = 0.0f;
+            ImDrawFlags flags = (ImDrawFlags)0;
             ImGuiNative.ImDrawList_AddRectFilled((ImDrawList*)(NativePtr), p_min, p_max, col, rounding, flags);
         }
         public void AddRectFilled(Vector2 p_min, Vector2 p_max, uint col, float rounding)
         {
-            var flags = (ImDrawFlags)0;
+            ImDrawFlags flags = (ImDrawFlags)0;
             ImGuiNative.ImDrawList_AddRectFilled((ImDrawList*)(NativePtr), p_min, p_max, col, rounding, flags);
         }
         public void AddRectFilled(Vector2 p_min, Vector2 p_max, uint col, float rounding, ImDrawFlags flags)
@@ -300,7 +300,7 @@ namespace ImGuiSharp
         }
         public void AddTriangle(Vector2 p1, Vector2 p2, Vector2 p3, uint col)
         {
-            var thickness = 1.0f;
+            float thickness = 1.0f;
             ImGuiNative.ImDrawList_AddTriangle((ImDrawList*)(NativePtr), p1, p2, p3, col, thickness);
         }
         public void AddTriangle(Vector2 p1, Vector2 p2, Vector2 p3, uint col, float thickness)
@@ -325,7 +325,7 @@ namespace ImGuiSharp
         }
         public ImDrawListPtr CloneOutput()
         {
-            var ret = ImGuiNative.ImDrawList_CloneOutput((ImDrawList*)(NativePtr));
+            ImDrawList* ret = ImGuiNative.ImDrawList_CloneOutput((ImDrawList*)(NativePtr));
             return new ImDrawListPtr(ret);
         }
         public void Destroy()
@@ -346,7 +346,7 @@ namespace ImGuiSharp
         }
         public void PathArcTo(Vector2 center, float radius, float a_min, float a_max)
         {
-            var num_segments = 0;
+            int num_segments = 0;
             ImGuiNative.ImDrawList_PathArcTo((ImDrawList*)(NativePtr), center, radius, a_min, a_max, num_segments);
         }
         public void PathArcTo(Vector2 center, float radius, float a_min, float a_max, int num_segments)
@@ -359,7 +359,7 @@ namespace ImGuiSharp
         }
         public void PathBezierCubicCurveTo(Vector2 p2, Vector2 p3, Vector2 p4)
         {
-            var num_segments = 0;
+            int num_segments = 0;
             ImGuiNative.ImDrawList_PathBezierCubicCurveTo((ImDrawList*)(NativePtr), p2, p3, p4, num_segments);
         }
         public void PathBezierCubicCurveTo(Vector2 p2, Vector2 p3, Vector2 p4, int num_segments)
@@ -368,7 +368,7 @@ namespace ImGuiSharp
         }
         public void PathBezierQuadraticCurveTo(Vector2 p2, Vector2 p3)
         {
-            var num_segments = 0;
+            int num_segments = 0;
             ImGuiNative.ImDrawList_PathBezierQuadraticCurveTo((ImDrawList*)(NativePtr), p2, p3, num_segments);
         }
         public void PathBezierQuadraticCurveTo(Vector2 p2, Vector2 p3, int num_segments)
@@ -393,13 +393,13 @@ namespace ImGuiSharp
         }
         public void PathRect(Vector2 rect_min, Vector2 rect_max)
         {
-            var rounding = 0.0f;
-            var flags = (ImDrawFlags)0;
+            float rounding = 0.0f;
+            ImDrawFlags flags = (ImDrawFlags)0;
             ImGuiNative.ImDrawList_PathRect((ImDrawList*)(NativePtr), rect_min, rect_max, rounding, flags);
         }
         public void PathRect(Vector2 rect_min, Vector2 rect_max, float rounding)
         {
-            var flags = (ImDrawFlags)0;
+            ImDrawFlags flags = (ImDrawFlags)0;
             ImGuiNative.ImDrawList_PathRect((ImDrawList*)(NativePtr), rect_min, rect_max, rounding, flags);
         }
         public void PathRect(Vector2 rect_min, Vector2 rect_max, float rounding, ImDrawFlags flags)
@@ -408,13 +408,13 @@ namespace ImGuiSharp
         }
         public void PathStroke(uint col)
         {
-            var flags = (ImDrawFlags)0;
-            var thickness = 1.0f;
+            ImDrawFlags flags = (ImDrawFlags)0;
+            float thickness = 1.0f;
             ImGuiNative.ImDrawList_PathStroke((ImDrawList*)(NativePtr), col, flags, thickness);
         }
         public void PathStroke(uint col, ImDrawFlags flags)
         {
-            var thickness = 1.0f;
+            float thickness = 1.0f;
             ImGuiNative.ImDrawList_PathStroke((ImDrawList*)(NativePtr), col, flags, thickness);
         }
         public void PathStroke(uint col, ImDrawFlags flags, float thickness)
@@ -468,7 +468,7 @@ namespace ImGuiSharp
         }
         public void PushClipRect(Vector2 clip_rect_min, Vector2 clip_rect_max, bool intersect_with_current_clip_rect)
         {
-            var native_intersect_with_current_clip_rect = intersect_with_current_clip_rect ? (byte)1 : (byte)0;
+            byte native_intersect_with_current_clip_rect = intersect_with_current_clip_rect ? (byte)1 : (byte)0;
             ImGuiNative.ImDrawList_PushClipRect((ImDrawList*)(NativePtr), clip_rect_min, clip_rect_max, native_intersect_with_current_clip_rect);
         }
         public void PushClipRectFullScreen()

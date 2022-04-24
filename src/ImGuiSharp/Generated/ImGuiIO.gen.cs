@@ -25,14 +25,6 @@ namespace ImGuiSharp
         public byte FontAllowUserScaling;
         public ImFont* FontDefault;
         public Vector2 DisplayFramebufferScale;
-        public byte ConfigDockingNoSplit;
-        public byte ConfigDockingWithShift;
-        public byte ConfigDockingAlwaysTabBar;
-        public byte ConfigDockingTransparentPayload;
-        public byte ConfigViewportsNoAutoMerge;
-        public byte ConfigViewportsNoTaskBarIcon;
-        public byte ConfigViewportsNoDecoration;
-        public byte ConfigViewportsNoDefaultParent;
         public byte MouseDrawCursor;
         public byte ConfigMacOSXBehaviors;
         public byte ConfigInputTrickleEventQueue;
@@ -71,7 +63,6 @@ namespace ImGuiSharp
         public fixed byte MouseDown[5];
         public float MouseWheel;
         public float MouseWheelH;
-        public uint MouseHoveredViewport;
         public byte KeyCtrl;
         public byte KeyShift;
         public byte KeyAlt;
@@ -741,11 +732,6 @@ namespace ImGuiSharp
         public fixed byte MouseDownOwnedUnlessPopupClose[5];
         public fixed float MouseDownDuration[5];
         public fixed float MouseDownDurationPrev[5];
-        public Vector2 MouseDragMaxDistanceAbs_0;
-        public Vector2 MouseDragMaxDistanceAbs_1;
-        public Vector2 MouseDragMaxDistanceAbs_2;
-        public Vector2 MouseDragMaxDistanceAbs_3;
-        public Vector2 MouseDragMaxDistanceAbs_4;
         public fixed float MouseDragMaxDistanceSqr[5];
         public fixed float NavInputsDownDuration[20];
         public fixed float NavInputsDownDurationPrev[20];
@@ -782,14 +768,6 @@ namespace ImGuiSharp
         public ref bool FontAllowUserScaling => ref Unsafe.AsRef<bool>(&NativePtr->FontAllowUserScaling);
         public ImFontPtr FontDefault => new ImFontPtr(NativePtr->FontDefault);
         public ref Vector2 DisplayFramebufferScale => ref Unsafe.AsRef<Vector2>(&NativePtr->DisplayFramebufferScale);
-        public ref bool ConfigDockingNoSplit => ref Unsafe.AsRef<bool>(&NativePtr->ConfigDockingNoSplit);
-        public ref bool ConfigDockingWithShift => ref Unsafe.AsRef<bool>(&NativePtr->ConfigDockingWithShift);
-        public ref bool ConfigDockingAlwaysTabBar => ref Unsafe.AsRef<bool>(&NativePtr->ConfigDockingAlwaysTabBar);
-        public ref bool ConfigDockingTransparentPayload => ref Unsafe.AsRef<bool>(&NativePtr->ConfigDockingTransparentPayload);
-        public ref bool ConfigViewportsNoAutoMerge => ref Unsafe.AsRef<bool>(&NativePtr->ConfigViewportsNoAutoMerge);
-        public ref bool ConfigViewportsNoTaskBarIcon => ref Unsafe.AsRef<bool>(&NativePtr->ConfigViewportsNoTaskBarIcon);
-        public ref bool ConfigViewportsNoDecoration => ref Unsafe.AsRef<bool>(&NativePtr->ConfigViewportsNoDecoration);
-        public ref bool ConfigViewportsNoDefaultParent => ref Unsafe.AsRef<bool>(&NativePtr->ConfigViewportsNoDefaultParent);
         public ref bool MouseDrawCursor => ref Unsafe.AsRef<bool>(&NativePtr->MouseDrawCursor);
         public ref bool ConfigMacOSXBehaviors => ref Unsafe.AsRef<bool>(&NativePtr->ConfigMacOSXBehaviors);
         public ref bool ConfigInputTrickleEventQueue => ref Unsafe.AsRef<bool>(&NativePtr->ConfigInputTrickleEventQueue);
@@ -828,7 +806,6 @@ namespace ImGuiSharp
         public RangeAccessor<bool> MouseDown => new RangeAccessor<bool>(NativePtr->MouseDown, 5);
         public ref float MouseWheel => ref Unsafe.AsRef<float>(&NativePtr->MouseWheel);
         public ref float MouseWheelH => ref Unsafe.AsRef<float>(&NativePtr->MouseWheelH);
-        public ref uint MouseHoveredViewport => ref Unsafe.AsRef<uint>(&NativePtr->MouseHoveredViewport);
         public ref bool KeyCtrl => ref Unsafe.AsRef<bool>(&NativePtr->KeyCtrl);
         public ref bool KeyShift => ref Unsafe.AsRef<bool>(&NativePtr->KeyShift);
         public ref bool KeyAlt => ref Unsafe.AsRef<bool>(&NativePtr->KeyAlt);
@@ -850,7 +827,6 @@ namespace ImGuiSharp
         public RangeAccessor<bool> MouseDownOwnedUnlessPopupClose => new RangeAccessor<bool>(NativePtr->MouseDownOwnedUnlessPopupClose, 5);
         public RangeAccessor<float> MouseDownDuration => new RangeAccessor<float>(NativePtr->MouseDownDuration, 5);
         public RangeAccessor<float> MouseDownDurationPrev => new RangeAccessor<float>(NativePtr->MouseDownDurationPrev, 5);
-        public RangeAccessor<Vector2> MouseDragMaxDistanceAbs => new RangeAccessor<Vector2>(&NativePtr->MouseDragMaxDistanceAbs_0, 5);
         public RangeAccessor<float> MouseDragMaxDistanceSqr => new RangeAccessor<float>(NativePtr->MouseDragMaxDistanceSqr, 5);
         public RangeAccessor<float> NavInputsDownDuration => new RangeAccessor<float>(NativePtr->NavInputsDownDuration, 20);
         public RangeAccessor<float> NavInputsDownDurationPrev => new RangeAccessor<float>(NativePtr->NavInputsDownDurationPrev, 20);
@@ -862,7 +838,7 @@ namespace ImGuiSharp
         public ImVector<ushort> InputQueueCharacters => new ImVector<ushort>(NativePtr->InputQueueCharacters);
         public void AddFocusEvent(bool focused)
         {
-            var native_focused = focused ? (byte)1 : (byte)0;
+            byte native_focused = focused ? (byte)1 : (byte)0;
             ImGuiNative.ImGuiIO_AddFocusEvent((ImGuiIO*)(NativePtr), native_focused);
         }
         public void AddInputCharacter(uint c)
@@ -872,7 +848,7 @@ namespace ImGuiSharp
         public void AddInputCharactersUTF8(string str)
         {
             byte* native_str;
-            var str_byteCount = 0;
+            int str_byteCount = 0;
             if (str != null)
             {
                 str_byteCount = Encoding.UTF8.GetByteCount(str);
@@ -882,10 +858,10 @@ namespace ImGuiSharp
                 }
                 else
                 {
-                    var native_str_stackBytes = stackalloc byte[str_byteCount + 1];
+                    byte* native_str_stackBytes = stackalloc byte[str_byteCount + 1];
                     native_str = native_str_stackBytes;
                 }
-                var native_str_offset = Util.GetUtf8(str, native_str, str_byteCount);
+                int native_str_offset = Util.GetUtf8(str, native_str, str_byteCount);
                 native_str[native_str_offset] = 0;
             }
             else { native_str = null; }
@@ -901,26 +877,22 @@ namespace ImGuiSharp
         }
         public void AddKeyAnalogEvent(ImGuiKey key, bool down, float v)
         {
-            var native_down = down ? (byte)1 : (byte)0;
+            byte native_down = down ? (byte)1 : (byte)0;
             ImGuiNative.ImGuiIO_AddKeyAnalogEvent((ImGuiIO*)(NativePtr), key, native_down, v);
         }
         public void AddKeyEvent(ImGuiKey key, bool down)
         {
-            var native_down = down ? (byte)1 : (byte)0;
+            byte native_down = down ? (byte)1 : (byte)0;
             ImGuiNative.ImGuiIO_AddKeyEvent((ImGuiIO*)(NativePtr), key, native_down);
         }
         public void AddMouseButtonEvent(int button, bool down)
         {
-            var native_down = down ? (byte)1 : (byte)0;
+            byte native_down = down ? (byte)1 : (byte)0;
             ImGuiNative.ImGuiIO_AddMouseButtonEvent((ImGuiIO*)(NativePtr), button, native_down);
         }
         public void AddMousePosEvent(float x, float y)
         {
             ImGuiNative.ImGuiIO_AddMousePosEvent((ImGuiIO*)(NativePtr), x, y);
-        }
-        public void AddMouseViewportEvent(uint id)
-        {
-            ImGuiNative.ImGuiIO_AddMouseViewportEvent((ImGuiIO*)(NativePtr), id);
         }
         public void AddMouseWheelEvent(float wh_x, float wh_y)
         {
@@ -940,7 +912,7 @@ namespace ImGuiSharp
         }
         public void SetKeyEventNativeData(ImGuiKey key, int native_keycode, int native_scancode)
         {
-            var native_legacy_index = -1;
+            int native_legacy_index = -1;
             ImGuiNative.ImGuiIO_SetKeyEventNativeData((ImGuiIO*)(NativePtr), key, native_keycode, native_scancode, native_legacy_index);
         }
         public void SetKeyEventNativeData(ImGuiKey key, int native_keycode, int native_scancode, int native_legacy_index)

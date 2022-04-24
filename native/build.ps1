@@ -1,5 +1,5 @@
 $BuildArch = "x64"
-$BuildConfig = "Release"
+$BuildConfig = "Debug"
 $BuildPlatform = "x64"
 $buildPath
 $libsFolder
@@ -36,7 +36,7 @@ cmake --build . --config $BuildConfig
 Pop-Location
 
 #copy the file to the output folder
-$releasePath = $buildPath + "\Release"
+$releasePath = Join-Path $buildPath $BuildConfig
 
 #TODO cope the file to the output folder
 Copy-Item -Path "$releasePath\*.dll" -Destination "$libsFolder\win-x64\cimgui.dll" -PassThru

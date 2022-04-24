@@ -38,7 +38,7 @@ namespace ImGuiSharp
         }
         public bool IsPacked()
         {
-            var ret = ImGuiNative.ImFontAtlasCustomRect_IsPacked((ImFontAtlasCustomRect*)(NativePtr));
+            byte ret = ImGuiNative.ImFontAtlasCustomRect_IsPacked((ImFontAtlasCustomRect*)(NativePtr));
             return ret != 0;
         }
     }

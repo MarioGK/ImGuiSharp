@@ -36,7 +36,7 @@ namespace ImGuiSharp
         }
         public IntPtr GetTexID()
         {
-            var ret = ImGuiNative.ImDrawCmd_GetTexID((ImDrawCmd*)(NativePtr));
+            IntPtr ret = ImGuiNative.ImDrawCmd_GetTexID((ImDrawCmd*)(NativePtr));
             return ret;
         }
     }

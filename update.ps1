@@ -15,14 +15,6 @@ git submodule update --remote --recursive
 foreach ($project in $projects) {
     $definitionsPath = (Get-Location).ToString() + "\definitions\" + $project
 
-    if (Test-Path -Path $definitionsPath) {
-        Remove-Item -Path $definitionsPath -Recurse -Force
-        mkdir $definitionsPath
-    }
-    else {
-        mkdir $definitionsPath
-    }
-
     $outputPath = ".\native\$project\generator\output"
 
     Push-Location $outputPath

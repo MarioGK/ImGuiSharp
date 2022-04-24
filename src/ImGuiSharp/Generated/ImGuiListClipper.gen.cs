@@ -30,7 +30,7 @@ namespace ImGuiSharp
         public IntPtr TempData { get => (IntPtr)NativePtr->TempData; set => NativePtr->TempData = (void*)value; }
         public void Begin(int items_count)
         {
-            var items_height = -1.0f;
+            float items_height = -1.0f;
             ImGuiNative.ImGuiListClipper_Begin((ImGuiListClipper*)(NativePtr), items_count, items_height);
         }
         public void Begin(int items_count, float items_height)
@@ -51,7 +51,7 @@ namespace ImGuiSharp
         }
         public bool Step()
         {
-            var ret = ImGuiNative.ImGuiListClipper_Step((ImGuiListClipper*)(NativePtr));
+            byte ret = ImGuiNative.ImGuiListClipper_Step((ImGuiListClipper*)(NativePtr));
             return ret != 0;
         }
     }

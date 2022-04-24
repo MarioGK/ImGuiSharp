@@ -36,17 +36,17 @@ namespace ImGuiSharp
         }
         public void Merge(ImDrawListPtr draw_list)
         {
-            var native_draw_list = draw_list.NativePtr;
+            ImDrawList* native_draw_list = draw_list.NativePtr;
             ImGuiNative.ImDrawListSplitter_Merge((ImDrawListSplitter*)(NativePtr), native_draw_list);
         }
         public void SetCurrentChannel(ImDrawListPtr draw_list, int channel_idx)
         {
-            var native_draw_list = draw_list.NativePtr;
+            ImDrawList* native_draw_list = draw_list.NativePtr;
             ImGuiNative.ImDrawListSplitter_SetCurrentChannel((ImDrawListSplitter*)(NativePtr), native_draw_list, channel_idx);
         }
         public void Split(ImDrawListPtr draw_list, int count)
         {
-            var native_draw_list = draw_list.NativePtr;
+            ImDrawList* native_draw_list = draw_list.NativePtr;
             ImGuiNative.ImDrawListSplitter_Split((ImDrawListSplitter*)(NativePtr), native_draw_list, count);
         }
     }

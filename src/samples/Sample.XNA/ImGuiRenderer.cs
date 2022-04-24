@@ -39,7 +39,7 @@ namespace Sample.XNA
         // Input
         private int _scrollWheelValue;
 
-        private List<int> _keys = new List<int>();
+        private List<int> _keys = new();
 
         public ImGuiRenderer(Game game)
         {

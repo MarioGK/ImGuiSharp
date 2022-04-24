@@ -16,18 +16,18 @@ namespace ImGuiSharp.Veldrid
         private ColorSpaceHandling _colorSpaceHandling;
 
         // Device objects
-        private          DeviceBuffer   _vertexBuffer;
-        private          DeviceBuffer   _indexBuffer;
-        private          DeviceBuffer   _projMatrixBuffer;
-        private          Texture        _fontTexture;
-        private          Shader         _vertexShader;
-        private          Shader         _fragmentShader;
-        private          ResourceLayout _layout;
-        private          ResourceLayout _textureLayout;
-        private          Pipeline       _pipeline;
-        private          ResourceSet    _mainResourceSet;
-        private          ResourceSet    _fontTextureResourceSet;
-        private readonly IntPtr         _fontAtlasId = (IntPtr)1;
+        private          DeviceBuffer   _vertexBuffer           = null!;
+        private          DeviceBuffer   _indexBuffer            = null!;
+        private          DeviceBuffer   _projMatrixBuffer       = null!;
+        private          Texture        _fontTexture            = null!;
+        private          Shader         _vertexShader           = null!;
+        private          Shader         _fragmentShader         = null!;
+        private          ResourceLayout _layout                 = null!;
+        private          ResourceLayout _textureLayout          = null!;
+        private          Pipeline       _pipeline               = null!;
+        private          ResourceSet    _mainResourceSet        = null!;
+        private          ResourceSet    _fontTextureResourceSet = null!;
+        private readonly IntPtr         _fontAtlasId            = (IntPtr)1;
         private          bool           _controlDown;
         private          bool           _shiftDown;
         private          bool           _altDown;
@@ -289,16 +289,14 @@ namespace ImGuiSharp.Veldrid
 
         private string GetEmbeddedResourceText(string resourceName)
         {
-            using (var sr = new StreamReader(_assembly.GetManifestResourceStream(resourceName)))
-            {
-                return sr.ReadToEnd();
-            }
+            using var sr = new StreamReader(_assembly.GetManifestResourceStream(resourceName)!);
+            return sr.ReadToEnd();
         }
 
         private byte[] GetEmbeddedResourceBytes(string resourceName)
         {
             using var s    = _assembly.GetManifestResourceStream(resourceName);
-            var       ret  = new byte[s.Length];
+            var       ret  = new byte[s!.Length];
             var       read = s.Read(ret, 0, (int)s.Length);
             return ret;
         }

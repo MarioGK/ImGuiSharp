@@ -48,8 +48,9 @@ namespace CodeGenerator
                 _ => throw new NotImplementedException()
             };
             
-            var definitionsPath = Path.Combine(AppContext.BaseDirectory, "definitions", project);
-            var defs = new ImGuiDefinitions();
+            //Going to root folder to get definitions
+            var definitionsPath = Path.Combine(AppContext.BaseDirectory , "..", "..", "..", "..", "..", "definitions", project);
+            var defs            = new ImGuiDefinitions();
             defs.LoadFrom(definitionsPath);
 
             Console.WriteLine($"Outputting generated code files to {output}.");

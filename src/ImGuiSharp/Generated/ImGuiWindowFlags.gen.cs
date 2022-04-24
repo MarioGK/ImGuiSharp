@@ -24,7 +24,6 @@ namespace ImGuiSharp
         NoNavInputs = 262144,
         NoNavFocus = 524288,
         UnsavedDocument = 1048576,
-        NoDocking = 2097152,
         NoNav = 786432,
         NoDecoration = 43,
         NoInputs = 786944,
@@ -34,6 +33,5 @@ namespace ImGuiSharp
         Popup = 67108864,
         Modal = 134217728,
         ChildMenu = 268435456,
-        DockNodeHost = 536870912,
     }
 }

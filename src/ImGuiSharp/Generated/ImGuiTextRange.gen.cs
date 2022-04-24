@@ -26,7 +26,7 @@ namespace ImGuiSharp
         }
         public bool empty()
         {
-            var ret = ImGuiNative.ImGuiTextRange_empty((ImGuiTextRange*)(NativePtr));
+            byte ret = ImGuiNative.ImGuiTextRange_empty((ImGuiTextRange*)(NativePtr));
             return ret != 0;
         }
         public void split(byte separator, out ImVector @out)

@@ -37,7 +37,7 @@ namespace ImGuiSharp
         public bool Draw()
         {
             byte* native_label;
-            var label_byteCount = 0;
+            int label_byteCount = 0;
                 label_byteCount = Encoding.UTF8.GetByteCount("Filter(inc,-exc)");
                 if (label_byteCount > Util.StackAllocationSizeLimit)
                 {
@@ -45,13 +45,13 @@ namespace ImGuiSharp
                 }
                 else
                 {
-                    var native_label_stackBytes = stackalloc byte[label_byteCount + 1];
+                    byte* native_label_stackBytes = stackalloc byte[label_byteCount + 1];
                     native_label = native_label_stackBytes;
                 }
-                var native_label_offset = Util.GetUtf8("Filter(inc,-exc)", native_label, label_byteCount);
+                int native_label_offset = Util.GetUtf8("Filter(inc,-exc)", native_label, label_byteCount);
                 native_label[native_label_offset] = 0;
-            var width = 0.0f;
-            var ret = ImGuiNative.ImGuiTextFilter_Draw((ImGuiTextFilter*)(NativePtr), native_label, width);
+            float width = 0.0f;
+            byte ret = ImGuiNative.ImGuiTextFilter_Draw((ImGuiTextFilter*)(NativePtr), native_label, width);
             if (label_byteCount > Util.StackAllocationSizeLimit)
             {
                 Util.Free(native_label);
@@ -61,7 +61,7 @@ namespace ImGuiSharp
         public bool Draw(string label)
         {
             byte* native_label;
-            var label_byteCount = 0;
+            int label_byteCount = 0;
             if (label != null)
             {
                 label_byteCount = Encoding.UTF8.GetByteCount(label);
@@ -71,15 +71,15 @@ namespace ImGuiSharp
                 }
                 else
                 {
-                    var native_label_stackBytes = stackalloc byte[label_byteCount + 1];
+                    byte* native_label_stackBytes = stackalloc byte[label_byteCount + 1];
                     native_label = native_label_stackBytes;
                 }
-                var native_label_offset = Util.GetUtf8(label, native_label, label_byteCount);
+                int native_label_offset = Util.GetUtf8(label, native_label, label_byteCount);
                 native_label[native_label_offset] = 0;
             }
             else { native_label = null; }
-            var width = 0.0f;
-            var ret = ImGuiNative.ImGuiTextFilter_Draw((ImGuiTextFilter*)(NativePtr), native_label, width);
+            float width = 0.0f;
+            byte ret = ImGuiNative.ImGuiTextFilter_Draw((ImGuiTextFilter*)(NativePtr), native_label, width);
             if (label_byteCount > Util.StackAllocationSizeLimit)
             {
                 Util.Free(native_label);
@@ -89,7 +89,7 @@ namespace ImGuiSharp
         public bool Draw(string label, float width)
         {
             byte* native_label;
-            var label_byteCount = 0;
+            int label_byteCount = 0;
             if (label != null)
             {
                 label_byteCount = Encoding.UTF8.GetByteCount(label);
@@ -99,14 +99,14 @@ namespace ImGuiSharp
                 }
                 else
                 {
-                    var native_label_stackBytes = stackalloc byte[label_byteCount + 1];
+                    byte* native_label_stackBytes = stackalloc byte[label_byteCount + 1];
                     native_label = native_label_stackBytes;
                 }
-                var native_label_offset = Util.GetUtf8(label, native_label, label_byteCount);
+                int native_label_offset = Util.GetUtf8(label, native_label, label_byteCount);
                 native_label[native_label_offset] = 0;
             }
             else { native_label = null; }
-            var ret = ImGuiNative.ImGuiTextFilter_Draw((ImGuiTextFilter*)(NativePtr), native_label, width);
+            byte ret = ImGuiNative.ImGuiTextFilter_Draw((ImGuiTextFilter*)(NativePtr), native_label, width);
             if (label_byteCount > Util.StackAllocationSizeLimit)
             {
                 Util.Free(native_label);
@@ -115,13 +115,13 @@ namespace ImGuiSharp
         }
         public bool IsActive()
         {
-            var ret = ImGuiNative.ImGuiTextFilter_IsActive((ImGuiTextFilter*)(NativePtr));
+            byte ret = ImGuiNative.ImGuiTextFilter_IsActive((ImGuiTextFilter*)(NativePtr));
             return ret != 0;
         }
         public bool PassFilter(string text)
         {
             byte* native_text;
-            var text_byteCount = 0;
+            int text_byteCount = 0;
             if (text != null)
             {
                 text_byteCount = Encoding.UTF8.GetByteCount(text);
@@ -131,15 +131,15 @@ namespace ImGuiSharp
                 }
                 else
                 {
-                    var native_text_stackBytes = stackalloc byte[text_byteCount + 1];
+                    byte* native_text_stackBytes = stackalloc byte[text_byteCount + 1];
                     native_text = native_text_stackBytes;
                 }
-                var native_text_offset = Util.GetUtf8(text, native_text, text_byteCount);
+                int native_text_offset = Util.GetUtf8(text, native_text, text_byteCount);
                 native_text[native_text_offset] = 0;
             }
             else { native_text = null; }
             byte* native_text_end = null;
-            var ret = ImGuiNative.ImGuiTextFilter_PassFilter((ImGuiTextFilter*)(NativePtr), native_text, native_text_end);
+            byte ret = ImGuiNative.ImGuiTextFilter_PassFilter((ImGuiTextFilter*)(NativePtr), native_text, native_text_end);
             if (text_byteCount > Util.StackAllocationSizeLimit)
             {
                 Util.Free(native_text);

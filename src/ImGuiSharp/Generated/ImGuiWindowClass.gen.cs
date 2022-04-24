@@ -19,22 +19,22 @@ namespace ImGuiSharp
     public unsafe partial struct ImGuiWindowClassPtr
     {
         public ImGuiWindowClass* NativePtr { get; }
-        public ImGuiWindowClassPtr(ImGuiWindowClass* nativePtr) => NativePtr = nativePtr;
-        public ImGuiWindowClassPtr(IntPtr nativePtr) => NativePtr = (ImGuiWindowClass*)nativePtr;
-        public static implicit operator ImGuiWindowClassPtr(ImGuiWindowClass* nativePtr) => new ImGuiWindowClassPtr(nativePtr);
+        public ImGuiWindowClassPtr(ImGuiWindowClass*                           nativePtr) => NativePtr = nativePtr;
+        public ImGuiWindowClassPtr(IntPtr                                      nativePtr) => NativePtr = (ImGuiWindowClass*)nativePtr;
+        public static implicit operator ImGuiWindowClassPtr(ImGuiWindowClass*  nativePtr)  => new(nativePtr);
         public static implicit operator ImGuiWindowClass* (ImGuiWindowClassPtr wrappedPtr) => wrappedPtr.NativePtr;
-        public static implicit operator ImGuiWindowClassPtr(IntPtr nativePtr) => new ImGuiWindowClassPtr(nativePtr);
-        public ref uint ClassId => ref Unsafe.AsRef<uint>(&NativePtr->ClassId);
-        public ref uint ParentViewportId => ref Unsafe.AsRef<uint>(&NativePtr->ParentViewportId);
-        public ref ImGuiViewportFlags ViewportFlagsOverrideSet => ref Unsafe.AsRef<ImGuiViewportFlags>(&NativePtr->ViewportFlagsOverrideSet);
-        public ref ImGuiViewportFlags ViewportFlagsOverrideClear => ref Unsafe.AsRef<ImGuiViewportFlags>(&NativePtr->ViewportFlagsOverrideClear);
-        public ref ImGuiTabItemFlags TabItemFlagsOverrideSet => ref Unsafe.AsRef<ImGuiTabItemFlags>(&NativePtr->TabItemFlagsOverrideSet);
-        public ref ImGuiDockNodeFlags DockNodeFlagsOverrideSet => ref Unsafe.AsRef<ImGuiDockNodeFlags>(&NativePtr->DockNodeFlagsOverrideSet);
-        public ref bool DockingAlwaysTabBar => ref Unsafe.AsRef<bool>(&NativePtr->DockingAlwaysTabBar);
-        public ref bool DockingAllowUnclassed => ref Unsafe.AsRef<bool>(&NativePtr->DockingAllowUnclassed);
+        public static implicit operator ImGuiWindowClassPtr(IntPtr             nativePtr)  => new(nativePtr);
+        public ref                      uint               ClassId                         => ref Unsafe.AsRef<uint>(&NativePtr->ClassId);
+        public ref                      uint               ParentViewportId                => ref Unsafe.AsRef<uint>(&NativePtr->ParentViewportId);
+        public ref                      ImGuiViewportFlags ViewportFlagsOverrideSet        => ref Unsafe.AsRef<ImGuiViewportFlags>(&NativePtr->ViewportFlagsOverrideSet);
+        public ref                      ImGuiViewportFlags ViewportFlagsOverrideClear      => ref Unsafe.AsRef<ImGuiViewportFlags>(&NativePtr->ViewportFlagsOverrideClear);
+        public ref                      ImGuiTabItemFlags  TabItemFlagsOverrideSet         => ref Unsafe.AsRef<ImGuiTabItemFlags>(&NativePtr->TabItemFlagsOverrideSet);
+        public ref                      ImGuiDockNodeFlags DockNodeFlagsOverrideSet        => ref Unsafe.AsRef<ImGuiDockNodeFlags>(&NativePtr->DockNodeFlagsOverrideSet);
+        public ref                      bool               DockingAlwaysTabBar             => ref Unsafe.AsRef<bool>(&NativePtr->DockingAlwaysTabBar);
+        public ref                      bool               DockingAllowUnclassed           => ref Unsafe.AsRef<bool>(&NativePtr->DockingAllowUnclassed);
         public void Destroy()
         {
-            ImGuiNative.ImGuiWindowClass_destroy((ImGuiWindowClass*)(NativePtr));
+            //ImGuiNative.ImGuiWindowClass_destroy((ImGuiWindowClass*)(NativePtr));
         }
     }
 }

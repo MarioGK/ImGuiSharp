@@ -43,7 +43,7 @@ namespace ImGuiSharp
         public bool IsDataType(string type)
         {
             byte* native_type;
-            var type_byteCount = 0;
+            int type_byteCount = 0;
             if (type != null)
             {
                 type_byteCount = Encoding.UTF8.GetByteCount(type);
@@ -53,14 +53,14 @@ namespace ImGuiSharp
                 }
                 else
                 {
-                    var native_type_stackBytes = stackalloc byte[type_byteCount + 1];
+                    byte* native_type_stackBytes = stackalloc byte[type_byteCount + 1];
                     native_type = native_type_stackBytes;
                 }
-                var native_type_offset = Util.GetUtf8(type, native_type, type_byteCount);
+                int native_type_offset = Util.GetUtf8(type, native_type, type_byteCount);
                 native_type[native_type_offset] = 0;
             }
             else { native_type = null; }
-            var ret = ImGuiNative.ImGuiPayload_IsDataType((ImGuiPayload*)(NativePtr), native_type);
+            byte ret = ImGuiNative.ImGuiPayload_IsDataType((ImGuiPayload*)(NativePtr), native_type);
             if (type_byteCount > Util.StackAllocationSizeLimit)
             {
                 Util.Free(native_type);
@@ -69,12 +69,12 @@ namespace ImGuiSharp
         }
         public bool IsDelivery()
         {
-            var ret = ImGuiNative.ImGuiPayload_IsDelivery((ImGuiPayload*)(NativePtr));
+            byte ret = ImGuiNative.ImGuiPayload_IsDelivery((ImGuiPayload*)(NativePtr));
             return ret != 0;
         }
         public bool IsPreview()
         {
-            var ret = ImGuiNative.ImGuiPayload_IsPreview((ImGuiPayload*)(NativePtr));
+            byte ret = ImGuiNative.ImGuiPayload_IsPreview((ImGuiPayload*)(NativePtr));
             return ret != 0;
         }
     }

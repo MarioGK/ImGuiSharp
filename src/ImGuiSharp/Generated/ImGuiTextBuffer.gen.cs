@@ -21,7 +21,7 @@ namespace ImGuiSharp
         public void append(string str)
         {
             byte* native_str;
-            var str_byteCount = 0;
+            int str_byteCount = 0;
             if (str != null)
             {
                 str_byteCount = Encoding.UTF8.GetByteCount(str);
@@ -31,10 +31,10 @@ namespace ImGuiSharp
                 }
                 else
                 {
-                    var native_str_stackBytes = stackalloc byte[str_byteCount + 1];
+                    byte* native_str_stackBytes = stackalloc byte[str_byteCount + 1];
                     native_str = native_str_stackBytes;
                 }
-                var native_str_offset = Util.GetUtf8(str, native_str, str_byteCount);
+                int native_str_offset = Util.GetUtf8(str, native_str, str_byteCount);
                 native_str[native_str_offset] = 0;
             }
             else { native_str = null; }
@@ -48,7 +48,7 @@ namespace ImGuiSharp
         public void appendf(string fmt)
         {
             byte* native_fmt;
-            var fmt_byteCount = 0;
+            int fmt_byteCount = 0;
             if (fmt != null)
             {
                 fmt_byteCount = Encoding.UTF8.GetByteCount(fmt);
@@ -58,10 +58,10 @@ namespace ImGuiSharp
                 }
                 else
                 {
-                    var native_fmt_stackBytes = stackalloc byte[fmt_byteCount + 1];
+                    byte* native_fmt_stackBytes = stackalloc byte[fmt_byteCount + 1];
                     native_fmt = native_fmt_stackBytes;
                 }
-                var native_fmt_offset = Util.GetUtf8(fmt, native_fmt, fmt_byteCount);
+                int native_fmt_offset = Util.GetUtf8(fmt, native_fmt, fmt_byteCount);
                 native_fmt[native_fmt_offset] = 0;
             }
             else { native_fmt = null; }
@@ -73,12 +73,12 @@ namespace ImGuiSharp
         }
         public string begin()
         {
-            var ret = ImGuiNative.ImGuiTextBuffer_begin((ImGuiTextBuffer*)(NativePtr));
+            byte* ret = ImGuiNative.ImGuiTextBuffer_begin((ImGuiTextBuffer*)(NativePtr));
             return Util.StringFromPtr(ret);
         }
         public string c_str()
         {
-            var ret = ImGuiNative.ImGuiTextBuffer_c_str((ImGuiTextBuffer*)(NativePtr));
+            byte* ret = ImGuiNative.ImGuiTextBuffer_c_str((ImGuiTextBuffer*)(NativePtr));
             return Util.StringFromPtr(ret);
         }
         public void clear()
@@ -91,12 +91,12 @@ namespace ImGuiSharp
         }
         public bool empty()
         {
-            var ret = ImGuiNative.ImGuiTextBuffer_empty((ImGuiTextBuffer*)(NativePtr));
+            byte ret = ImGuiNative.ImGuiTextBuffer_empty((ImGuiTextBuffer*)(NativePtr));
             return ret != 0;
         }
         public string end()
         {
-            var ret = ImGuiNative.ImGuiTextBuffer_end((ImGuiTextBuffer*)(NativePtr));
+            byte* ret = ImGuiNative.ImGuiTextBuffer_end((ImGuiTextBuffer*)(NativePtr));
             return Util.StringFromPtr(ret);
         }
         public void reserve(int capacity)
@@ -105,7 +105,7 @@ namespace ImGuiSharp
         }
         public int size()
         {
-            var ret = ImGuiNative.ImGuiTextBuffer_size((ImGuiTextBuffer*)(NativePtr));
+            int ret = ImGuiNative.ImGuiTextBuffer_size((ImGuiTextBuffer*)(NativePtr));
             return ret;
         }
     }

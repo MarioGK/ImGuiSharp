@@ -15,7 +15,6 @@ namespace ImGuiSharp
         public Vector2 DisplayPos;
         public Vector2 DisplaySize;
         public Vector2 FramebufferScale;
-        public ImGuiViewport* OwnerViewport;
     }
     public unsafe partial struct ImDrawDataPtr
     {
@@ -33,7 +32,6 @@ namespace ImGuiSharp
         public ref Vector2 DisplayPos => ref Unsafe.AsRef<Vector2>(&NativePtr->DisplayPos);
         public ref Vector2 DisplaySize => ref Unsafe.AsRef<Vector2>(&NativePtr->DisplaySize);
         public ref Vector2 FramebufferScale => ref Unsafe.AsRef<Vector2>(&NativePtr->FramebufferScale);
-        public ImGuiViewportPtr OwnerViewport => new ImGuiViewportPtr(NativePtr->OwnerViewport);
         public void Clear()
         {
             ImGuiNative.ImDrawData_Clear((ImDrawData*)(NativePtr));

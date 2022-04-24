@@ -8,7 +8,6 @@ namespace ImGuiSharp
         RootWindow = 2,
         AnyWindow = 4,
         NoPopupHierarchy = 8,
-        DockHierarchy = 16,
         RootAndChildWindows = 3,
     }
 }

@@ -24,13 +24,13 @@ namespace ImGuiSharp
         }
         public void AddRanges(IntPtr ranges)
         {
-            var native_ranges = (ushort*)ranges.ToPointer();
+            ushort* native_ranges = (ushort*)ranges.ToPointer();
             ImGuiNative.ImFontGlyphRangesBuilder_AddRanges((ImFontGlyphRangesBuilder*)(NativePtr), native_ranges);
         }
         public void AddText(string text)
         {
             byte* native_text;
-            var text_byteCount = 0;
+            int text_byteCount = 0;
             if (text != null)
             {
                 text_byteCount = Encoding.UTF8.GetByteCount(text);
@@ -40,10 +40,10 @@ namespace ImGuiSharp
                 }
                 else
                 {
-                    var native_text_stackBytes = stackalloc byte[text_byteCount + 1];
+                    byte* native_text_stackBytes = stackalloc byte[text_byteCount + 1];
                     native_text = native_text_stackBytes;
                 }
-                var native_text_offset = Util.GetUtf8(text, native_text, text_byteCount);
+                int native_text_offset = Util.GetUtf8(text, native_text, text_byteCount);
                 native_text[native_text_offset] = 0;
             }
             else { native_text = null; }
@@ -71,7 +71,7 @@ namespace ImGuiSharp
         }
         public bool GetBit(uint n)
         {
-            var ret = ImGuiNative.ImFontGlyphRangesBuilder_GetBit((ImFontGlyphRangesBuilder*)(NativePtr), n);
+            byte ret = ImGuiNative.ImFontGlyphRangesBuilder_GetBit((ImFontGlyphRangesBuilder*)(NativePtr), n);
             return ret != 0;
         }
         public void SetBit(uint n)

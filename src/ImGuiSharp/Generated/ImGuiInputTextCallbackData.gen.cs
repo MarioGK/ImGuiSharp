@@ -54,13 +54,13 @@ namespace ImGuiSharp
         }
         public bool HasSelection()
         {
-            var ret = ImGuiNative.ImGuiInputTextCallbackData_HasSelection((ImGuiInputTextCallbackData*)(NativePtr));
+            byte ret = ImGuiNative.ImGuiInputTextCallbackData_HasSelection((ImGuiInputTextCallbackData*)(NativePtr));
             return ret != 0;
         }
         public void InsertChars(int pos, string text)
         {
             byte* native_text;
-            var text_byteCount = 0;
+            int text_byteCount = 0;
             if (text != null)
             {
                 text_byteCount = Encoding.UTF8.GetByteCount(text);
@@ -70,10 +70,10 @@ namespace ImGuiSharp
                 }
                 else
                 {
-                    var native_text_stackBytes = stackalloc byte[text_byteCount + 1];
+                    byte* native_text_stackBytes = stackalloc byte[text_byteCount + 1];
                     native_text = native_text_stackBytes;
                 }
-                var native_text_offset = Util.GetUtf8(text, native_text, text_byteCount);
+                int native_text_offset = Util.GetUtf8(text, native_text, text_byteCount);
                 native_text[native_text_offset] = 0;
             }
             else { native_text = null; }
