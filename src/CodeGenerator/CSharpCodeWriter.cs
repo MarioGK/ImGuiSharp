@@ -6,7 +6,7 @@ namespace CodeGenerator;
 internal class CSharpCodeWriter : IDisposable
 {
     private readonly StreamWriter _sw;
-    private          int          _indentLevel = 0;
+    private          int          _indentLevel;
 
     public CSharpCodeWriter(string outputPath)
     {

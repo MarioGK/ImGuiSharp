@@ -1,10 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
+        <Description>A Utility to make it easier to use with veldrid.</Description>
+        <AssemblyVersion>0.0.0.1</AssemblyVersion>
+        <Authors>MarioGK</Authors>
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <DebugType>portable</DebugType>
+        <PackageId>ImGuiSharp.Veldrid</PackageId>
+        <PackagePrereleaseIdentifier></PackagePrereleaseIdentifier>
+        <PackageVersion>$(AssemblyVersion)$(PackagePrereleaseIdentifier)</PackageVersion>
+        <PackageTags>ImGui ImGuiSharp Immediate Mode GUI</PackageTags>
+        <PackageProjectUrl>https://github.com/MarioGK/ImGuiSharp</PackageProjectUrl>
+        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
     </PropertyGroup>
 
     <ItemGroup>

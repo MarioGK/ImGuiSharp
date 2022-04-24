@@ -7,7 +7,7 @@ using ImGuiSharp.Structs;
 // ReSharper disable once CheckNamespace
 namespace ImGuiSharp
 {
-    public static unsafe class ImGui
+    public static unsafe partial class ImGui
     {
         public static ImGuiPayloadPtr AcceptDragDropPayload(string type)
         {
