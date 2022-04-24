@@ -1,53 +1,52 @@
 ﻿using System;
 using System.IO;
 
-namespace CodeGenerator
+namespace CodeGenerator;
+
+internal class CSharpCodeWriter : IDisposable
 {
-    internal class CSharpCodeWriter : IDisposable
+    private readonly StreamWriter _sw;
+    private          int          _indentLevel = 0;
+
+    public CSharpCodeWriter(string outputPath)
     {
-        private readonly StreamWriter _sw;
-        private int _indentLevel = 0;
+        _sw = File.CreateText(outputPath);
+    }
 
-        public CSharpCodeWriter(string outputPath)
-        {
-            _sw = File.CreateText(outputPath);
-        }
+    public void Using(string ns)
+    {
+        WriteIndented($"using {ns};");
+    }
 
-        public void Using(string ns)
-        {
-            WriteIndented($"using {ns};");
-        }
+    public void PushBlock(string blockHeader)
+    {
+        WriteIndented(blockHeader);
+        WriteIndented("{");
+        _indentLevel += 4;
+    }
 
-        public void PushBlock(string blockHeader)
-        {
-            WriteIndented(blockHeader);
-            WriteIndented("{");
-            _indentLevel += 4;
-        }
+    public void PopBlock()
+    {
+        _indentLevel -= 4;
+        WriteIndented("}");
+    }
 
-        public void PopBlock()
-        {
-            _indentLevel -= 4;
-            WriteIndented("}");
-        }
+    public void WriteLine(string text)
+    {
+        WriteIndented(text);
+    }
 
-        public void WriteLine(string text)
+    private void WriteIndented(string text)
+    {
+        for (var i = 0; i < _indentLevel; i++)
         {
-            WriteIndented(text);
+            _sw.Write(' ');
         }
+        _sw.WriteLine(text);
+    }
 
-        private void WriteIndented(string text)
-        {
-            for (var i = 0; i < _indentLevel; i++)
-            {
-                _sw.Write(' ');
-            }
-            _sw.WriteLine(text);
-        }
-
-        public void Dispose()
-        {
-            _sw.Dispose();
-        }
+    public void Dispose()
+    {
+        _sw.Dispose();
     }
 }
