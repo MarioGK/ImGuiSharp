@@ -1,11 +1,13 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using System.Net.Mime;
+using System.Runtime.InteropServices;
+using ImGuiSharp;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
 
-namespace ImGuiNET.SampleProgram.XNA
+namespace Sample.XNA
 {
     /// <summary>
     /// ImGui renderer for use with XNA-likes (FNA & MonoGame)
@@ -93,7 +95,7 @@ namespace ImGuiNET.SampleProgram.XNA
         }
 
         /// <summary>
-        /// Creates a pointer to a texture, which can be passed through ImGui calls such as <see cref="ImGui.Image" />. That pointer is then used by ImGui to let us know what texture to draw
+        /// Creates a pointer to a texture, which can be passed through ImGui calls such as <see cref="MediaTypeNames.Image" />. That pointer is then used by ImGui to let us know what texture to draw
         /// </summary>
         public virtual IntPtr BindTexture(Texture2D texture)
         {

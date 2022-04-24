@@ -1,10 +1,11 @@
-﻿namespace ImGuiNET.SampleProgram.XNA
+﻿namespace Sample.XNA
 {
     public static class Program
     {
         public static void Main(string[] args)
         {
-            using (var game = new SampleGame()) game.Run();
+            using var game = new SampleGame();
+            game.Run();
         }
     }
 }

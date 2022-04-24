@@ -1,10 +1,10 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using ImGuiSharp;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.IO;
 using Num = System.Numerics;
 
-namespace ImGuiNET.SampleProgram.XNA
+namespace Sample.XNA
 {
     /// <summary>
     /// Simple FNA + ImGui example

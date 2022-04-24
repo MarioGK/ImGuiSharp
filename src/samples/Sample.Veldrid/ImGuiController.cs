@@ -5,6 +5,7 @@ using System.Reflection;
 using System.IO;
 using Veldrid;
 using System.Runtime.CompilerServices;
+using ImGuiSharp;
 
 namespace ImGuiNET
 {

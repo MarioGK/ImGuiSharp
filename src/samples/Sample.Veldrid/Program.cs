@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Linq;
 using System.Numerics;
-using ImPlotNET;
+using ImGuiNET;
+using ImGuiSharp;
 using Veldrid;
 using Veldrid.Sdl2;
 using Veldrid.StartupUtilities;
 
-using static ImGuiNET.ImGuiNative;
-
-namespace ImGuiNET
+namespace Sample.Veldrid
 {
     class Program
     {

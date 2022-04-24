@@ -7,10 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ImGui.NET\ImGui.NET.csproj" />
     <PackageReference Include="Veldrid" Version="4.8.0" />
     <PackageReference Include="Veldrid.StartupUtilities" Version="4.8.0" />
-    <ProjectReference Include="..\ImPlot.NET\ImPlot.NET.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,9 +23,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="$(RepositoryRootDirectory)/deps/cimgui/win-x64/cimgui.dll" CopyToOutputDirectory="PreserveNewest" />
-    <Content Include="$(RepositoryRootDirectory)/deps/cimgui/osx-universal/cimgui.dylib" CopyToOutputDirectory="PreserveNewest" />
-    <Content Include="$(RepositoryRootDirectory)/deps/cimgui/linux-x64/cimgui.so" CopyToOutputDirectory="PreserveNewest" />
+    <ProjectReference Include="..\..\ImGuiSharp\ImGuiSharp.csproj" />
+    <ProjectReference Include="..\..\ImGuizmoSharp\ImGuizmoSharp.csproj" />
+    <ProjectReference Include="..\..\ImNodesSharp\ImNodesSharp.csproj" />
+    <ProjectReference Include="..\..\ImPlotSharp\ImPlotSharp.csproj" />
   </ItemGroup>
 
 </Project>
