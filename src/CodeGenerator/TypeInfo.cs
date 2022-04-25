@@ -52,6 +52,13 @@ public static class TypeInfo
         { "ImVec2[2]", "Vector2*" },
         { "char* []", "byte**" },
         { "unsigned char[256]", "byte*"},
+        { "ImGuiTableColumnIdx", "sbyte" },
+        { "ImGuiDockRequest", "IntPtr" },
+        { "ImGuiDockNodeSettings", "IntPtr" },
+        { "ImGuiStoragePair", "IntPtr" },
+        { "ImFontBuilderIO", "IntPtr" },
+        { "ImGuiTableDrawChannelIdx", "byte"},
+        { "ImGuiSizeCallback", "IntPtr"},
     };
         
     public static readonly List<string> WellKnownEnums = new()
@@ -66,6 +73,7 @@ public static class TypeInfo
 
     public static readonly HashSet<string> CustomDefinedTypes = new()
     {
+        "ImSpan",
         "ImVector",
         "ImVec2",
         "ImVec4",

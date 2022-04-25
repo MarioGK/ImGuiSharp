@@ -13,6 +13,7 @@ internal class DefinitionsParser
     public TypeDefinition[]                  Types;
     public FunctionDefinition[]              Functions;
     public Dictionary<string, MethodVariant> Variants;
+    public HashSet<string>                   Excluded = new() { "FindBestWindowPosForPopupEx" };
 
     private static int GetInt(JToken token, string key)
     {
@@ -63,9 +64,9 @@ internal class DefinitionsParser
         {
             var jp   = (JProperty)jt;
             var name = jp.Name;
-            if (typeLocations?[jp.Name]?.Value<string>().Contains("internal") ?? false) {
+            /*if (typeLocations?[jp.Name]?.Value<string>().Contains("internal") ?? false) {
                 return null;
-            }
+            }*/
             var elements = jp.Values().Select(v =>
             {
                 return new EnumMemberDefinition(v["name"].ToString(), v["calc_value"].ToString());
@@ -77,9 +78,9 @@ internal class DefinitionsParser
         {
             var jp   = (JProperty)jt;
             var name = jp.Name;
-            if (typeLocations?[jp.Name]?.Value<string>().Contains("internal") ?? false) {
+            /*if (typeLocations?[jp.Name]?.Value<string>().Contains("internal") ?? false) {
                 return null;
-            }
+            }*/
             var fields = jp.Values().Select(v =>
             {
                 if (v["type"].ToString().Contains("static")) { return null; }
@@ -128,10 +129,10 @@ internal class DefinitionsParser
                     }
                 }
                 if (friendlyName == null) { return null; }
-                if (val["location"]?.ToString().Contains("internal") ?? false)
+                /*if (val["location"]?.ToString().Contains("internal") ?? false)
                 {
                     return null;
-                }
+                }*/
 
                 var exportedName = ovCimguiname;
                 if (exportedName == null)
