@@ -1,4 +1,5 @@
 $projects = "cimgui", "cimguizmo", "cimnodes", "cimplot"
+$projectsFolder = "ImGuiSharp", "ImGuizmoSharp", "ImNodesSharp", "ImPlotSharp"
 
 $push=$args[0]
 
@@ -12,8 +13,11 @@ git submodule update --init --recursive
 git submodule update --remote --recursive
 
 #Updating definition files
-foreach ($project in $projects) {
-    $definitionsPath = (Get-Location).ToString() + "\definitions\" + $project
+for ($i = 0; $i -lt $projects.Count; $i++) {
+    $project = $projects[$i]
+    $projectFolder = $projectsFolder[$i]
+
+    $definitionsPath = (Get-Location).ToString() + "\src\" + $projectFolder + "\Definitions\"
 
     $outputPath = ".\native\$project\generator\output"
 
@@ -27,7 +31,7 @@ foreach ($project in $projects) {
 }
 
 #Build Native libs
-.\native\build.ps1
+#.\native\build.ps1
 
 
 #Build generator
