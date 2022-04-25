@@ -54,7 +54,7 @@ internal static class Generator
         }
 
         //Going to root folder to get definitions
-        var definitionsPath = Path.Combine(AppContext.BaseDirectory , "..", "..", "..", "..", $"{projectInfo.ManagedProjectName}", "Definitions");
+        var definitionsPath = Path.Combine(AppContext.BaseDirectory, "defs", $"{projectInfo.NativeProjectName}");
         var defs            = new DefinitionsParser();
         defs.LoadFrom(definitionsPath);
 
@@ -98,7 +98,7 @@ internal static class Generator
             writer.WriteLine("// ReSharper disable once CheckNamespace");
             writer.PushBlock($"namespace {projectInfo.ManagedProjectName}");
 
-            writer.PushBlock($"public unsafe partial struct {td.Name}"); //Needs to be partial
+            writer.PushBlock($"public unsafe partial struct {td.Name}");
             foreach (var field in td.Fields)
             {
                 var typeStr = GetTypeString(field.Type, field.IsFunctionPointer);
@@ -125,7 +125,7 @@ internal static class Generator
             writer.PopBlock();
 
             var ptrTypeName = td.Name + "Ptr";
-            writer.PushBlock($"public unsafe partial struct {ptrTypeName}"); //Needs to be partial
+            writer.PushBlock($"public unsafe partial struct {ptrTypeName}");
             writer.WriteLine($"public {td.Name}* NativePtr {{ get; }}");
             writer.WriteLine($"public {ptrTypeName}({td.Name}* nativePtr) => NativePtr = nativePtr;");
             writer.WriteLine($"public {ptrTypeName}(IntPtr nativePtr) => NativePtr = ({td.Name}*)nativePtr;");
@@ -266,7 +266,7 @@ internal static class Generator
             writer.WriteLine(string.Empty);
             writer.WriteLine("// ReSharper disable once CheckNamespace");
             writer.PushBlock($"namespace {projectInfo.ManagedProjectName}");
-            writer.PushBlock($"public static unsafe class {projectInfo.ClassPrefix}Native"); //Does not need to be partial
+            writer.PushBlock($"public static unsafe partial class {projectInfo.ClassPrefix}Native");
             foreach (var fd in defs.Functions)
             {
                 foreach (var overload in fd.Overloads)
@@ -335,7 +335,7 @@ internal static class Generator
             writer.WriteLine(string.Empty);
             writer.WriteLine("// ReSharper disable once CheckNamespace");
             writer.PushBlock($"namespace {projectInfo.ManagedProjectName}");
-            writer.PushBlock($"public static unsafe class {projectInfo.ClassPrefix}"); //Does not need to be partial
+            writer.PushBlock($"public static unsafe partial class {projectInfo.ClassPrefix}");
             foreach (var fd in defs.Functions)
             {
                 if (TypeInfo.SkippedFunctions.Contains(fd.Name)) { continue; }

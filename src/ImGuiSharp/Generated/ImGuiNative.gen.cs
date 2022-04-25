@@ -6,7 +6,7 @@ using ImGuiSharp.Structs;
 // ReSharper disable once CheckNamespace
 namespace ImGuiSharp
 {
-    public static unsafe class ImGuiNative
+    public static unsafe partial class ImGuiNative
     {
         [DllImport("cimgui", CallingConvention = CallingConvention.Cdecl)]
         public static extern ImGuiPayload* igAcceptDragDropPayload(byte* type, ImGuiDragDropFlags flags);

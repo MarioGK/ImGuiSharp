@@ -15,9 +15,9 @@ git submodule update --remote --recursive
 #Updating definition files
 for ($i = 0; $i -lt $projects.Count; $i++) {
     $project = $projects[$i]
-    $projectFolder = $projectsFolder[$i]
+    #$projectFolder = $projectsFolder[$i]
 
-    $definitionsPath = (Get-Location).ToString() + "\src\" + $projectFolder + "\Definitions\"
+    $definitionsPath = (Get-Location).ToString() + "\src\CodeGenerator\defs\" + $project+ "\"
 
     $outputPath = ".\native\$project\generator\output"
 

@@ -31,6 +31,12 @@ internal class DefinitionsParser
         }
             
         Variants = new Dictionary<string, MethodVariant>();
+
+        if (variantsJson == null)
+        {
+            return;
+        }
+        
         foreach (var jt in variantsJson.Children())
         {
             var jp = (JProperty)jt;
