@@ -10,46 +10,51 @@ namespace CodeGenerator;
 
 internal static class Generator
 {
+    private static readonly List<ProjectInfo> ProjectInfos = new()
+    {
+        new ProjectInfo
+        {
+            NativeProjectName     = "cimgui",
+            ClassPrefix           = "ImGui",
+            ManagedProjectName    = "ImGuiSharp",
+            ReferencesMainProject = false,
+        },
+        new ProjectInfo
+        {
+            NativeProjectName     = "cimplot",
+            ClassPrefix           = "ImPlot",
+            ManagedProjectName    = "ImPlotSharp",
+            ReferencesMainProject = true,
+        },
+        new ProjectInfo
+        {
+            NativeProjectName     = "cimnodes",
+            ClassPrefix           = "ImNodes",
+            ManagedProjectName    = "ImNodesSharp",
+            ReferencesMainProject = true,
+        },
+        new ProjectInfo
+        {
+            NativeProjectName     = "cimguizmo",
+            ClassPrefix           = "ImGuizmo",
+            ManagedProjectName    = "ImGuizmoSharp",
+            ReferencesMainProject = true,
+        },
+    };
+    
+    
     internal static void Generate(string project, string output)
     {
-        var projectNamespace = project switch
-        {
-            "cimgui"    => "ImGuiSharp",
-            "cimplot"   => "ImPlotSharp",
-            "cimnodes"  => "ImnodesSharp",
-            "cimguizmo" => "ImGuizmoSharp",
-            _           => throw new NotImplementedException($"Library \"{project}\" is not supported.")
-        };
+        var projectInfo = ProjectInfos.FirstOrDefault(x => x.NativeProjectName == project);
 
-        var referencesImGui = project switch
+        if (projectInfo == null)
         {
-            "cimgui"    => false,
-            "cimplot"   => true,
-            "cimnodes"  => true,
-            "cimguizmo" => true,
-            _           => throw new NotImplementedException($"Library \"{project}\" is not supported.")
-        };
+            Console.WriteLine($"{project} is not currently supported");
+            return;
+        }
 
-        var classPrefix = project switch
-        {
-            "cimgui"    => "ImGui",
-            "cimplot"   => "ImPlot",
-            "cimnodes"  => "Imnodes",
-            "cimguizmo" => "ImGuizmo",
-            _           => throw new NotImplementedException($"Library \"{project}\" is not supported.")
-        };
-
-        var dllName = project switch
-        {
-            "cimgui"    => "cimgui",
-            "cimplot"   => "cimplot",
-            "cimnodes"  => "cimnodes",
-            "cimguizmo" => "cimguizmo",
-            _           => throw new NotImplementedException()
-        };
-            
         //Going to root folder to get definitions
-        var definitionsPath = Path.Combine(AppContext.BaseDirectory , "..", "..", "..", "..", "..", "definitions", project);
+        var definitionsPath = Path.Combine(AppContext.BaseDirectory , "..", "..", "..", "..", $"{projectInfo.ManagedProjectName}", "Definitions");
         var defs            = new DefinitionsParser();
         defs.LoadFrom(definitionsPath);
 
@@ -59,7 +64,7 @@ internal static class Generator
         {
             using var writer = new CSharpCodeWriter(Path.Combine(output, ed.FriendlyName + ".gen.cs"));
             writer.WriteLine("// ReSharper disable once CheckNamespace");
-            writer.PushBlock($"namespace {projectNamespace}");
+            writer.PushBlock($"namespace {projectInfo.ManagedProjectName}");
             if (ed.FriendlyName.Contains("Flags"))
             {
                 writer.WriteLine("[System.Flags]");
@@ -84,14 +89,14 @@ internal static class Generator
             writer.Using("System.Numerics");
             writer.Using("System.Runtime.CompilerServices");
             writer.Using("System.Text");
-            if (referencesImGui)
+            if (projectInfo.ReferencesMainProject)
             {
                 writer.Using("ImGuiSharp");
             }
             writer.Using("ImGuiSharp.Structs");
             writer.WriteLine(string.Empty);
             writer.WriteLine("// ReSharper disable once CheckNamespace");
-            writer.PushBlock($"namespace {projectNamespace}");
+            writer.PushBlock($"namespace {projectInfo.ManagedProjectName}");
 
             writer.PushBlock($"public unsafe partial struct {td.Name}"); //Needs to be partial
             foreach (var field in td.Fields)
@@ -167,7 +172,7 @@ internal static class Generator
                 }
                 else
                 {
-                    if (typeStr.Contains("*") && !typeStr.Contains("ImVector"))
+                    if (typeStr.Contains('*') && !typeStr.Contains("ImVector"))
                     {
                         if (GetWrappedType(typeStr, out var wrappedTypeName))
                         {
@@ -210,7 +215,7 @@ internal static class Generator
                     {
                         exportedName = exportedName.Substring(2, exportedName.Length - 2);
                     }
-                    if (exportedName.Contains("~")) { continue; }
+                    if (exportedName.Contains('~')) { continue; }
                     if (overload.Parameters.Any(tr => tr.Type.Contains('('))) { continue; } // TODO: Parse function pointer parameters.
 
                     var hasVaList = false;
@@ -239,7 +244,7 @@ internal static class Generator
                         {
                             defaults.Add(orderedDefaults[j].Key, orderedDefaults[j].Value);
                         }
-                        EmitOverload(writer, overload, defaults, "NativePtr", classPrefix);
+                        EmitOverload(writer, overload, defaults, "NativePtr", projectInfo.ClassPrefix);
                     }
                 }
             }
@@ -248,20 +253,20 @@ internal static class Generator
             writer.PopBlock();
         }
 
-        using (var writer = new CSharpCodeWriter(Path.Combine(output, $"{classPrefix}Native.gen.cs")))
+        using (var writer = new CSharpCodeWriter(Path.Combine(output, $"{projectInfo.ClassPrefix}Native.gen.cs")))
         {
             writer.Using("System");
             writer.Using("System.Numerics");
             writer.Using("System.Runtime.InteropServices");
-            if (referencesImGui)
+            if (projectInfo.ReferencesMainProject)
             {
                 writer.Using("ImGuiSharp");
             }
             writer.Using("ImGuiSharp.Structs");
             writer.WriteLine(string.Empty);
             writer.WriteLine("// ReSharper disable once CheckNamespace");
-            writer.PushBlock($"namespace {projectNamespace}");
-            writer.PushBlock($"public static unsafe class {classPrefix}Native"); //Does not need to be partial
+            writer.PushBlock($"namespace {projectInfo.ManagedProjectName}");
+            writer.PushBlock($"public static unsafe class {projectInfo.ClassPrefix}Native"); //Does not need to be partial
             foreach (var fd in defs.Functions)
             {
                 foreach (var overload in fd.Overloads)
@@ -306,8 +311,8 @@ internal static class Generator
                                          : exportedName;
 
                     writer.WriteLine(isUdtVariant
-                                         ? $"[DllImport(\"{dllName}\", CallingConvention = CallingConvention.Cdecl, EntryPoint = \"{exportedName}\")]"
-                                         : $"[DllImport(\"{dllName}\", CallingConvention = CallingConvention.Cdecl)]");
+                                         ? $"[DllImport(\"{projectInfo.NativeProjectName}\", CallingConvention = CallingConvention.Cdecl, EntryPoint = \"{exportedName}\")]"
+                                         : $"[DllImport(\"{projectInfo.NativeProjectName}\", CallingConvention = CallingConvention.Cdecl)]");
                     writer.WriteLine($"public static extern {ret} {methodName}({parameters});");
                 }
             }
@@ -315,13 +320,13 @@ internal static class Generator
             writer.PopBlock();
         }
 
-        using (var writer = new CSharpCodeWriter(Path.Combine(output, $"{classPrefix}.gen.cs")))
+        using (var writer = new CSharpCodeWriter(Path.Combine(output, $"{projectInfo.ClassPrefix}.gen.cs")))
         {
             writer.Using("System");
             writer.Using("System.Numerics");
             writer.Using("System.Runtime.InteropServices");
             writer.Using("System.Text");
-            if (referencesImGui)
+            if (projectInfo.ReferencesMainProject)
             {
                 writer.Using("ImGuiSharp");
                 
@@ -329,8 +334,8 @@ internal static class Generator
             writer.Using("ImGuiSharp.Structs");
             writer.WriteLine(string.Empty);
             writer.WriteLine("// ReSharper disable once CheckNamespace");
-            writer.PushBlock($"namespace {projectNamespace}");
-            writer.PushBlock($"public static unsafe class {classPrefix}"); //Does not need to be partial
+            writer.PushBlock($"namespace {projectInfo.ManagedProjectName}");
+            writer.PushBlock($"public static unsafe class {projectInfo.ClassPrefix}"); //Does not need to be partial
             foreach (var fd in defs.Functions)
             {
                 if (TypeInfo.SkippedFunctions.Contains(fd.Name)) { continue; }
@@ -372,7 +377,7 @@ internal static class Generator
                         {
                             defaults.Add(orderedDefaults[j].Key, orderedDefaults[j].Value);
                         }
-                        EmitOverload(writer, overload, defaults, null, classPrefix);
+                        EmitOverload(writer, overload, defaults, null, projectInfo.ClassPrefix);
                     }
                 }
             }
