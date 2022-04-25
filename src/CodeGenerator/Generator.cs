@@ -395,6 +395,9 @@ internal static class Generator
                 }
             }
         }
+        
+        var f = new Fixes();
+        f.FixShit(output);
     }
 
     private static bool IsStringFieldName(string name)
@@ -606,7 +609,7 @@ internal static class Generator
             else if ((tr.Type.EndsWith("*") || tr.Type.Contains("[") || tr.Type.EndsWith("&")) && tr.Type != "void*" && tr.Type != "ImGuiContext*" && tr.Type != "ImPlotContext*"&& tr.Type != "EditorContext*")
             {
                 string nonPtrType;
-                if (tr.Type.Contains("["))
+                if (tr.Type.Contains('['))
                 {
                     var wellKnown = TypeInfo.WellKnownTypes[tr.Type];
                     nonPtrType = GetTypeString(wellKnown.Substring(0, wellKnown.Length - 1), false);

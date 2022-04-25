@@ -13,7 +13,7 @@ internal class DefinitionsParser
     public TypeDefinition[]                  Types;
     public FunctionDefinition[]              Functions;
     public Dictionary<string, MethodVariant> Variants;
-    public HashSet<string>                   Excluded = new() { "FindBestWindowPosForPopupEx" };
+    public HashSet<string>                   ExcludedStructs = new() { "FindBestWindowPosForPopupEx" };
 
     private static int GetInt(JToken token, string key)
     {
@@ -67,10 +67,13 @@ internal class DefinitionsParser
             /*if (typeLocations?[jp.Name]?.Value<string>().Contains("internal") ?? false) {
                 return null;
             }*/
-            var elements = jp.Values().Select(v =>
+            
+            if(jp.Name.EndsWith("Private_"))
             {
-                return new EnumMemberDefinition(v["name"].ToString(), v["calc_value"].ToString());
-            }).ToArray();
+                return null;
+            }
+            
+            var elements = jp.Values().Select(v => new EnumMemberDefinition(v["name"].ToString(), v["calc_value"].ToString())).ToArray();
             return new EnumDefinition(name, elements);
         }).Where(x => x != null).ToArray();
 
@@ -81,6 +84,12 @@ internal class DefinitionsParser
             /*if (typeLocations?[jp.Name]?.Value<string>().Contains("internal") ?? false) {
                 return null;
             }*/
+
+            if (ExcludedStructs.Contains(name))
+            {
+                return null;
+            }
+            
             var fields = jp.Values().Select(v =>
             {
                 if (v["type"].ToString().Contains("static")) { return null; }
@@ -128,17 +137,14 @@ internal class DefinitionsParser
                         return null;
                     }
                 }
-                if (friendlyName == null) { return null; }
+                if (friendlyName                == null) { return null; }
+                if (val["location"]?.ToString() == "internal") return null;
                 /*if (val["location"]?.ToString().Contains("internal") ?? false)
                 {
                     return null;
                 }*/
 
-                var exportedName = ovCimguiname;
-                if (exportedName == null)
-                {
-                    exportedName = cimguiname;
-                }
+                var exportedName = ovCimguiname ?? cimguiname;
 
                 if (hasNonUdtVariants && !exportedName.EndsWith("nonUDT2"))
                 {
