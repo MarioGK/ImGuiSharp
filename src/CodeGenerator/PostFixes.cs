@@ -30,7 +30,11 @@ public static class PostFixes
 
 		return new List<PostFix>
 		{
-			imGuiStyleMod
+			imGuiStyleMod,
+			imGuiViewportP,
+			imGuiContext,
+			imGui,
+			imGuiInputEvent
 		};
 	}
 	public static void FixShit(string rootPath)

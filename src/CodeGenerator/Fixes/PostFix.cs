@@ -24,7 +24,7 @@ public class PostFix
             var content = File.ReadAllText(filePath);
 
             content = Fixes.Aggregate(content, (current, fix) => fix.Apply(current));
-        
+
             File.WriteAllText(filePath, content);
         }
         catch (Exception e)

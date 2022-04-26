@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace CodeGenerator.Extensions;
@@ -26,6 +28,8 @@ public static class StringExtensions
         return sb.ToString();
     }
     
+    public static bool ContainsAny(this string s, params string[] strings) => strings.Any(s.Contains);
+    
     public static string RemoveLines(this string s, params string[] strings)
     {
         var sr = new StringReader(s);
@@ -33,14 +37,16 @@ public static class StringExtensions
         var sb = new StringBuilder();
         while (sr.ReadLine() is { } line)
         {
-            foreach (var sRemove in strings)
+            foreach (var stringToRemove in strings)
             {
-                if (!line.Contains(sRemove))
+                if (!line.ContainsAny(stringToRemove))
                 {
                     sb.AppendLine(line);
                 }
             }
         }
+        
+        sr.Close();
         return sb.ToString();
     }
 
@@ -60,8 +66,6 @@ public static class StringExtensions
         var    sb = new StringBuilder();
         while (sr.ReadLine() is { } line)
         {
-
-
             if (line.Contains(sRemove))
             {
                 dontAtFor = nrLinesAfter;
@@ -76,6 +80,5 @@ public static class StringExtensions
             }
         }
         return sb.ToString();
-
     }
 }

@@ -10,7 +10,7 @@ internal class CSharpCodeWriter : IDisposable
 
     public CSharpCodeWriter(string outputPath)
     {
-        Console.WriteLine("writing " + outputPath);
+        Console.WriteLine("Writing " + outputPath);
         _sw = File.CreateText(outputPath);
     }
 
