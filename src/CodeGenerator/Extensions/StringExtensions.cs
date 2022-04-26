@@ -37,12 +37,9 @@ public static class StringExtensions
         var sb = new StringBuilder();
         while (sr.ReadLine() is { } line)
         {
-            foreach (var stringToRemove in strings)
+            if (!line.ContainsAny(strings))
             {
-                if (!line.ContainsAny(stringToRemove))
-                {
-                    sb.AppendLine(line);
-                }
+                sb.AppendLine(line);
             }
         }
         
