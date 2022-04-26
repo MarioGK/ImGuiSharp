@@ -15,8 +15,4 @@
   <ItemGroup>
     <Content Include="defs\*\*.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Extensions" />
-  </ItemGroup>
 </Project>

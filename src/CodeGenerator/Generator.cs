@@ -396,8 +396,7 @@ internal static class Generator
             }
         }
         
-        var f = new Fixes();
-        f.FixShit(output);
+        PostFixes.FixShit(output);
     }
 
     private static bool IsStringFieldName(string name)
