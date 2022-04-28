@@ -1,7 +1,7 @@
 ﻿// ReSharper disable once CheckNamespace
-namespace {NAMESPACE};
+namespace |NAMESPACE|;
 
-public unsafe partial struct {STRUCT_NAME}
+public unsafe partial struct |STRUCT_NAME|
 {
-    {CONTENT}
+    |CONTENT|
 }
