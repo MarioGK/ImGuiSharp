@@ -304,16 +304,10 @@ internal static class Generator
                     if (hasVaList) { continue; }
 
                     var parameters = string.Join(", ", paramParts);
+                    
 
-                    var isUdtVariant = exportedName.Contains("nonUDT");
-                    var methodName = isUdtVariant
-                                         ? exportedName[..exportedName.IndexOf("_nonUDT", StringComparison.Ordinal)]
-                                         : exportedName;
-
-                    writer.WriteLine(isUdtVariant
-                                         ? $"[DllImport(\"{projectInfo.NativeProjectName}\", CallingConvention = CallingConvention.Cdecl, EntryPoint = \"{exportedName}\")]"
-                                         : $"[DllImport(\"{projectInfo.NativeProjectName}\", CallingConvention = CallingConvention.Cdecl)]");
-                    writer.WriteLine($"public static extern {ret} {methodName}({parameters});");
+                    writer.WriteLine($"[DllImport(\"{projectInfo.NativeProjectName}\", CallingConvention = CallingConvention.Cdecl)]");
+                    writer.WriteLine($"public static extern {ret} {exportedName}({parameters});");
                 }
             }
             writer.PopBlock();
@@ -744,11 +738,6 @@ internal static class Generator
             default:
                 return GetTypeString(nativeRet, false);
         }
-    }
-
-    private static string GetSafeType(TypeReference typeRef)
-    {
-        return typeRef.Type;
     }
 
     private static bool GetWrappedType(string nativeType, out string wrappedType)

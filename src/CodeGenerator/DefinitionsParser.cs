@@ -30,20 +30,22 @@ internal class DefinitionsParser
             using var jr = new JsonTextReader(fs);
             variantsJson = JObject.Load(jr);
         }
-            
+
         Variants = new Dictionary<string, MethodVariant>();
 
         if (variantsJson == null)
         {
             return;
         }
-        
+
         foreach (var jt in variantsJson.Children())
         {
-            var jp = (JProperty)jt;
+            var jp = (JProperty) jt;
             var methodVariants = jp.Values().Select(jv =>
             {
-                return new ParameterVariant(jv["name"].ToString(), jv["type"].ToString(), jv["variants"].Select(s => s.ToString()).ToArray());
+                return new ParameterVariant(jv["name"]?.ToString(),
+                                            jv["type"]?.ToString(),
+                                            jv["variants"]?.Select(s => s.ToString()).ToArray());
             }).ToArray();
             Variants.Add(jp.Name, new MethodVariant(jp.Name, methodVariants));
         }
@@ -92,11 +94,11 @@ internal class DefinitionsParser
             
             var fields = jp.Values().Select(v =>
             {
-                if (v["type"].ToString().Contains("static")) { return null; }
+                if (v["type"]!.ToString().Contains("static")) { return null; }
 
                     
                 return new TypeReference(
-                                         v["name"].ToString(),
+                                         v["name"]?.ToString(),
                                          v["type"].ToString(),
                                          GetInt(v, "size"),
                                          v["template_type"]?.ToString(),
@@ -125,7 +127,7 @@ internal class DefinitionsParser
                 var ovCimguiname = val["ov_cimguiname"]?.ToString();
                 var cimguiname   = val["cimguiname"]?.ToString();
                 var friendlyName = val["funcname"]?.ToString();
-                if (cimguiname.EndsWith("_destroy"))
+                if (cimguiname!.EndsWith("_destroy"))
                 {
                     friendlyName = "Destroy";
                 }
@@ -155,7 +157,7 @@ internal class DefinitionsParser
                 var underscoreIndex = exportedName.IndexOf('_');
                 if (underscoreIndex > 0 && !exportedName.StartsWith("ig")) // Hack to exclude some weirdly-named non-instance functions.
                 {
-                    selfTypeName = exportedName.Substring(0, underscoreIndex);
+                    selfTypeName = exportedName[..underscoreIndex];
                 }
 
                 var parameters = new List<TypeReference>();
@@ -203,12 +205,7 @@ internal class DefinitionsParser
                                               isConstructor,
                                               isDestructor);
             }).Where(od => od != null).ToArray();
-            if(overloads.Length == 0)
-            {
-                return null;
-            }
-
-            return new FunctionDefinition(name, overloads, Enums);
+            return overloads.Length == 0 ? null : new FunctionDefinition(name, overloads, Enums);
         }).Where(x => x != null).OrderBy(fd => fd.Name).ToArray();
     }
         

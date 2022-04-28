@@ -1,0 +1,7 @@
+﻿// ReSharper disable once CheckNamespace
+namespace {NAMESPACE};
+
+public static unsafe partial class {CLASS_NAME}Native
+{
+    {CONTENT}
+}
