@@ -1,7 +1,7 @@
-﻿using ImguiSharp.Generator.Enumeration;
-using ImguiSharp.Generator.Models;
+﻿using ImGuiSharp.Generator.Enumeration;
+using ImGuiSharp.Generator.Models;
 
-namespace ImguiSharp.Generator.Data;
+namespace ImGuiSharp.Generator;
 
 public static class ProjectInfos
 {
@@ -11,25 +11,25 @@ public static class ProjectInfos
         {
             NativeProject         = NativeProject.cimgui,
             ManagedProject        = ManagedProject.ImGuiSharp,
-            ReferencesMainProject = false,
+            ReferencesMainProject = false
         },
         new ProjectInfo
         {
             NativeProject         = NativeProject.cimplot,
             ManagedProject        = ManagedProject.ImPlotSharp,
-            ReferencesMainProject = true,
+            ReferencesMainProject = true
         },
         new ProjectInfo
         {
             NativeProject         = NativeProject.cimnodes,
             ManagedProject        = ManagedProject.ImNodesSharp,
-            ReferencesMainProject = true,
+            ReferencesMainProject = true
         },
         new ProjectInfo
         {
             NativeProject         = NativeProject.cimguizmo,
             ManagedProject        = ManagedProject.ImGuizmoSharp,
-            ReferencesMainProject = true,
-        },
+            ReferencesMainProject = true
+        }
     };
 }

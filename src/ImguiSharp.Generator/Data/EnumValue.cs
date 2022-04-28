@@ -1,10 +1,9 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace ImguiSharp.Generator.Data;
+namespace ImGuiSharp.Generator.Data;
 
 public class EnumValue
 {
-
     [JsonPropertyName("name")]
     public string Name { get; set; }
 

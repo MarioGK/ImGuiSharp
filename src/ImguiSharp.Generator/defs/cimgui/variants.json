@@ -1,20 +1,20 @@
 {
-    "ImFontAtlas_GetTexDataAsAlpha8": [
-      {
-        "name": "out_pixels",
-        "type": "unsigned char**",
-        "variants": [
-          "IntPtr*"
-        ]
-      }
-    ],
-    "ImFontAtlas_GetTexDataAsRGBA32": [
-      {
-        "name": "out_pixels",
-        "type": "unsigned char**",
-        "variants": [
-          "IntPtr*"
-        ]
-      }
-    ]
-  }
+  "ImFontAtlas_GetTexDataAsAlpha8": [
+    {
+      "name": "out_pixels",
+      "type": "unsigned char**",
+      "variants": [
+        "IntPtr*"
+      ]
+    }
+  ],
+  "ImFontAtlas_GetTexDataAsRGBA32": [
+    {
+      "name": "out_pixels",
+      "type": "unsigned char**",
+      "variants": [
+        "IntPtr*"
+      ]
+    }
+  ]
+}

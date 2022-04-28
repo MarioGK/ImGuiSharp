@@ -1,10 +1,8 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using System.Reflection;
 using Cocona;
-using ImguiSharp.Generator;
-using ImguiSharp.Generator.Data;
-using ImguiSharp.Generator.Enumeration;
+using ImGuiSharp.Generator;
+using ImGuiSharp.Generator.Enumeration;
 
 CoconaApp.Run((ManagedProject? project, string? output) =>
 {
@@ -16,15 +14,16 @@ CoconaApp.Run((ManagedProject? project, string? output) =>
         Console.WriteLine($"Database does not contain any information about the project({project.ToString()}).");
         return;
     }
-    
-    output ??= Path.Join(AppContext.BaseDirectory, "..", "..", "..", "..", "..", projectInfo.ManagedProjectName, "Generated");
-    
+
+    output ??= Path.Join(AppContext.BaseDirectory, "..", "..", "..", "..", "..", projectInfo.ManagedProjectName,
+                         "Generated");
+
     Console.WriteLine(projectInfo.ManagedProjectName);
     Console.WriteLine(output);
-    
-    
+
+
     var generator = new Generator(projectInfo, output);
     generator.Generate();
-    
+
     //Generator.Generate(project, output);
 });

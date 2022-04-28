@@ -1,27 +1,26 @@
 ﻿using System.Text.Json;
-using System.Text.Json.Nodes;
-using ImguiSharp.Generator.Data;
-using ImguiSharp.Generator.Models;
+using ImGuiSharp.Generator.Data;
+using ImGuiSharp.Generator.Models;
 
-namespace ImguiSharp.Generator;
+namespace ImGuiSharp.Generator;
 
 public class Parser
 {
-    public ProjectInfo ProjInfo       { get; set; }
-    public string      DefinitionsDirectory { get; }
-    
-    public List<VariantDefinition>  VariantDefinitions  { get; } = new();
-    public List<EnumDefinition>     EnumDefinitions     { get; } = new();
-    public List<StructDefinition>   StructDefinitions   { get; } = new();
-    public List<FunctionDefinition> FunctionDefinitions { get; } = new();
-    public List<FunctionDefinition> ImplementedDefinitions { get; } = new();
-
     public Parser(ProjectInfo projInfo)
     {
         ProjInfo             = projInfo;
         DefinitionsDirectory = Path.Combine(AppContext.BaseDirectory, "defs", projInfo.NativeProjectName);
     }
-    
+
+    public ProjectInfo ProjInfo             { get; set; }
+    public string      DefinitionsDirectory { get; }
+
+    public List<VariantDefinition>  VariantDefinitions     { get; } = new();
+    public List<EnumDefinition>     EnumDefinitions        { get; } = new();
+    public List<StructDefinition>   StructDefinitions      { get; } = new();
+    public List<FunctionDefinition> FunctionDefinitions    { get; } = new();
+    public List<FunctionDefinition> ImplementedDefinitions { get; } = new();
+
     public void ParseAll()
     {
         ParseVariants();
@@ -30,14 +29,14 @@ public class Parser
         ParseDefinitions();
         ParseImplementedDefinitions();
     }
-    
+
     public void ParseImplementedDefinitions()
     {
         var content = ReadFile("impl_definitions.json");
 
         if (string.IsNullOrEmpty(content))
         {
-            return; 
+            return;
         }
 
         var document = JsonDocument.Parse(content);
@@ -45,7 +44,6 @@ public class Parser
         foreach (var enumProp in document.RootElement.EnumerateObject())
         {
             var id = enumProp.Name;
-            
             
             foreach (var innerProp in enumProp.Value.EnumerateArray())
             {
@@ -61,23 +59,23 @@ public class Parser
             }
         }
     }
-    
+
     public void ParseDefinitions()
     {
         var content = ReadFile("definitions.json");
 
         if (string.IsNullOrEmpty(content))
         {
-            return; 
+            return;
         }
 
-        var document     = JsonDocument.Parse(content);
+        var document = JsonDocument.Parse(content);
 
         foreach (var enumProp in document.RootElement.EnumerateObject())
         {
-            var id       = enumProp.Name;
-            
-            
+            var id = enumProp.Name;
+
+
             foreach (var innerProp in enumProp.Value.EnumerateArray())
             {
                 var functionDefinition = innerProp.Deserialize<FunctionDefinition>();
@@ -99,24 +97,24 @@ public class Parser
 
         if (string.IsNullOrEmpty(content))
         {
-            return; 
+            return;
         }
 
         var document     = JsonDocument.Parse(content);
         var enumsElement = document.RootElement.GetProperty("enums");
         var locations    = document.RootElement.GetProperty("locations");
-        
+
         foreach (var enumProp in enumsElement.EnumerateObject())
         {
             var id       = enumProp.Name;
             var location = locations.GetProperty(id).GetString()!;
-            
+
             var enumDef = new EnumDefinition
             {
-                Id = id,
+                Id       = id,
                 Location = location
             };
-            
+
             foreach (var innerProp in enumProp.Value.EnumerateArray())
             {
                 var enumValue = innerProp.Deserialize<EnumValue>();
@@ -126,7 +124,7 @@ public class Parser
                     enumDef.Values.Add(enumValue);
                 }
             }
-            
+
             EnumDefinitions.Add(enumDef);
         }
     }
@@ -137,13 +135,13 @@ public class Parser
 
         if (string.IsNullOrEmpty(content))
         {
-            return; 
+            return;
         }
 
-        var document     = JsonDocument.Parse(content);
+        var document       = JsonDocument.Parse(content);
         var structsElement = document.RootElement.GetProperty("structs");
-        var locations    = document.RootElement.GetProperty("locations");
-        
+        var locations      = document.RootElement.GetProperty("locations");
+
         foreach (var structProp in structsElement.EnumerateObject())
         {
             var id       = structProp.Name;
@@ -151,7 +149,7 @@ public class Parser
 
             var structDefinition = new StructDefinition
             {
-                Name = id,
+                Name     = id,
                 Location = location
             };
 
@@ -164,7 +162,7 @@ public class Parser
                     structDefinition.Fields.Add(fieldDefinition);
                 }
             }
-            
+
             StructDefinitions.Add(structDefinition);
         }
     }

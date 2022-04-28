@@ -1,4 +1,4 @@
-﻿namespace ImguiSharp.Generator.Data;
+﻿namespace ImGuiSharp.Generator.Data;
 
 public class EnumDefinition
 {

@@ -5,19 +5,17 @@
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <AssemblyName>ImGuiSharp.Generator</AssemblyName>
+        <RootNamespace>ImGuiSharp.Generator</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Cocona" Version="2.0.3" />
-      <PackageReference Include="System.Text.Json" Version="6.0.3" />
+        <PackageReference Include="Cocona" Version="2.0.3"/>
+        <PackageReference Include="System.Text.Json" Version="6.0.3"/>
     </ItemGroup>
 
-  <ItemGroup>
-    <Content Include="defs\*\*.json" CopyToOutputDirectory="PreserveNewest" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Helpers" />
-  </ItemGroup>
+    <ItemGroup>
+        <Content Include="defs\*\*.json" CopyToOutputDirectory="PreserveNewest"/>
+    </ItemGroup>
 
 </Project>

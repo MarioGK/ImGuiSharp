@@ -1,4 +1,4 @@
-﻿namespace ImguiSharp.Generator.Enumeration;
+﻿namespace ImGuiSharp.Generator.Enumeration;
 
 public enum NativeProject
 {

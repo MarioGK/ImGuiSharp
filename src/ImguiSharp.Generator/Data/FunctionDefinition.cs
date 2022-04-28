@@ -1,10 +1,11 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace ImguiSharp.Generator.Data;
+namespace ImGuiSharp.Generator.Data;
 
 public class FunctionDefinition
 {
-    public string  Id { get; set; }
+    public string Id { get; set; }
+
     [JsonPropertyName("args")]
     public string RawArguments { get; set; }
 
