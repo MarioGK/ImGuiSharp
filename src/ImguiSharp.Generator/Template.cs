@@ -51,6 +51,12 @@ public class Template
 
     public void Set(string from, string to)
     {
+        if (from == "CONTENT")
+        {
+            //Content = Content.Replace($"|{from}|", $"\t{to}");
+            Content = Regex.Replace(Content, @".*\|CONTENT\|", $"\t{to}");
+            return;
+        }
         Content = Content.Replace($"|{from}|", to);
     }
 

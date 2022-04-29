@@ -43,7 +43,7 @@ This can be considered a fork of the awesome project by mellinoe [ImGui.Net](htt
 
 # Community 
 
-[![Discord](https://badgen.net/badge/icon/discord?icon=discord&label)](https://https://discord.com/)
+[![Discord](https://badgen.net/badge/icon/discord?icon=discord&label)](https://discord.com/invite/G8vYJRZ6JT)
 
 # [Credits](https://github.com/MarioGK/ImGuiSharp/blob/main/CREDITS.md)
 
