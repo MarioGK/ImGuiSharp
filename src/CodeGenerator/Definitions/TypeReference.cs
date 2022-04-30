@@ -25,8 +25,7 @@ internal class TypeReference
     {
         Name = name;
         Type = type.Replace("const", string.Empty).Trim();
-
-
+        
         if (Type.StartsWith("ImVector_"))
         {
             Type = Type.EndsWith("*") ? "ImVector*" : "ImVector";

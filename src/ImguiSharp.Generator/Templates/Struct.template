@@ -3,5 +3,5 @@ namespace |NAMESPACE|;
 
 public unsafe partial struct |STRUCT_NAME|
 {
-    |CONTENT|
+|CONTENT|
 }

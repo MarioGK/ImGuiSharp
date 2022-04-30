@@ -3,9 +3,11 @@
 using Cocona;
 using ImGuiSharp.Generator;
 using ImGuiSharp.Generator.Enumeration;
+using ImGuiSharp.Generator.Helpers;
 
 CoconaApp.Run((ManagedProject? project, string? output) =>
 {
+    using var timer = new MeasureTimer("Whole process");
     project ??= ManagedProject.ImGuiSharp;
     var projectInfo = ProjectInfos.Infos.FirstOrDefault(x => x.ManagedProject == project);
 
@@ -15,8 +17,9 @@ CoconaApp.Run((ManagedProject? project, string? output) =>
         return;
     }
 
-    output ??= Path.Join(AppContext.BaseDirectory, "..", "..", "..", "..", "..", projectInfo.ManagedProjectName,
-                         "Generated");
+    var root = Path.Join(AppContext.BaseDirectory, "..", "..", "..", "..", "..");
+
+    output ??= Path.Join(root, "src" , projectInfo.ManagedProjectName, "Generated");
 
     Console.WriteLine(projectInfo.ManagedProjectName);
     Console.WriteLine(output);

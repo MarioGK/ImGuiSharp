@@ -111,7 +111,7 @@ public class Parser
 
             var enumDef = new EnumDefinition
             {
-                Id       = id,
+                Name       = id,
                 Location = location
             };
 
@@ -155,7 +155,7 @@ public class Parser
 
             foreach (var innerProp in structProp.Value.EnumerateArray())
             {
-                var fieldDefinition = innerProp.Deserialize<StructField>();
+                var fieldDefinition = innerProp.Deserialize<TypeDefinition>();
 
                 if (fieldDefinition != null)
                 {

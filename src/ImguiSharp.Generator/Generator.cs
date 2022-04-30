@@ -38,15 +38,34 @@ public class Generator
 
             foreach (var field in structDefinition.Fields)
             {
+                field.CleanType();
                 var fieldCode = fieldTemplate.Copy();
-                fieldCode.Set("TYPE", field.Type);
-                fieldCode.Set("FIELD_NAME", field.Name);
+                
+                //Convert C++ type to C# type
+                var managedType = TypeInfo.Types.FirstOrDefault(t => t.Key == field.Type);
+
+                //If no managed type, use the default type
+                fieldCode.Set("TYPE",       managedType.Key == null ? field.Type : managedType.Value);
+                fieldCode.Set("FIELD_NAME", field.FriendlyName);
                 fieldCode.CleanUnused();
                 fields.Append(fieldCode);
             }
             
             structCode.Set("CONTENT", fields.ToString());
             structCode.CleanUnused();
+            
+            Write(structDefinition.Name + ".gen.cs", structCode.ToString());
         }
+    }
+
+    private void Write(string fileName, string content)
+    {
+        var path = Path.Combine(Output, fileName);
+        if(!Directory.Exists(Output))
+        {
+            Directory.CreateDirectory(Output);
+        }
+
+        File.WriteAllText(path, content);
     }
 }

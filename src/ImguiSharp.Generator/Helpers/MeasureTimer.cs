@@ -2,12 +2,12 @@
 
 namespace ImGuiSharp.Generator.Helpers;
 
-public class Timer : IDisposable
+public class MeasureTimer : IDisposable
 {
     private readonly string    _message;
     private readonly Stopwatch _stopwatch;
 
-    public Timer(string message = "")
+    public MeasureTimer(string message = "")
     {
         _message   = message;
         _stopwatch = new Stopwatch();

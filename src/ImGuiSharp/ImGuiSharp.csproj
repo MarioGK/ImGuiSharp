@@ -44,6 +44,6 @@
   </ItemGroup>
   
   <ItemGroup>
-    <Folder Include="Generated" />
+    <Folder Include="GeneratedOld" />
   </ItemGroup>
 </Project>
