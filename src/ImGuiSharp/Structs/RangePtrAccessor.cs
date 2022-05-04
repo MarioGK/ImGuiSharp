@@ -6,7 +6,7 @@ namespace ImGuiSharp.Structs;
 public unsafe readonly struct RangePtrAccessor<T> where T : struct
 {
     public readonly void* Data;
-    public readonly int   Count;
+    public readonly int Count;
 
     public RangePtrAccessor(IntPtr data, int count) : this(data.ToPointer(), count)
     {
@@ -14,7 +14,7 @@ public unsafe readonly struct RangePtrAccessor<T> where T : struct
 
     public RangePtrAccessor(void* data, int count)
     {
-        Data  = data;
+        Data = data;
         Count = count;
     }
 

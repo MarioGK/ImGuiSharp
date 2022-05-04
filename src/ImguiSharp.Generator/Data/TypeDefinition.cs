@@ -17,20 +17,17 @@ public class TypeDefinition
 
     [JsonPropertyName("size")]
     public int? ArraySize { get; set; }
-    
+
     [JsonIgnore]
     public string[] TypeVariants { get; }
-    
+
     public bool IsFunctionPointer => Type.IndexOf('(') != -1;
 
     private string GetFriendlyName()
     {
         var words = Name.Split('_').Where(x => !string.IsNullOrEmpty(x)).ToArray();
-        for (var i = 0; i < words.Length; i++)
-        {
-            words[i] = words[i][..1].ToUpper() + words[i][1..];
-        }
-        
+        for (var i = 0; i < words.Length; i++) words[i] = words[i][..1].ToUpper() + words[i][1..];
+
         return string.Join("", words);
     }
 

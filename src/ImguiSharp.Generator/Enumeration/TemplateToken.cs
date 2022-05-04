@@ -2,5 +2,4 @@
 
 public enum TemplateToken
 {
-    
 }

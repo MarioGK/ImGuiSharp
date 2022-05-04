@@ -1,17 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
-    <LangVersion>preview</LangVersion>
-  </PropertyGroup>
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net6.0</TargetFramework>
+        <LangVersion>preview</LangVersion>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Cocona" Version="2.0.3" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Cocona" Version="2.0.3"/>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.1"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <Content Include="defs\*\*.json" CopyToOutputDirectory="PreserveNewest" />
-  </ItemGroup>
+    <ItemGroup>
+        <Content Include="defs\*\*.json" CopyToOutputDirectory="PreserveNewest"/>
+    </ItemGroup>
 </Project>

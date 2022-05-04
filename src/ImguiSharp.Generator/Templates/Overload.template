@@ -1,0 +1,6 @@
+﻿// ReSharper disable once CheckNamespace
+namespace |NAMESPACE|;
+
+public unsafe partial struct |STRUCT_NAME|Ptr
+{
+}

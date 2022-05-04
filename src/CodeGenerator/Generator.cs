@@ -14,35 +14,35 @@ internal static class Generator
     {
         new ProjectInfo
         {
-            NativeProjectName     = "cimgui",
-            ClassPrefix           = "ImGui",
-            ManagedProjectName    = "ImGuiSharp",
-            ReferencesMainProject = false,
+            NativeProjectName = "cimgui",
+            ClassPrefix = "ImGui",
+            ManagedProjectName = "ImGuiSharp",
+            ReferencesMainProject = false
         },
         new ProjectInfo
         {
-            NativeProjectName     = "cimplot",
-            ClassPrefix           = "ImPlot",
-            ManagedProjectName    = "ImPlotSharp",
-            ReferencesMainProject = true,
+            NativeProjectName = "cimplot",
+            ClassPrefix = "ImPlot",
+            ManagedProjectName = "ImPlotSharp",
+            ReferencesMainProject = true
         },
         new ProjectInfo
         {
-            NativeProjectName     = "cimnodes",
-            ClassPrefix           = "ImNodes",
-            ManagedProjectName    = "ImNodesSharp",
-            ReferencesMainProject = true,
+            NativeProjectName = "cimnodes",
+            ClassPrefix = "ImNodes",
+            ManagedProjectName = "ImNodesSharp",
+            ReferencesMainProject = true
         },
         new ProjectInfo
         {
-            NativeProjectName     = "cimguizmo",
-            ClassPrefix           = "ImGuizmo",
-            ManagedProjectName    = "ImGuizmoSharp",
-            ReferencesMainProject = true,
-        },
+            NativeProjectName = "cimguizmo",
+            ClassPrefix = "ImGuizmo",
+            ManagedProjectName = "ImGuizmoSharp",
+            ReferencesMainProject = true
+        }
     };
-    
-    
+
+
     internal static void Generate(string project, string output)
     {
         var projectInfo = ProjectInfos.FirstOrDefault(x => x.NativeProjectName == project);
@@ -55,7 +55,7 @@ internal static class Generator
 
         //Going to root folder to get definitions
         var definitionsPath = Path.Combine(AppContext.BaseDirectory, "defs", $"{projectInfo.NativeProjectName}");
-        var defs            = new DefinitionsParser();
+        var defs = new DefinitionsParser();
         defs.LoadFrom(definitionsPath);
 
         Console.WriteLine($"Outputting generated code files to {output}.");
@@ -69,20 +69,25 @@ internal static class Generator
             {
                 writer.WriteLine("[System.Flags]");
             }
+
             writer.PushBlock($"public enum {ed.FriendlyName}");
             foreach (var member in ed.Members)
             {
-                var sanitizedName  = ed.SanitizeNames(member.Name);
+                var sanitizedName = ed.SanitizeNames(member.Name);
                 var sanitizedValue = ed.SanitizeNames(member.Value);
                 writer.WriteLine($"{sanitizedName} = {sanitizedValue},");
             }
+
             writer.PopBlock();
             writer.PopBlock();
         }
 
         foreach (var td in defs.Types)
         {
-            if (TypeInfo.CustomDefinedTypes.Contains(td.Name)) { continue; }
+            if (TypeInfo.CustomDefinedTypes.Contains(td.Name))
+            {
+                continue;
+            }
 
             using var writer = new CSharpCodeWriter(Path.Combine(output, td.Name + ".gen.cs"));
             writer.Using("System");
@@ -93,11 +98,13 @@ internal static class Generator
             {
                 writer.Using("ImGuiSharp");
             }
+
             writer.Using("ImGuiSharp.Structs");
             writer.WriteLine(string.Empty);
             writer.WriteLine("// ReSharper disable once CheckNamespace");
             writer.PushBlock($"namespace {projectInfo.ManagedProjectName}");
 
+            //Generates structs
             writer.PushBlock($"public unsafe partial struct {td.Name}");
             foreach (var field in td.Fields)
             {
@@ -105,23 +112,25 @@ internal static class Generator
 
                 if (field.ArraySize != 0)
                 {
+                    //Checks if is a managed type
                     if (TypeInfo.LegalFixedTypes.Contains(typeStr))
                     {
                         writer.WriteLine($"public fixed {typeStr} {field.Name}[{field.ArraySize}];");
                     }
                     else
                     {
+                        //If not managed type, we need to use a pointer and a hacky way to get the size and values
                         for (var i = 0; i < field.ArraySize; i++)
-                        {
                             writer.WriteLine($"public {typeStr} {field.Name}_{i};");
-                        }
                     }
                 }
                 else
                 {
+                    //simple field
                     writer.WriteLine($"public {typeStr} {field.Name};");
                 }
             }
+
             writer.PopBlock();
 
             var ptrTypeName = td.Name + "Ptr";
@@ -145,7 +154,9 @@ internal static class Generator
 
                 if (field.ArraySize != 0)
                 {
-                    var addrTarget = TypeInfo.LegalFixedTypes.Contains(rawType) ? $"NativePtr->{field.Name}" : $"&NativePtr->{field.Name}_0";
+                    var addrTarget = TypeInfo.LegalFixedTypes.Contains(rawType)
+                                         ? $"NativePtr->{field.Name}"
+                                         : $"&NativePtr->{field.Name}_0";
                     writer.WriteLine($"public RangeAccessor<{typeStr}> {field.Name} => new RangeAccessor<{typeStr}>({addrTarget}, {field.ArraySize});");
                 }
                 else if (typeStr.Contains("ImVector"))
@@ -167,6 +178,7 @@ internal static class Generator
                         {
                             vectorElementType = wrappedElementType;
                         }
+
                         writer.WriteLine($"public ImVector<{vectorElementType}> {field.Name} => new ImVector<{vectorElementType}>(NativePtr->{field.Name});");
                     }
                 }
@@ -195,59 +207,71 @@ internal static class Generator
             }
 
             foreach (var fd in defs.Functions)
+            foreach (var overload in fd.Overloads)
             {
-                foreach (var overload in fd.Overloads)
+                if (overload.StructName != td.Name)
                 {
-                    if (overload.StructName != td.Name)
+                    continue;
+                }
+
+                if (overload.IsConstructor)
+                {
+                    // TODO: Emit a static function on the type that invokes the native constructor.
+                    // Also, add a "Dispose" function or similar.
+                    continue;
+                }
+
+                var exportedName = overload.ExportedName;
+                if (exportedName.StartsWith("ig"))
+                {
+                    exportedName = exportedName.Substring(2, exportedName.Length - 2);
+                }
+
+                if (exportedName.Contains('~'))
+                {
+                    continue;
+                }
+
+                if (overload.Parameters.Any(tr => tr.Type.Contains('(')))
+                {
+                    continue;
+                } // TODO: Parse function pointer parameters.
+
+                var hasVaList = false;
+                foreach (var p in overload.Parameters)
+                {
+                    var paramType = GetTypeString(p.Type, p.IsFunctionPointer);
+                    if (p.Name == "...")
                     {
                         continue;
                     }
 
-                    if (overload.IsConstructor)
+                    if (paramType != "va_list")
                     {
-                        // TODO: Emit a static function on the type that invokes the native constructor.
-                        // Also, add a "Dispose" function or similar.
                         continue;
                     }
 
-                    var exportedName = overload.ExportedName;
-                    if (exportedName.StartsWith("ig"))
-                    {
-                        exportedName = exportedName.Substring(2, exportedName.Length - 2);
-                    }
-                    if (exportedName.Contains('~')) { continue; }
-                    if (overload.Parameters.Any(tr => tr.Type.Contains('('))) { continue; } // TODO: Parse function pointer parameters.
+                    hasVaList = true;
+                    break;
+                }
 
-                    var hasVaList = false;
-                    foreach (var p in overload.Parameters)
-                    {
-                        var paramType = GetTypeString(p.Type, p.IsFunctionPointer);
-                        if (p.Name == "...") { continue; }
+                if (hasVaList)
+                {
+                    continue;
+                }
 
-                        if (paramType != "va_list")
-                        {
-                            continue;
-                        }
+                var orderedDefaults = overload.DefaultValues.OrderByDescending(
+                                                                               kvp => GetIndex(overload.Parameters,
+                                                                                kvp.Key)).ToArray();
 
-                        hasVaList = true;
-                        break;
-                    }
-                    if (hasVaList) { continue; }
-
-                    var orderedDefaults = overload.DefaultValues.OrderByDescending(
-                     kvp => GetIndex(overload.Parameters, kvp.Key)).ToArray();
-
-                    for (var i = overload.DefaultValues.Count; i >= 0; i--)
-                    {
-                        var defaults = new Dictionary<string, string>();
-                        for (var j = 0; j < i; j++)
-                        {
-                            defaults.Add(orderedDefaults[j].Key, orderedDefaults[j].Value);
-                        }
-                        EmitOverload(writer, overload, defaults, "NativePtr", projectInfo.ClassPrefix);
-                    }
+                for (var i = overload.DefaultValues.Count; i >= 0; i--)
+                {
+                    var defaults = new Dictionary<string, string>();
+                    for (var j = 0; j < i; j++) defaults.Add(orderedDefaults[j].Key, orderedDefaults[j].Value);
+                    EmitOverload(writer, overload, defaults, "NativePtr", projectInfo.ClassPrefix);
                 }
             }
+
             writer.PopBlock();
 
             writer.PopBlock();
@@ -262,54 +286,74 @@ internal static class Generator
             {
                 writer.Using("ImGuiSharp");
             }
+
             writer.Using("ImGuiSharp.Structs");
             writer.WriteLine(string.Empty);
             writer.WriteLine("// ReSharper disable once CheckNamespace");
             writer.PushBlock($"namespace {projectInfo.ManagedProjectName}");
             writer.PushBlock($"public static unsafe partial class {projectInfo.ClassPrefix}Native");
             foreach (var fd in defs.Functions)
+            foreach (var overload in fd.Overloads)
             {
-                foreach (var overload in fd.Overloads)
+                var exportedName = overload.ExportedName;
+                if (exportedName.Contains('~'))
                 {
-                    var exportedName = overload.ExportedName;
-                    if (exportedName.Contains('~')) { continue; }
-                    if (exportedName.Contains("ImVector_")) { continue; }
-                    if (exportedName.Contains("ImChunkStream_")) { continue; }
+                    continue;
+                }
 
-                    if (overload.Parameters.Any(tr => tr.Type.Contains('('))) { continue; } // TODO: Parse function pointer parameters.
+                if (exportedName.Contains("ImVector_"))
+                {
+                    continue;
+                }
 
-                    var ret = GetTypeString(overload.ReturnType, false);
+                if (exportedName.Contains("ImChunkStream_"))
+                {
+                    continue;
+                }
 
-                    var hasVaList  = false;
-                    var paramParts = new List<string>();
-                    foreach (var p in overload.Parameters)
+                if (overload.Parameters.Any(tr => tr.Type.Contains('(')))
+                {
+                    continue;
+                } // TODO: Parse function pointer parameters.
+
+                var ret = GetTypeString(overload.ReturnType, false);
+
+                var hasVaList = false;
+                var paramParts = new List<string>();
+                foreach (var p in overload.Parameters)
+                {
+                    var paramType = GetTypeString(p.Type, p.IsFunctionPointer);
+                    if (p.ArraySize != 0)
                     {
-                        var paramType = GetTypeString(p.Type, p.IsFunctionPointer);
-                        if (p.ArraySize != 0)
-                        {
-                            paramType = paramType + "*";
-                        }
-
-                        if (p.Name == "...") { continue; }
-
-                        paramParts.Add($"{paramType} {CorrectIdentifier(p.Name)}");
-
-                        if (paramType == "va_list")
-                        {
-                            hasVaList = true;
-                            break;
-                        }
+                        paramType = paramType + "*";
                     }
 
-                    if (hasVaList) { continue; }
+                    if (p.Name == "...")
+                    {
+                        continue;
+                    }
 
-                    var parameters = string.Join(", ", paramParts);
-                    
+                    paramParts.Add($"{paramType} {CorrectIdentifier(p.Name)}");
 
-                    writer.WriteLine($"[DllImport(\"{projectInfo.NativeProjectName}\", CallingConvention = CallingConvention.Cdecl)]");
-                    writer.WriteLine($"public static extern {ret} {exportedName}({parameters});");
+                    if (paramType == "va_list")
+                    {
+                        hasVaList = true;
+                        break;
+                    }
                 }
+
+                if (hasVaList)
+                {
+                    continue;
+                }
+
+                var parameters = string.Join(", ", paramParts);
+
+
+                writer.WriteLine($"[DllImport(\"{projectInfo.NativeProjectName}\", CallingConvention = CallingConvention.Cdecl)]");
+                writer.WriteLine($"public static extern {ret} {exportedName}({parameters});");
             }
+
             writer.PopBlock();
             writer.PopBlock();
         }
@@ -323,8 +367,8 @@ internal static class Generator
             if (projectInfo.ReferencesMainProject)
             {
                 writer.Using("ImGuiSharp");
-                
             }
+
             writer.Using("ImGuiSharp.Structs");
             writer.WriteLine(string.Empty);
             writer.WriteLine("// ReSharper disable once CheckNamespace");
@@ -332,7 +376,10 @@ internal static class Generator
             writer.PushBlock($"public static unsafe partial class {projectInfo.ClassPrefix}");
             foreach (var fd in defs.Functions)
             {
-                if (TypeInfo.SkippedFunctions.Contains(fd.Name)) { continue; }
+                if (TypeInfo.SkippedFunctions.Contains(fd.Name))
+                {
+                    continue;
+                }
 
                 foreach (var overload in fd.Overloads)
                 {
@@ -341,14 +388,25 @@ internal static class Generator
                     {
                         exportedName = exportedName.Substring(2, exportedName.Length - 2);
                     }
-                    if (exportedName.Contains("~")) { continue; }
-                    if (overload.Parameters.Any(tr => tr.Type.Contains('('))) { continue; } // TODO: Parse function pointer parameters.
+
+                    if (exportedName.Contains("~"))
+                    {
+                        continue;
+                    }
+
+                    if (overload.Parameters.Any(tr => tr.Type.Contains('(')))
+                    {
+                        continue;
+                    } // TODO: Parse function pointer parameters.
 
                     var hasVaList = false;
                     foreach (var p in overload.Parameters)
                     {
                         var paramType = GetTypeString(p.Type, p.IsFunctionPointer);
-                        if (p.Name == "...") { continue; }
+                        if (p.Name == "...")
+                        {
+                            continue;
+                        }
 
                         if (paramType != "va_list")
                         {
@@ -358,38 +416,40 @@ internal static class Generator
                         hasVaList = true;
                         break;
                     }
-                    if (hasVaList) { continue; }
+
+                    if (hasVaList)
+                    {
+                        continue;
+                    }
 
                     var orderedDefaults = overload.DefaultValues.OrderByDescending(
                      kvp => GetIndex(overload.Parameters, kvp.Key)).ToArray();
 
                     for (var i = overload.DefaultValues.Count; i >= 0; i--)
                     {
-                        if (overload.IsMemberFunction) { continue; }
-                        var defaults = new Dictionary<string, string>();
-                        for (var j = 0; j < i; j++)
+                        if (overload.IsMemberFunction)
                         {
-                            defaults.Add(orderedDefaults[j].Key, orderedDefaults[j].Value);
+                            continue;
                         }
+
+                        var defaults = new Dictionary<string, string>();
+                        for (var j = 0; j < i; j++) defaults.Add(orderedDefaults[j].Key, orderedDefaults[j].Value);
                         EmitOverload(writer, overload, defaults, null, projectInfo.ClassPrefix);
                     }
                 }
             }
+
             writer.PopBlock();
             writer.PopBlock();
         }
 
         foreach (var method in defs.Variants)
-        {
-            foreach (var variant in method.Value.Parameters)
+        foreach (var variant in method.Value.Parameters)
+            if (!variant.Used)
             {
-                if (!variant.Used)
-                {
-                    Console.WriteLine($"Error: Variants targetting parameter {variant.Name} with type {variant.OriginalType} could not be applied to method {method.Key}.");
-                }
+                Console.WriteLine($"Error: Variants targetting parameter {variant.Name} with type {variant.OriginalType} could not be applied to method {method.Key}.");
             }
-        }
-        
+
         PostFixes.FixShit(output);
     }
 
@@ -400,8 +460,8 @@ internal static class Generator
 
     private static string GetImVectorElementType(string typeStr)
     {
-        var start  = typeStr.IndexOf('<') + 1;
-        var end    = typeStr.IndexOf('>');
+        var start = typeStr.IndexOf('<') + 1;
+        var end = typeStr.IndexOf('>');
         var length = end - start;
         return typeStr.Substring(start, length);
     }
@@ -409,19 +469,20 @@ internal static class Generator
     private static int GetIndex(TypeReference[] parameters, string key)
     {
         for (var i = 0; i < parameters.Length; i++)
-        {
-            if (key == parameters[i].Name) { return i; }
-        }
+            if (key == parameters[i].Name)
+            {
+                return i;
+            }
 
         throw new InvalidOperationException();
     }
 
     private static void EmitOverload(
-        CSharpCodeWriter           writer,
-        OverloadDefinition         overload,
+        CSharpCodeWriter writer,
+        OverloadDefinition overload,
         Dictionary<string, string> defaultValues,
-        string                     selfName,
-        string                     classPrefix)
+        string selfName,
+        string classPrefix)
     {
         if (overload.Parameters.Where(tr => tr.Name.EndsWith("_begin") || tr.Name.EndsWith("_end"))
                     .Any(tr => !defaultValues.ContainsKey(tr.Name)))
@@ -431,21 +492,21 @@ internal static class Generator
 
         Debug.Assert(!overload.IsMemberFunction || selfName != null);
 
-        var nativeRet     = GetTypeString(overload.ReturnType, false);
+        var nativeRet = GetTypeString(overload.ReturnType, false);
         var isWrappedType = GetWrappedType(nativeRet, out var safeRet);
         if (!isWrappedType)
         {
             safeRet = GetSafeType(overload.ReturnType);
         }
 
-        var    invocationArgs       = new List<string>();
-        var    marshalledParameters = new MarshalledParameter[overload.Parameters.Length];
-        var    preCallLines         = new List<string>();
-        var    postCallLines        = new List<string>();
-        var    byRefParams          = new List<string>();
-        var    selfIndex            = -1;
-        var    pOutIndex            = -1;
-        string overrideRet          = null;
+        var invocationArgs = new List<string>();
+        var marshalledParameters = new MarshalledParameter[overload.Parameters.Length];
+        var preCallLines = new List<string>();
+        var postCallLines = new List<string>();
+        var byRefParams = new List<string>();
+        var selfIndex = -1;
+        var pOutIndex = -1;
+        string overrideRet = null;
         for (var i = 0; i < overload.Parameters.Length; i++)
         {
             var tr = overload.Parameters[i];
@@ -459,18 +520,19 @@ internal static class Generator
             }
 
             var correctedIdentifier = CorrectIdentifier(tr.Name);
-            var nativeTypeName      = GetTypeString(tr.Type, tr.IsFunctionPointer);
+            var nativeTypeName = GetTypeString(tr.Type, tr.IsFunctionPointer);
             if (correctedIdentifier == "pOut" && overload.ReturnType == "void")
             {
-                pOutIndex   = i;
+                pOutIndex = i;
                 overrideRet = nativeTypeName.TrimEnd('*');
                 preCallLines.Add($"{overrideRet} __retval;");
                 continue;
             }
+
             if (tr.Type == "char*")
             {
                 var textToEncode = correctedIdentifier;
-                var hasDefault   = false;
+                var hasDefault = false;
                 if (defaultValues.TryGetValue(tr.Name, out var defaultStrVal))
                 {
                     hasDefault = true;
@@ -498,17 +560,21 @@ internal static class Generator
                         preCallLines.Add($"if ({textToEncode} != null)");
                         preCallLines.Add("{");
                     }
-                    preCallLines.Add($"    {correctedIdentifier}_byteCount = Encoding.UTF8.GetByteCount({textToEncode});");
+
+                    preCallLines
+                       .Add($"    {correctedIdentifier}_byteCount = Encoding.UTF8.GetByteCount({textToEncode});");
                     preCallLines.Add($"    if ({correctedIdentifier}_byteCount > Util.StackAllocationSizeLimit)");
-                    preCallLines.Add($"    {{");
+                    preCallLines.Add("    {");
                     preCallLines.Add($"        {nativeArgName} = Util.Allocate({correctedIdentifier}_byteCount + 1);");
-                    preCallLines.Add($"    }}");
-                    preCallLines.Add($"    else");
-                    preCallLines.Add($"    {{");
-                    preCallLines.Add($"        byte* {nativeArgName}_stackBytes = stackalloc byte[{correctedIdentifier}_byteCount + 1];");
+                    preCallLines.Add("    }");
+                    preCallLines.Add("    else");
+                    preCallLines.Add("    {");
+                    preCallLines
+                       .Add($"        byte* {nativeArgName}_stackBytes = stackalloc byte[{correctedIdentifier}_byteCount + 1];");
                     preCallLines.Add($"        {nativeArgName} = {nativeArgName}_stackBytes;");
-                    preCallLines.Add($"    }}");
-                    preCallLines.Add($"    int {nativeArgName}_offset = Util.GetUtf8({textToEncode}, {nativeArgName}, {correctedIdentifier}_byteCount);");
+                    preCallLines.Add("    }");
+                    preCallLines
+                       .Add($"    int {nativeArgName}_offset = Util.GetUtf8({textToEncode}, {nativeArgName}, {correctedIdentifier}_byteCount);");
                     preCallLines.Add($"    {nativeArgName}[{nativeArgName}_offset] = 0;");
 
                     if (!hasDefault)
@@ -518,9 +584,9 @@ internal static class Generator
                     }
 
                     postCallLines.Add($"if ({correctedIdentifier}_byteCount > Util.StackAllocationSizeLimit)");
-                    postCallLines.Add($"{{");
+                    postCallLines.Add("{");
                     postCallLines.Add($"    Util.Free({nativeArgName});");
-                    postCallLines.Add($"}}");
+                    postCallLines.Add("}");
                 }
             }
             else if (defaultValues.TryGetValue(tr.Name, out var defaultVal))
@@ -529,6 +595,7 @@ internal static class Generator
                 {
                     correctedDefault = defaultVal;
                 }
+
                 marshalledParameters[i] = new MarshalledParameter(nativeTypeName, false, correctedIdentifier, true);
                 preCallLines.Add($"{nativeTypeName} {correctedIdentifier} = {correctedDefault};");
             }
@@ -537,7 +604,8 @@ internal static class Generator
                 var nativeArgName = "native_" + tr.Name;
                 marshalledParameters[i] = new MarshalledParameter("string[]", false, nativeArgName, false);
 
-                preCallLines.Add($"int* {correctedIdentifier}_byteCounts = stackalloc int[{correctedIdentifier}.Length];");
+                preCallLines
+                   .Add($"int* {correctedIdentifier}_byteCounts = stackalloc int[{correctedIdentifier}.Length];");
 
                 preCallLines.Add($"int {correctedIdentifier}_byteCount = 0;");
                 preCallLines.Add($"for (int i = 0; i < {correctedIdentifier}.Length; i++)");
@@ -553,11 +621,12 @@ internal static class Generator
                 preCallLines.Add($"for (int i = 0; i < {correctedIdentifier}.Length; i++)");
                 preCallLines.Add("{");
                 preCallLines.Add($"    string s = {correctedIdentifier}[i];");
-                preCallLines.Add($"    fixed (char* sPtr = s)");
+                preCallLines.Add("    fixed (char* sPtr = s)");
                 preCallLines.Add("    {");
-                preCallLines.Add($"        offset += Encoding.UTF8.GetBytes(sPtr, s.Length, {nativeArgName}_data + offset, {correctedIdentifier}_byteCounts[i]);");
+                preCallLines
+                   .Add($"        offset += Encoding.UTF8.GetBytes(sPtr, s.Length, {nativeArgName}_data + offset, {correctedIdentifier}_byteCounts[i]);");
                 preCallLines.Add($"        {nativeArgName}_data[offset] = 0;");
-                preCallLines.Add($"        offset += 1;");
+                preCallLines.Add("        offset += 1;");
                 preCallLines.Add("    }");
                 preCallLines.Add("}");
 
@@ -586,9 +655,10 @@ internal static class Generator
             else if (tr.Type == "void*" || tr.Type == "ImWchar*")
             {
                 var nativePtrTypeName = tr.Type == "void*" ? "void*" : "ushort*";
-                var nativeArgName     = "native_" + tr.Name;
+                var nativeArgName = "native_" + tr.Name;
                 marshalledParameters[i] = new MarshalledParameter("IntPtr", false, nativeArgName, false);
-                preCallLines.Add($"{nativePtrTypeName} {nativeArgName} = ({nativePtrTypeName}){correctedIdentifier}.ToPointer();");
+                preCallLines
+                   .Add($"{nativePtrTypeName} {nativeArgName} = ({nativePtrTypeName}){correctedIdentifier}.ToPointer();");
             }
             else if (GetWrappedType(tr.Type, out var wrappedParamType)
                   && !TypeInfo.WellKnownTypes.ContainsKey(tr.Type)
@@ -599,7 +669,8 @@ internal static class Generator
                 marshalledParameters[i] = new MarshalledParameter(wrappedParamType, false, nativeArgName, false);
                 preCallLines.Add($"{tr.Type} {nativeArgName} = {correctedIdentifier}.NativePtr;");
             }
-            else if ((tr.Type.EndsWith("*") || tr.Type.Contains("[") || tr.Type.EndsWith("&")) && tr.Type != "void*" && tr.Type != "ImGuiContext*" && tr.Type != "ImPlotContext*"&& tr.Type != "EditorContext*")
+            else if ((tr.Type.EndsWith("*") || tr.Type.Contains("[") || tr.Type.EndsWith("&")) && tr.Type != "void*" &&
+                     tr.Type != "ImGuiContext*" && tr.Type != "ImPlotContext*" && tr.Type != "EditorContext*")
             {
                 string nonPtrType;
                 if (tr.Type.Contains('['))
@@ -611,10 +682,12 @@ internal static class Generator
                 {
                     nonPtrType = GetTypeString(tr.Type.Substring(0, tr.Type.Length - 1), false);
                 }
+
                 var nativeArgName = "native_" + tr.Name;
                 var isOutParam = tr.Name.Contains("out_") || tr.Name == "out";
                 var direction = isOutParam ? "out" : "ref";
-                marshalledParameters[i] = new MarshalledParameter($"{direction} {nonPtrType}", true, nativeArgName, false);
+                marshalledParameters[i] =
+                    new MarshalledParameter($"{direction} {nonPtrType}", true, nativeArgName, false);
                 marshalledParameters[i].PinTarget = CorrectIdentifier(tr.Name);
             }
             else
@@ -629,14 +702,11 @@ internal static class Generator
         }
 
         var invocationList = string.Join(", ", invocationArgs);
-        var friendlyName   = overload.FriendlyName;
+        var friendlyName = overload.FriendlyName;
 
         var staticPortion = selfName == null ? "static " : string.Empty;
         writer.PushBlock($"public {staticPortion}{overrideRet ?? safeRet} {friendlyName}({invocationList})");
-        foreach (var line in preCallLines)
-        {
-            writer.WriteLine(line);
-        }
+        foreach (var line in preCallLines) writer.WriteLine(line);
 
         var nativeInvocationArgs = new List<string>();
 
@@ -651,13 +721,19 @@ internal static class Generator
                 nativeInvocationArgs.Add($"({tstr})({selfName})");
                 continue;
             }
+
             if (pOutIndex == i)
             {
                 nativeInvocationArgs.Add("&__retval");
                 continue;
             }
+
             var mp = marshalledParameters[i];
-            if (mp == null) { continue; }
+            if (mp == null)
+            {
+                continue;
+            }
+
             if (mp.IsPinned)
             {
                 var nativePinType = GetTypeString(tr.Type, false);
@@ -668,7 +744,7 @@ internal static class Generator
         }
 
         var nativeInvocationStr = string.Join(", ", nativeInvocationArgs);
-        var ret                 = safeRet == "void" ? string.Empty : $"{nativeRet} ret = ";
+        var ret = safeRet == "void" ? string.Empty : $"{nativeRet} ret = ";
 
         var targetName = overload.ExportedName;
         if (targetName.Contains("nonUDT"))
@@ -678,10 +754,7 @@ internal static class Generator
 
         writer.WriteLine($"{ret}{classPrefix}Native.{targetName}({nativeInvocationStr});");
 
-        foreach (var line in postCallLines)
-        {
-            writer.WriteLine(line);
-        }
+        foreach (var line in postCallLines) writer.WriteLine(line);
 
         if (safeRet != "void")
         {
@@ -709,12 +782,17 @@ internal static class Generator
         }
 
         if (overrideRet != null)
-            writer.WriteLine("return __retval;");
-            
-        for (var i = 0; i < marshalledParameters.Length; i++)
         {
-            var mp = marshalledParameters[i];
-            if (mp == null) { continue; }
+            writer.WriteLine("return __retval;");
+        }
+
+        foreach (var mp in marshalledParameters)
+        {
+            if (mp == null)
+            {
+                continue;
+            }
+
             if (mp.IsPinned)
             {
                 writer.PopBlock();
@@ -750,6 +828,7 @@ internal static class Generator
                 wrappedType = null;
                 return false; // TODO
             }
+
             var nonPtrType = nativeType.Substring(0, nativeType.Length - pointerLevel);
 
             if (TypeInfo.WellKnownTypes.ContainsKey(nonPtrType))
@@ -762,11 +841,9 @@ internal static class Generator
 
             return true;
         }
-        else
-        {
-            wrappedType = null;
-            return false;
-        }
+
+        wrappedType = null;
+        return false;
     }
 
     private static bool CorrectDefaultValue(string defaultVal, TypeReference tr, out string correctedDefault)
@@ -777,7 +854,10 @@ internal static class Generator
             return true;
         }
 
-        if (TypeInfo.WellKnownDefaultValues.TryGetValue(defaultVal, out correctedDefault)) { return true; }
+        if (TypeInfo.WellKnownDefaultValues.TryGetValue(defaultVal, out correctedDefault))
+        {
+            return true;
+        }
 
         if (tr.Type == "bool")
         {
@@ -785,7 +865,11 @@ internal static class Generator
             return true;
         }
 
-        if (defaultVal.Contains('%')) { correctedDefault = null; return false; }
+        if (defaultVal.Contains('%'))
+        {
+            correctedDefault = null;
+            return false;
+        }
 
         if (tr.IsEnum)
         {
@@ -800,8 +884,14 @@ internal static class Generator
     private static string GetTypeString(string typeName, bool isFunctionPointer)
     {
         var pointerLevel = 0;
-        if (typeName.EndsWith("**")) { pointerLevel     = 2; }
-        else if (typeName.EndsWith("*")) { pointerLevel = 1; }
+        if (typeName.EndsWith("**"))
+        {
+            pointerLevel = 2;
+        }
+        else if (typeName.EndsWith("*"))
+        {
+            pointerLevel = 1;
+        }
 
         if (TypeInfo.WellKnownTypes.TryGetValue(typeName, out var typeStr))
         {
@@ -815,7 +905,10 @@ internal static class Generator
         else if (!TypeInfo.WellKnownTypes.TryGetValue(typeName, out typeStr))
         {
             typeStr = typeName;
-            if (isFunctionPointer) { typeStr = "IntPtr"; }
+            if (isFunctionPointer)
+            {
+                typeStr = "IntPtr";
+            }
         }
 
         return typeStr;

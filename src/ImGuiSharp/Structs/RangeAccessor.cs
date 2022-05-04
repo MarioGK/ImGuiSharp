@@ -8,7 +8,7 @@ public unsafe readonly struct RangeAccessor<T> where T : struct
     private static readonly int SSizeOfT = Unsafe.SizeOf<T>();
 
     public readonly void* Data;
-    public readonly int   Count;
+    public readonly int Count;
 
     public RangeAccessor(IntPtr data, int count) : this(data.ToPointer(), count)
     {
@@ -16,7 +16,7 @@ public unsafe readonly struct RangeAccessor<T> where T : struct
 
     public RangeAccessor(void* data, int count)
     {
-        Data  = data;
+        Data = data;
         Count = count;
     }
 

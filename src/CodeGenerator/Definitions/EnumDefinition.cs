@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace CodeGenerator.Definitions;
@@ -8,22 +7,19 @@ internal class EnumDefinition
 {
     private readonly Dictionary<string, string> _sanitizedNames;
 
-    public string       Name         { get; }
-    public string       FriendlyName { get; }
-    public EnumMemberDefinition[] Members      { get; }
-
     public EnumDefinition(string name, EnumMemberDefinition[] elements)
     {
-        Name         = name;
+        Name = name;
         FriendlyName = Name.EndsWith('_') ? Name[..^1] : Name;
-        Members      = elements;
+        Members = elements;
 
         _sanitizedNames = new Dictionary<string, string>();
-        foreach (var el in elements)
-        {
-            _sanitizedNames.Add(el.Name, SanitizeMemberName(el.Name));
-        }
+        foreach (var el in elements) _sanitizedNames.Add(el.Name, SanitizeMemberName(el.Name));
     }
+
+    public string Name { get; }
+    public string FriendlyName { get; }
+    public EnumMemberDefinition[] Members { get; }
 
     public string SanitizeNames(string text)
     {

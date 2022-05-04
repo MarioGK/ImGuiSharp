@@ -11,10 +11,7 @@ internal static unsafe class Util
     public static string StringFromPtr(byte* ptr)
     {
         var characters = 0;
-        while (ptr[characters] != 0)
-        {
-            characters++;
-        }
+        while (ptr[characters] != 0) characters++;
 
         return Encoding.UTF8.GetString(ptr, characters);
     }
@@ -22,16 +19,23 @@ internal static unsafe class Util
     internal static bool AreStringsEqual(byte* a, int aLength, byte* b)
     {
         for (var i = 0; i < aLength; i++)
-        {
-            if (a[i] != b[i]) { return false; }
-        }
+            if (a[i] != b[i])
+            {
+                return false;
+            }
 
         return b[aLength] == 0;
     }
 
-    internal static byte* Allocate(int byteCount) => (byte*)Marshal.AllocHGlobal(byteCount);
+    internal static byte* Allocate(int byteCount)
+    {
+        return (byte*) Marshal.AllocHGlobal(byteCount);
+    }
 
-    internal static void Free(byte* ptr) => Marshal.FreeHGlobal((IntPtr)ptr);
+    internal static void Free(byte* ptr)
+    {
+        Marshal.FreeHGlobal((IntPtr) ptr);
+    }
 
     internal static int CalcSizeInUtf8(string s, int start, int length)
     {

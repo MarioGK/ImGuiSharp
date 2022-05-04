@@ -18,7 +18,7 @@ public unsafe struct ImGuiStoragePairPtr
 
     public static implicit operator ImGuiStoragePairPtr(ImGuiStoragePair* nativePtr)
     {
-        return new(nativePtr);
+        return new ImGuiStoragePairPtr(nativePtr);
     }
 
     public static implicit operator ImGuiStoragePair*(ImGuiStoragePairPtr wrappedPtr)
@@ -28,6 +28,6 @@ public unsafe struct ImGuiStoragePairPtr
 
     public static implicit operator ImGuiStoragePairPtr(IntPtr nativePtr)
     {
-        return new(nativePtr);
+        return new ImGuiStoragePairPtr(nativePtr);
     }
 }

@@ -5,31 +5,33 @@ namespace ImGuiSharp.Generator;
 
 public static class ProjectInfos
 {
+    public static readonly ProjectInfo ImGuiSharp = new()
+    {
+        NativeProject = NativeProject.cimgui,
+        ManagedProject = ManagedProject.ImGuiSharp,
+        NameSpace = "ImGui"
+    };
+
     public static readonly List<ProjectInfo> Infos = new()
     {
+        ImGuiSharp,
         new ProjectInfo
         {
-            NativeProject         = NativeProject.cimgui,
-            ManagedProject        = ManagedProject.ImGuiSharp,
-            ReferencesMainProject = false
+            NativeProject = NativeProject.cimplot,
+            ManagedProject = ManagedProject.ImPlotSharp,
+            NameSpace = "ImPlot"
         },
         new ProjectInfo
         {
-            NativeProject         = NativeProject.cimplot,
-            ManagedProject        = ManagedProject.ImPlotSharp,
-            ReferencesMainProject = true
+            NativeProject = NativeProject.cimnodes,
+            ManagedProject = ManagedProject.ImNodesSharp,
+            NameSpace = "ImNodes"
         },
         new ProjectInfo
         {
-            NativeProject         = NativeProject.cimnodes,
-            ManagedProject        = ManagedProject.ImNodesSharp,
-            ReferencesMainProject = true
-        },
-        new ProjectInfo
-        {
-            NativeProject         = NativeProject.cimguizmo,
-            ManagedProject        = ManagedProject.ImGuizmoSharp,
-            ReferencesMainProject = true
+            NativeProject = NativeProject.cimguizmo,
+            ManagedProject = ManagedProject.ImGuizmoSharp,
+            NameSpace = "ImGuizmo"
         }
     };
 }

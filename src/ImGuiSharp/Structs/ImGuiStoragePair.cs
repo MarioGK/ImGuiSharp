@@ -2,6 +2,6 @@
 
 public struct ImGuiStoragePair
 {
-    public uint       Key;
+    public uint Key;
     public UnionValue Value;
 }

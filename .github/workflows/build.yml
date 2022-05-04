@@ -1,16 +1,18 @@
 name: CI
+
 on:
   create: # when tags are created
   push:
     branches: [ master ]
   pull_request:
     branches: [ master ]
+
 jobs:
   Build_Windows:
     runs-on: windows-latest
     steps:
     - name: Checkout Repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         fetch-depth: 0
 

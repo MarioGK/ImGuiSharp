@@ -14,11 +14,11 @@ public unsafe struct NullTerminatedString
     public override string ToString()
     {
         var length = 0;
-        var ptr    = Data;
+        var ptr = Data;
         while (*ptr != 0)
         {
             length += 1;
-            ptr    += 1;
+            ptr += 1;
         }
 
         return Encoding.ASCII.GetString(Data, length);

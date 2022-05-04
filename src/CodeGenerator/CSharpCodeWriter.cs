@@ -6,12 +6,17 @@ namespace CodeGenerator;
 internal class CSharpCodeWriter : IDisposable
 {
     private readonly StreamWriter _sw;
-    private          int          _indentLevel;
+    private int _indentLevel;
 
     public CSharpCodeWriter(string outputPath)
     {
         Console.WriteLine("Writing " + outputPath);
         _sw = File.CreateText(outputPath);
+    }
+
+    public void Dispose()
+    {
+        _sw.Dispose();
     }
 
     public void Using(string ns)
@@ -39,15 +44,7 @@ internal class CSharpCodeWriter : IDisposable
 
     private void WriteIndented(string text)
     {
-        for (var i = 0; i < _indentLevel; i++)
-        {
-            _sw.Write(' ');
-        }
+        for (var i = 0; i < _indentLevel; i++) _sw.Write(' ');
         _sw.WriteLine(text);
-    }
-
-    public void Dispose()
-    {
-        _sw.Dispose();
     }
 }

@@ -1,7 +1,9 @@
 ﻿// ReSharper disable once CheckNamespace
-namespace |NAMESPACE|;
+namespace {{NameSpace}};
 
-public unsafe partial struct |STRUCT_NAME|
+public unsafe partial struct {{Name}}
 {
-|CONTENT|
+{{for field in Fields}}
+    public {{field.Type}} {{field.Name}};
+ {{end}}
 }

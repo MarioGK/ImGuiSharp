@@ -1,2 +1,2 @@
 ﻿/*public ImGuiCol Col;*/
-    public |TYPE| |FIELD_NAME|;
+    public fixed |TYPE| |FIELD_NAME|[|SIZE|];

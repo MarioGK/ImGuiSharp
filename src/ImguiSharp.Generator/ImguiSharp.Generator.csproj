@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <OutputType>Exe</OutputType>
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
@@ -9,14 +8,20 @@
         <RootNamespace>ImGuiSharp.Generator</RootNamespace>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <PackageScribanIncludeSource>true</PackageScribanIncludeSource>
+    </PropertyGroup>
+
     <ItemGroup>
-        <PackageReference Include="Cocona" Version="2.0.3" />
+        <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.1.0" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.1.0" />
+        <PackageReference Include="Scriban" Version="5.4.4" IncludeAssets="Build" />
         <PackageReference Include="System.Text.Json" Version="6.0.3" />
     </ItemGroup>
 
     <ItemGroup>
-        <Content Include="defs\*\*.json" CopyToOutputDirectory="PreserveNewest" />
-        <Content Include="Templates\*.template" CopyToOutputDirectory="PreserveNewest" />
+        <EmbeddedResource Include="defs\*\*.json" />
+        <EmbeddedResource Include="Templates\*.template" />
     </ItemGroup>
 
 </Project>

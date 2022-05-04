@@ -4,10 +4,10 @@ internal class EnumMemberDefinition
 {
     public EnumMemberDefinition(string name, string value)
     {
-        Name  = name;
+        Name = name;
         Value = value;
     }
 
-    public string Name  { get; }
+    public string Name { get; }
     public string Value { get; }
 }

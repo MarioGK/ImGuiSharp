@@ -4,14 +4,14 @@ namespace CodeGenerator.Definitions;
 
 internal class FunctionDefinition
 {
-    public string               Name      { get; }
-    public OverloadDefinition[] Overloads { get; }
-
     public FunctionDefinition(string name, OverloadDefinition[] overloads, EnumDefinition[] enums)
     {
-        Name      = name;
+        Name = name;
         Overloads = ExpandOverloadVariants(overloads, enums);
     }
+
+    public string Name { get; }
+    public OverloadDefinition[] Overloads { get; }
 
     private OverloadDefinition[] ExpandOverloadVariants(OverloadDefinition[] overloads, EnumDefinition[] enums)
     {
@@ -19,35 +19,33 @@ internal class FunctionDefinition
 
         foreach (var overload in overloads)
         {
-            var hasVariants   = false;
+            var hasVariants = false;
             var variantCounts = new int[overload.Parameters.Length];
 
             for (var i = 0; i < overload.Parameters.Length; i++)
-            {
                 if (overload.Parameters[i].TypeVariants != null)
                 {
-                    hasVariants      = true;
+                    hasVariants = true;
                     variantCounts[i] = overload.Parameters[i].TypeVariants.Length + 1;
                 }
                 else
                 {
                     variantCounts[i] = 1;
                 }
-            }
 
             if (hasVariants)
             {
-                var totalVariants                                            = variantCounts[0];
+                var totalVariants = variantCounts[0];
                 for (var i = 1; i < variantCounts.Length; i++) totalVariants *= variantCounts[i];
 
                 for (var i = 0; i < totalVariants; i++)
                 {
                     var parameters = new TypeReference[overload.Parameters.Length];
-                    var div        = 1;
+                    var div = 1;
 
                     for (var j = 0; j < parameters.Length; j++)
                     {
-                        var k = (i / div) % variantCounts[j];
+                        var k = i / div % variantCounts[j];
 
                         parameters[j] = overload.Parameters[j].WithVariant(k, enums);
 
