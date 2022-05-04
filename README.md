@@ -5,7 +5,7 @@ ImGuiSharp is a binding library for [ImGui](https://github.com/ocornut/imgui) fo
 
 🔴**Observation**: The library is only compiled for Windows-x64 and only tested on windows for now.🔴
 
-**WIP**: Nuget package and CI build are not yet ready.
+⚠️⚠️⚠️**WIP**: Nuget package and CI build are not yet ready.⚠️⚠️⚠️
 
 This can be considered a fork of the awesome project by mellinoe [ImGui.Net](https://github.com/mellinoe/ImGui.NET), the main differences between the two are:
 
@@ -15,7 +15,7 @@ This can be considered a fork of the awesome project by mellinoe [ImGui.Net](htt
 - ImPlot,ImNodes,ImGuizmo added to the list of supported libraries.
 - Provides easy to use scripts to update, build and test ImGuiSharp.
 
-# Status (WIP)
+# Nuget Status: (WIP)
 **ImGuiSharp**:
 
 [![NuGet stable version](https://badgen.net/nuget/v/ImGuiSharp)](https://nuget.org/packages/ImGuiSharp)

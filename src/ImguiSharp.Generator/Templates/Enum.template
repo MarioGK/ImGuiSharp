@@ -1,0 +1,9 @@
+﻿// ReSharper disable once CheckNamespace
+namespace {{NameSpace}};
+
+public enum {{FriendlyName}}
+{
+{{for value in Values}}
+    {{value.Name}} = {{value.Value}},
+ {{end}}
+}

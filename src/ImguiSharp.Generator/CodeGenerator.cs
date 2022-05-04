@@ -29,35 +29,12 @@ public class CodeGenerator
 
     private IEnumerable<GeneratedFile> GenerateEnums()
     {
-        var structTemplate = new OldTemplate(TemplateType.Struct);
-        var fieldTemplate = new OldTemplate(TemplateType.Field);
-        foreach (var structDefinition in DefinitionsParser.StructDefinitions)
+        foreach (var structDefinition in DefinitionsParser.EnumDefinitions)
         {
-            var structCode = structTemplate.Copy();
-            structCode.Set("NAMESPACE", _projectInfo.NameSpace);
-            structCode.Set("STRUCT_NAME", structDefinition.Name);
-
-            var fields = new StringBuilder();
-
-            foreach (var field in structDefinition.Fields)
-            {
-                field.CleanType();
-                var fieldCode = fieldTemplate.Copy();
-
-                //Convert C++ type to C# type
-                var managedType = TypeInfo.Types.FirstOrDefault(t => t.Key == field.Type);
-
-                //If no managed type, use the default type
-                fieldCode.Set("TYPE", managedType.Key == null ? field.Type : managedType.Value);
-                fieldCode.Set("FIELD_NAME", field.FriendlyName);
-                fieldCode.CleanUnused();
-                fields.Append(fieldCode);
-            }
-
-            structCode.Set("CONTENT", fields.ToString());
-            structCode.CleanUnused();
-
-            yield return new GeneratedFile(structDefinition.Name + ".gen.cs", structCode.ToString());
+            var structTemplateString = ResourceReader.GetResource("Enum.template");
+            var structTemplate = Template.Parse(structTemplateString);
+            var structCode = structTemplate.Render(structDefinition, member => member.Name);
+            yield return new GeneratedFile(structDefinition.Name + ".gen.cs", structCode);
         }
     }
 
