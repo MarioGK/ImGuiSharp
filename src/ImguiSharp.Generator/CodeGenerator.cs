@@ -8,12 +8,9 @@ namespace ImGuiSharp.Generator;
 
 public class CodeGenerator
 {
-    private readonly ProjectInfo _projectInfo;
-
     public CodeGenerator(ProjectInfo projectInfo)
     {
         DefinitionsParser = new DefinitionsParser(projectInfo);
-        _projectInfo = projectInfo;
     }
 
     public DefinitionsParser DefinitionsParser { get; set; }
@@ -21,10 +18,16 @@ public class CodeGenerator
     public IEnumerable<GeneratedFile> Generate()
     {
         DefinitionsParser.ParseAll();
-        var structs = GenerateStructs();
-        //var enums = GenerateEnums();
 
-        return structs; //.Concat(enums);
+        var structs = GenerateStructs();
+        var enums = GenerateEnums();
+
+        return structs.Concat(enums);
+    }
+
+    private IEnumerable<GeneratedFile> GeneratedClasses()
+    {
+        yield return new GeneratedFile("","");
     }
 
     private IEnumerable<GeneratedFile> GenerateEnums()

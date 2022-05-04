@@ -1,9 +1,9 @@
 ﻿// ReSharper disable once CheckNamespace
 namespace {{NameSpace}};
 
+{{if IsFlags}}[System.Flags]{{end}}
 public enum {{FriendlyName}}
 {
-{{for value in Values}}
-    {{value.Name}} = {{value.Value}},
- {{end}}
+{{for value in Values}}    {{value.Name}} = {{value.Value}},
+{{end}}
 }

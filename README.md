@@ -3,7 +3,7 @@ ImGuiSharp is a binding library for [ImGui](https://github.com/ocornut/imgui) fo
 
 ⚠️**Warning**: This is a beta version, and is not yet ready for use.⚠️
 
-🔴**Observation**: The library is only compiled for Windows-x64 and only tested on windows for now.🔴
+🔴**Observation**: The native library is only compiled for Windows-x64 and only tested on windows for now.🔴
 
 ⚠️⚠️⚠️**WIP**: Nuget package and CI build are not yet ready.⚠️⚠️⚠️
 
