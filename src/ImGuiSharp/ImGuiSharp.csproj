@@ -21,10 +21,33 @@
         <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
         <SourceGenerator_EnableLogging>True</SourceGenerator_EnableLogging>
         <SourceGenerator_EnableDebug>True</SourceGenerator_EnableDebug>
+        <NoWarn>1701;1702;1591</NoWarn>
     </PropertyGroup>
 
-    <ItemGroup Condition="'$(Configuration)' == 'Debug'">
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <NoWarn>1701;1702;1591</NoWarn>
+    </PropertyGroup>
+
+    <ItemGroup>
         <Compile Remove="Generated/**/*.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="..\..\libs\win-x64\cimgui.dll" Condition="$([MSBuild]::IsOSPlatform('Windows'))">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <Pack>true</Pack>
+            <PackagePath>lib\$(TargetFramework)</PackagePath>
+        </Content>
+        <Content Include="..\..\libs\linux-x64\cimgui.so" Condition="$([MSBuild]::IsOSPlatform('Linux'))">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <Pack>true</Pack>
+            <PackagePath>lib\$(TargetFramework)</PackagePath>
+        </Content>
+        <Content Include="..\..\libs\osx-universal\cimgui.dylib" Condition="$([MSBuild]::IsOSPlatform('OSX'))">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <Pack>true</Pack>
+            <PackagePath>lib\$(TargetFramework)</PackagePath>
+        </Content>
     </ItemGroup>
 
     <ItemGroup>
@@ -35,18 +58,6 @@
 
     <ItemGroup>
         <ProjectReference Include="..\ImguiSharp.Generator\ImguiSharp.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <Content Include="..\..\libs\win-x64\cimgui.dll" Condition="$([MSBuild]::IsOSPlatform('Windows'))">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content>
-        <Content Include="..\..\libs\linux-x64\cimgui.so" Condition="$([MSBuild]::IsOSPlatform('Linux'))">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content>
-        <Content Include="..\..\libs\osx-universal\cimgui.dylib" Condition="$([MSBuild]::IsOSPlatform('OSX'))">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content>
     </ItemGroup>
 
     <ItemGroup>

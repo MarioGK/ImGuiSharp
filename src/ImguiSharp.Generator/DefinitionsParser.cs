@@ -108,6 +108,11 @@ internal class DefinitionsParser
         foreach (var enumProp in enumsElement.EnumerateObject())
         {
             var id = enumProp.Name;
+            if (id.Contains("Private", StringComparison.OrdinalIgnoreCase))
+            {
+                continue;
+            }
+            
             var location = locations.GetProperty(id).GetString()!;
 
             var enumDef = new EnumDefinition
@@ -164,7 +169,7 @@ internal class DefinitionsParser
             {
                 var fieldDefinition = innerProp.Deserialize<TypeDefinition>();
 
-                if (fieldDefinition == null)
+                if (fieldDefinition == null || fieldDefinition.Type.Contains("union"))
                 {
                     continue;
                 }

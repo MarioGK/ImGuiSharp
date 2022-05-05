@@ -26,7 +26,7 @@ internal class CodeGenerator
 
     private IEnumerable<GeneratedFile> GeneratedClasses()
     {
-        yield return new GeneratedFile("","");
+        yield return new GeneratedFile("", "");
     }
 
     private IEnumerable<GeneratedFile> GenerateEnums()
@@ -37,8 +37,8 @@ internal class CodeGenerator
     private IEnumerable<GeneratedFile> GenerateStructs()
     {
         return DefinitionsParser.StructDefinitions
-                                .Where(x => !TypeInfo.CustomDefinedTypes.Contains(x.Name))
-                                .Where(x => !TypeInfo.IgnoredEnums.Contains(x.Name))
+                                .Where(x => !TypeInfo.CustomDefinedTypes.Contains(x.Name) &&
+                                            !TypeInfo.IgnoredEnums.Contains(x.Name))
                                 .Select(x => ParseWithTemplate("Struct.template", x));
     }
 
@@ -53,7 +53,7 @@ internal class CodeGenerator
         {
             throw new Exception($"Code could not be generated for {data.FriendlyName}");
         }
-        
+
         return new GeneratedFile(data.FriendlyName + ".gen.cs", code);
     }
 }
