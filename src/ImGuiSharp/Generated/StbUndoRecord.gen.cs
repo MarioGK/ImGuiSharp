@@ -2,8 +2,8 @@
 namespace ImGui;
 public unsafe partial struct StbUndoRecord
 {
-        public int where;
-        public int insert_length;
-        public int delete_length;
-        public int char_storage;
+        public int Where;
+        public int InsertLength;
+        public int DeleteLength;
+        public int CharStorage;
 }

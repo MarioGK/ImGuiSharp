@@ -2,10 +2,10 @@
 namespace ImGui;
 public unsafe partial struct StbTexteditRow
 {
-        public float x0;
-        public float x1;
-        public float baseline_y_delta;
-        public float ymin;
-        public float ymax;
-        public int num_chars;
+        public float X0;
+        public float X1;
+        public float BaselineYDelta;
+        public float Ymin;
+        public float Ymax;
+        public int NumChars;
 }

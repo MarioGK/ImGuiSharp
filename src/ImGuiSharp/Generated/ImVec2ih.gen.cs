@@ -2,6 +2,6 @@
 namespace ImGui;
 public unsafe partial struct ImVec2ih
 {
-        public short x;
-        public short y;
+        public short X;
+        public short Y;
 }

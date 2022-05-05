@@ -6,14 +6,14 @@ public unsafe partial struct {{FriendlyName}}
 {{for field in Fields}}
     {{if field.IsArray}}
     {{if field.IsLegalType}}
-    public fixed {{field.TypeName}} {{field.Name}}[{{field.ArraySize}}];
+    public fixed {{field.TypeName}} {{field.FriendlyName}}[{{field.ArraySize}}];
     {{else}}
     {{for index in 0..field.ArraySize}}
-    public {{field.TypeName}} {{field.Name}}_{{index}};
+    public {{field.TypeName}} {{field.FriendlyName}}{{index}};
     {{end}}
     {{end}}
     {{else}}
-    public {{field.TypeName}} {{field.Name}};
+    public {{field.TypeName}} {{field.FriendlyName}};
     {{end}}
  {{end}}
 }

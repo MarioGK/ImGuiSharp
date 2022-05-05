@@ -83,12 +83,12 @@ public unsafe partial struct ImGuiWindow
         public ImGuiWindow* RootWindowForTitleBarHighlight;
         public ImGuiWindow* RootWindowForNav;
         public ImGuiWindow* NavLastChildNavWindow;
-        public uint NavLastIds_0;
-        public uint NavLastIds_1;
-        public uint NavLastIds_2;
-        public ImRect NavRectRel_0;
-        public ImRect NavRectRel_1;
-        public ImRect NavRectRel_2;
+        public uint NavLastIds0;
+        public uint NavLastIds1;
+        public uint NavLastIds2;
+        public ImRect NavRectRel0;
+        public ImRect NavRectRel1;
+        public ImRect NavRectRel2;
         public int MemoryDrawListIdxCapacity;
         public int MemoryDrawListVtxCapacity;
         public byte MemoryCompacted;

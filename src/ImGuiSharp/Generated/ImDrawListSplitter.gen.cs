@@ -2,7 +2,7 @@
 namespace ImGui;
 public unsafe partial struct ImDrawListSplitter
 {
-        public int _Current;
-        public int _Count;
-        public ImVector _Channels;
+        public int Current;
+        public int Count;
+        public ImVector Channels;
 }

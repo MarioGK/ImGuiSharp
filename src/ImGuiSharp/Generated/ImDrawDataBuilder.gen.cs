@@ -2,7 +2,7 @@
 namespace ImGui;
 public unsafe partial struct ImDrawDataBuilder
 {
-        public ImVector Layers_0;
-        public ImVector Layers_1;
-        public ImVector Layers_2;
+        public ImVector Layers0;
+        public ImVector Layers1;
+        public ImVector Layers2;
 }

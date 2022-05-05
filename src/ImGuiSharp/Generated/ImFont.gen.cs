@@ -19,7 +19,7 @@ public unsafe partial struct ImFont
         public float Ascent;
         public float Descent;
         public int MetricsTotalSurface;
-        public byte Used4kPagesMap_0;
-        public byte Used4kPagesMap_1;
-        public byte Used4kPagesMap_2;
+        public byte Used4kPagesMap0;
+        public byte Used4kPagesMap1;
+        public byte Used4kPagesMap2;
 }

@@ -2,5 +2,5 @@
 namespace ImGui;
 public unsafe partial struct ImVec1
 {
-        public float x;
+        public float X;
 }

@@ -2,7 +2,7 @@
 namespace ImGui;
 public unsafe partial struct ImDrawVert
 {
-        public Vector2 pos;
-        public Vector2 uv;
-        public uint col;
+        public Vector2 Pos;
+        public Vector2 Uv;
+        public uint Col;
 }

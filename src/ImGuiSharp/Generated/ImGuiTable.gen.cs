@@ -29,9 +29,9 @@ public unsafe partial struct ImGuiTable
         public ImGuiTableRowFlags RowFlags;
         public ImGuiTableRowFlags LastRowFlags;
         public int RowBgColorCounter;
-        public uint RowBgColor_0;
-        public uint RowBgColor_1;
-        public uint RowBgColor_2;
+        public uint RowBgColor0;
+        public uint RowBgColor1;
+        public uint RowBgColor2;
         public uint BorderColorStrong;
         public uint BorderColorLight;
         public float BorderX1;
