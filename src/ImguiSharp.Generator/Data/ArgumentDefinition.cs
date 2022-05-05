@@ -2,10 +2,9 @@
 
 namespace ImGuiSharp.Generator.Data;
 
-public class ArgumentDefinition
+public class ArgumentDefinition : BaseDefinition
 {
-    [JsonPropertyName("name")]
-    public string Name { get; set; }
+    
 
     [JsonPropertyName("type")]
     public string Type { get; set; }

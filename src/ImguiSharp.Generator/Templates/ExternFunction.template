@@ -1,2 +1,0 @@
-[DllImport(\"|NATIVE_PROJECT|\", CallingConvention = CallingConvention.Cdecl)]
-public static extern |RETURN_TYPE| |METHOD_NAME|(|PARAMETERS|);

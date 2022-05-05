@@ -1,6 +1,4 @@
-﻿using System.Text;
-using ImGuiSharp.Generator.Data;
-using ImGuiSharp.Generator.Enumeration;
+﻿using ImGuiSharp.Generator.Data;
 using ImGuiSharp.Generator.Models;
 using Scriban;
 
@@ -32,25 +30,25 @@ public class CodeGenerator
 
     private IEnumerable<GeneratedFile> GenerateEnums()
     {
-        foreach (var structDefinition in DefinitionsParser.EnumDefinitions)
-        {
-            var structTemplateString = ResourceReader.GetResource("Enum.template");
-            var structTemplate = Template.Parse(structTemplateString);
-            var structCode = structTemplate.Render(structDefinition, member => member.Name);
-            yield return new GeneratedFile(structDefinition.Name + ".gen.cs", structCode);
-        }
+        return DefinitionsParser.EnumDefinitions.Select(x => ParseWithTemplate("Enum.template", x));
     }
 
     private IEnumerable<GeneratedFile> GenerateStructs()
     {
-        //var structTemplate = new Template(TemplateType.Struct);
+        return DefinitionsParser.StructDefinitions.Select(x => ParseWithTemplate("Struct.template", x));
+    }
 
-        foreach (var structDefinition in DefinitionsParser.StructDefinitions)
+    private static GeneratedFile ParseWithTemplate(string templateName, BaseDefinition data)
+    {
+        var templateString = ResourceReader.GetResource(templateName);
+        var template = Template.Parse(templateString);
+        var code = template.Render(data, member => member.Name);
+
+        if (string.IsNullOrEmpty(code))
         {
-            var structTemplateString = ResourceReader.GetResource("Struct.template");
-            var structTemplate = Template.Parse(structTemplateString);
-            var structCode = structTemplate.Render(structDefinition, member => member.Name);
-            yield return new GeneratedFile(structDefinition.Name + ".gen.cs", structCode);
+            throw new Exception($"Code could not be generated for {data.Name}");
         }
+        
+        return new GeneratedFile(data.Name + ".gen.cs", code);
     }
 }
