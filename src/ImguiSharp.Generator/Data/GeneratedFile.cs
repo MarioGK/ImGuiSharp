@@ -1,3 +1,12 @@
 ﻿namespace ImGuiSharp.Generator.Data;
+internal class GeneratedFile
+{
+    public GeneratedFile(string fileName, string content)
+    {
+        FileName = fileName;
+        Content = content;
+    }
 
-internal record GeneratedFile(string FileName, string Content);
+    public string FileName { get; set; }
+    public string  Content { get; set; }
+}

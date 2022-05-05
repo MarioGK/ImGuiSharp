@@ -1,11 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFramework>netstandard2.1</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <AssemblyName>ImGuiSharp.Generator</AssemblyName>
         <RootNamespace>ImGuiSharp.Generator</RootNamespace>
+        <LangVersion>preview</LangVersion>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -13,10 +14,13 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="System.Text.Json" Version="6.0.3" />
+        <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
+        <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
         <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.1.0" />
         <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.1.0" />
         <PackageReference Include="Scriban" Version="5.4.4" IncludeAssets="Build" />
-        <PackageReference Include="System.Text.Json" Version="6.0.3" />
+
     </ItemGroup>
 
     <ItemGroup>
