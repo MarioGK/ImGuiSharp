@@ -4,6 +4,34 @@ namespace {{NameSpace}};
 public unsafe partial struct {{Name}}
 {
 {{for field in Fields}}
+    {{if field.IsArray}}
+    {{if field.IsLegalType}}
+    public fixed {{field.TypeName}} {{field.Name}}[{{field.ArraySize}}];
+    {{else}}
+    {{for index in 0..field.ArraySize}}
+    public {{field.TypeName}} {{field.Name}}_{{index}};
+    {{end}}
+    {{end}}
+    {{else}}
     public {{field.Type}} {{field.Name}};
+    {{end}}
+ {{end}}
+}
+
+public unsafe partial struct {{Name}}Ptr
+{
+    public {{Name}}* NativePtr { get; }
+    public {{Name}}Ptr({{Name}}* nativePtr) => NativePtr = nativePtr;
+    public {{Name}}Ptr(IntPtr nativePtr) => NativePtr = ({{Name}}*)nativePtr;
+    public static implicit operator {{Name}}Ptr({{Name}}* nativePtr) => new {{Name}}Ptr(nativePtr);
+    public static implicit operator {{Name}}* ({{Name}}Ptr wrappedPtr) => wrappedPtr.NativePtr;
+    public static implicit operator {{Name}}Ptr(IntPtr nativePtr) => new {{Name}}Ptr(nativePtr);
+
+{{for field in Fields}}
+    {{if field.IsArray}}
+    public RangeAccessor<{{field.TypeName}}> {field.Name} => new RangeAccessor<{{field.TypeName}}>({{field.AddressTarget}}, {{field.ArraySize}});
+    {{else}}
+    
+    {{end}}
  {{end}}
 }

@@ -2,7 +2,7 @@
 
 namespace ImGuiSharp.Generator.Data;
 
-public class ArgumentDefinition : BaseDefinition
+internal class ArgumentDefinition : BaseDefinition
 {
     
 

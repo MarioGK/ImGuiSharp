@@ -28,7 +28,7 @@ public class SourceGenerator : ISourceGenerator
 
     public void Execute(GeneratorExecutionContext context)
     {
-        var generatedFiles = Generator.Generate();
+        var generatedFiles = Generator.GenerateAll();
 
         foreach (var generatedFile in generatedFiles) context.AddSource(generatedFile.FileName, generatedFile.Content);
 

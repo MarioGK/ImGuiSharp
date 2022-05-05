@@ -8,6 +8,6 @@ internal class EnumMemberDefinition
         Value = value;
     }
 
-    public string Name { get; }
-    public string Value { get; }
+    public string Name { get; set; }
+    public string Value { get; set; }
 }

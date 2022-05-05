@@ -1,6 +1,6 @@
 ﻿namespace ImGuiSharp.Generator.Data;
 
-public class StructDefinition : BaseDefinition
+internal class StructDefinition : BaseDefinition
 {
     public List<TypeDefinition> Fields = new();
     public string Location { get; set; }

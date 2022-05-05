@@ -1,10 +1,11 @@
 ﻿using ImGuiSharp.Generator.Data;
+using ImGuiSharp.Generator.Helpers;
 using ImGuiSharp.Generator.Models;
 using Scriban;
 
 namespace ImGuiSharp.Generator;
 
-public class CodeGenerator
+internal class CodeGenerator
 {
     public CodeGenerator(ProjectInfo projectInfo)
     {
@@ -13,7 +14,7 @@ public class CodeGenerator
 
     public DefinitionsParser DefinitionsParser { get; set; }
 
-    public IEnumerable<GeneratedFile> Generate()
+    public IEnumerable<GeneratedFile> GenerateAll()
     {
         DefinitionsParser.ParseAll();
 
@@ -43,6 +44,7 @@ public class CodeGenerator
         var templateString = ResourceReader.GetResource(templateName);
         var template = Template.Parse(templateString);
         var code = template.Render(data, member => member.Name);
+        code = code.RemoveEmptyLines();
 
         if (string.IsNullOrEmpty(code))
         {

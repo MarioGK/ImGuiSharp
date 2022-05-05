@@ -1,8 +1,9 @@
 ﻿using System.Text.Json.Serialization;
+using ImGuiSharp.Generator.Helpers;
 
 namespace ImGuiSharp.Generator.Data;
 
-public class TypeDefinition
+internal class TypeDefinition
 {
     [JsonPropertyName("name")]
     public string Name { get; set; }
@@ -20,6 +21,19 @@ public class TypeDefinition
 
     [JsonIgnore]
     public string[] TypeVariants { get; }
+
+    [JsonIgnore]
+    public bool IsEnum { get; set; }
+    
+    [JsonIgnore]
+    public bool IsArray => ArraySize is > 0;
+    
+    public bool IsLegalType => TypeInfo.LegalFixedTypes.Contains(Type);
+
+    [JsonIgnore]
+    public string TypeName => Type.GetTypeString(IsFunctionPointer);
+
+    public string AddressTarget => IsLegalType ? $"NativePtr->{Name}" : $"&NativePtr->{Name}_0";
 
     public bool IsFunctionPointer => Type.IndexOf('(') != -1;
 
@@ -45,11 +59,5 @@ public class TypeDefinition
             var cleanPrefix = prefix.Replace("_", "");
             Type = Type.EndsWith("*") ? $"{cleanPrefix}*" : cleanPrefix;
         }
-    }
-
-    public TypeDefinition WithVariant(int variantIndex, EnumDefinition[] enums)
-    {
-        return null;
-        //return variantIndex == 0 ? this : new TypeDefinition(Name, TypeVariants[variantIndex - 1], ArraySize, TemplateType, enums);
     }
 }

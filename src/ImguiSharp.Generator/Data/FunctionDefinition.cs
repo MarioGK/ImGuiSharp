@@ -2,7 +2,7 @@
 
 namespace ImGuiSharp.Generator.Data;
 
-public class FunctionDefinition
+internal class FunctionDefinition
 {
     public string Id { get; set; }
 

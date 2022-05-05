@@ -2,7 +2,7 @@
 
 namespace ImGuiSharp.Generator.Data;
 
-public class EnumValue : BaseDefinition
+internal class EnumValue : BaseDefinition
 {
     [JsonPropertyName("value")]
     public string Value { get; set; }

@@ -2,7 +2,7 @@
 
 namespace ImGuiSharp.Generator.Data;
 
-public class BaseDefinition
+internal class BaseDefinition
 {
     [JsonPropertyName("name")]
     public string Name { get; set; }

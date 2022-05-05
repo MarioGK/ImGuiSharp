@@ -4,7 +4,10 @@ using ImGuiSharp.Generator.Models;
 
 namespace ImGuiSharp.Generator;
 
-public class DefinitionsParser
+/// <summary>
+/// The purpose of this class is to parse the definition files and clean up the data and if needed convert it.
+/// </summary>
+internal class DefinitionsParser
 {
     public DefinitionsParser(ProjectInfo projInfo)
     {
@@ -123,6 +126,9 @@ public class DefinitionsParser
                 }
             }
 
+            //Sanitize the names and values
+            enumDef.SanitizeNames();
+
             EnumDefinitions.Add(enumDef);
         }
     }
@@ -156,10 +162,20 @@ public class DefinitionsParser
             {
                 var fieldDefinition = innerProp.Deserialize<TypeDefinition>();
 
-                if (fieldDefinition != null)
+                if (fieldDefinition == null)
                 {
-                    structDefinition.Fields.Add(fieldDefinition);
+                    continue;
                 }
+
+                fieldDefinition = FixSize(fieldDefinition);
+
+                fieldDefinition.IsEnum = EnumDefinitions.Any(enumDefinition =>
+                                                                 enumDefinition.Name         == fieldDefinition.Type ||
+                                                                 enumDefinition.FriendlyName == fieldDefinition.Type ||
+                                                                 TypeInfo.WellKnownEnums
+                                                                         .Contains(fieldDefinition.Type));
+                fieldDefinition.CleanType();
+                structDefinition.Fields.Add(fieldDefinition);
             }
 
             StructDefinitions.Add(structDefinition);
@@ -198,5 +214,59 @@ public class DefinitionsParser
     private string GetFileContent(string file)
     {
         return ResourceReader.GetResource($"{ProjInfo.NativeProjectName}.{file}") ?? string.Empty;
+    }
+
+    private TypeDefinition FixSize(TypeDefinition typeDefinition)
+    {
+        var startBracket = typeDefinition.Name.IndexOf('[');
+        
+        if (startBracket == -1)
+        {
+            return typeDefinition;
+        }
+
+        //This is only for older cimgui binding jsons
+        var endBracket = typeDefinition.Name.IndexOf(']');
+        var sizePart = typeDefinition.Name.Substring(startBracket + 1, endBracket - startBracket - 1);
+        if (typeDefinition.ArraySize == 0)
+        {
+            var plusStart = sizePart.IndexOf('+');
+            if (plusStart != -1)
+            {
+                var first = sizePart[..plusStart];
+                var second = sizePart.Substring(plusStart, sizePart.Length - plusStart);
+                var firstVal = int.Parse(first);
+                var secondVal = int.Parse(second);
+                typeDefinition.ArraySize = firstVal + secondVal;
+            }
+
+            if (int.TryParse(sizePart, out var ret))
+            {
+                typeDefinition.ArraySize = ret;
+            }
+
+            foreach (var ed in EnumDefinitions)
+            {
+                if (!sizePart.StartsWith(ed.Name))
+                {
+                    continue;
+                }
+
+                foreach (var member in ed.Values)
+                {
+                    if (member.Name == sizePart)
+                    {
+                        typeDefinition.ArraySize = int.Parse(member.Value);
+                    }
+                }
+            }
+            //TODO is this needed?
+            //ret = -1;
+
+            //return ret;
+        }
+
+        typeDefinition.Name = typeDefinition.Name[..startBracket];
+        return typeDefinition;
     }
 }

@@ -2,7 +2,7 @@
 
 namespace ImGuiSharp.Generator.Data;
 
-public class VariantDefinition : BaseDefinition
+internal class VariantDefinition : BaseDefinition
 {
     [JsonPropertyName("variants")]
     public List<string?> Variants { get; set; } = new();
