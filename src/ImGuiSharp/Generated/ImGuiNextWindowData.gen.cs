@@ -18,3 +18,12 @@ public unsafe partial struct ImGuiNextWindowData
         public float BgAlphaVal;
         public Vector2 MenuBarOffsetMinVal;
 }
+public unsafe partial struct ImGuiNextWindowDataPtr
+{
+    public ImGuiNextWindowData* NativePtr { get; }
+    public ImGuiNextWindowDataPtr(ImGuiNextWindowData* nativePtr) => NativePtr = nativePtr;
+    public ImGuiNextWindowDataPtr(IntPtr nativePtr) => NativePtr = (ImGuiNextWindowData*)nativePtr;
+    public static implicit operator ImGuiNextWindowDataPtr(ImGuiNextWindowData* nativePtr) => new (nativePtr);
+    public static implicit operator ImGuiNextWindowData* (ImGuiNextWindowDataPtr wrappedPtr) => wrappedPtr.NativePtr;
+    public static implicit operator ImGuiNextWindowDataPtr(IntPtr nativePtr) => new (nativePtr);
+}

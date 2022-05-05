@@ -44,3 +44,12 @@ public unsafe partial struct ImGuiTableColumn
         public byte SortDirectionsAvailMask;
         public byte SortDirectionsAvailList;
 }
+public unsafe partial struct ImGuiTableColumnPtr
+{
+    public ImGuiTableColumn* NativePtr { get; }
+    public ImGuiTableColumnPtr(ImGuiTableColumn* nativePtr) => NativePtr = nativePtr;
+    public ImGuiTableColumnPtr(IntPtr nativePtr) => NativePtr = (ImGuiTableColumn*)nativePtr;
+    public static implicit operator ImGuiTableColumnPtr(ImGuiTableColumn* nativePtr) => new (nativePtr);
+    public static implicit operator ImGuiTableColumn* (ImGuiTableColumnPtr wrappedPtr) => wrappedPtr.NativePtr;
+    public static implicit operator ImGuiTableColumnPtr(IntPtr nativePtr) => new (nativePtr);
+}

@@ -12,3 +12,12 @@ public unsafe partial struct ImGuiStackSizes
         public short SizeOfBeginPopupStack;
         public short SizeOfDisabledStack;
 }
+public unsafe partial struct ImGuiStackSizesPtr
+{
+    public ImGuiStackSizes* NativePtr { get; }
+    public ImGuiStackSizesPtr(ImGuiStackSizes* nativePtr) => NativePtr = nativePtr;
+    public ImGuiStackSizesPtr(IntPtr nativePtr) => NativePtr = (ImGuiStackSizes*)nativePtr;
+    public static implicit operator ImGuiStackSizesPtr(ImGuiStackSizes* nativePtr) => new (nativePtr);
+    public static implicit operator ImGuiStackSizes* (ImGuiStackSizesPtr wrappedPtr) => wrappedPtr.NativePtr;
+    public static implicit operator ImGuiStackSizesPtr(IntPtr nativePtr) => new (nativePtr);
+}

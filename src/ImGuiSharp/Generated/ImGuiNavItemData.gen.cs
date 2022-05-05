@@ -11,3 +11,12 @@ public unsafe partial struct ImGuiNavItemData
         public float DistCenter;
         public float DistAxial;
 }
+public unsafe partial struct ImGuiNavItemDataPtr
+{
+    public ImGuiNavItemData* NativePtr { get; }
+    public ImGuiNavItemDataPtr(ImGuiNavItemData* nativePtr) => NativePtr = nativePtr;
+    public ImGuiNavItemDataPtr(IntPtr nativePtr) => NativePtr = (ImGuiNavItemData*)nativePtr;
+    public static implicit operator ImGuiNavItemDataPtr(ImGuiNavItemData* nativePtr) => new (nativePtr);
+    public static implicit operator ImGuiNavItemData* (ImGuiNavItemDataPtr wrappedPtr) => wrappedPtr.NativePtr;
+    public static implicit operator ImGuiNavItemDataPtr(IntPtr nativePtr) => new (nativePtr);
+}

@@ -1107,3 +1107,14 @@ public unsafe partial struct StbUndoState
         public int UndoCharPoint;
         public int RedoCharPoint;
 }
+public unsafe partial struct StbUndoStatePtr
+{
+    public StbUndoState* NativePtr { get; }
+    public StbUndoStatePtr(StbUndoState* nativePtr) => NativePtr = nativePtr;
+    public StbUndoStatePtr(IntPtr nativePtr) => NativePtr = (StbUndoState*)nativePtr;
+    public static implicit operator StbUndoStatePtr(StbUndoState* nativePtr) => new (nativePtr);
+    public static implicit operator StbUndoState* (StbUndoStatePtr wrappedPtr) => wrappedPtr.NativePtr;
+    public static implicit operator StbUndoStatePtr(IntPtr nativePtr) => new (nativePtr);
+    public RangeAccessor<StbUndoRecord> UndoRec => new (&NativePtr->UndoRec0, 99);
+    public RangeAccessor<ushort> UndoChar => new (&NativePtr->UndoChar0, 999);
+}

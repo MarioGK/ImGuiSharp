@@ -97,3 +97,13 @@ public unsafe partial struct ImGuiStyle
         public Vector4 Colors52;
         public Vector4 Colors53;
 }
+public unsafe partial struct ImGuiStylePtr
+{
+    public ImGuiStyle* NativePtr { get; }
+    public ImGuiStylePtr(ImGuiStyle* nativePtr) => NativePtr = nativePtr;
+    public ImGuiStylePtr(IntPtr nativePtr) => NativePtr = (ImGuiStyle*)nativePtr;
+    public static implicit operator ImGuiStylePtr(ImGuiStyle* nativePtr) => new (nativePtr);
+    public static implicit operator ImGuiStyle* (ImGuiStylePtr wrappedPtr) => wrappedPtr.NativePtr;
+    public static implicit operator ImGuiStylePtr(IntPtr nativePtr) => new (nativePtr);
+    public RangeAccessor<Vector4> Colors => new (&NativePtr->Colors0, 53);
+}

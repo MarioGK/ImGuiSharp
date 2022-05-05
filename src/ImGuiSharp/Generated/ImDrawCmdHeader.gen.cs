@@ -6,3 +6,12 @@ public unsafe partial struct ImDrawCmdHeader
         public IntPtr TextureId;
         public uint VtxOffset;
 }
+public unsafe partial struct ImDrawCmdHeaderPtr
+{
+    public ImDrawCmdHeader* NativePtr { get; }
+    public ImDrawCmdHeaderPtr(ImDrawCmdHeader* nativePtr) => NativePtr = nativePtr;
+    public ImDrawCmdHeaderPtr(IntPtr nativePtr) => NativePtr = (ImDrawCmdHeader*)nativePtr;
+    public static implicit operator ImDrawCmdHeaderPtr(ImDrawCmdHeader* nativePtr) => new (nativePtr);
+    public static implicit operator ImDrawCmdHeader* (ImDrawCmdHeaderPtr wrappedPtr) => wrappedPtr.NativePtr;
+    public static implicit operator ImDrawCmdHeaderPtr(IntPtr nativePtr) => new (nativePtr);
+}

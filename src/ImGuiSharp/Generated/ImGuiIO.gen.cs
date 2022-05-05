@@ -1291,3 +1291,31 @@ public unsafe partial struct ImGuiIO
         public ushort InputQueueSurrogate;
         public ImVector InputQueueCharacters;
 }
+public unsafe partial struct ImGuiIOPtr
+{
+    public ImGuiIO* NativePtr { get; }
+    public ImGuiIOPtr(ImGuiIO* nativePtr) => NativePtr = nativePtr;
+    public ImGuiIOPtr(IntPtr nativePtr) => NativePtr = (ImGuiIO*)nativePtr;
+    public static implicit operator ImGuiIOPtr(ImGuiIO* nativePtr) => new (nativePtr);
+    public static implicit operator ImGuiIO* (ImGuiIOPtr wrappedPtr) => wrappedPtr.NativePtr;
+    public static implicit operator ImGuiIOPtr(IntPtr nativePtr) => new (nativePtr);
+    public RangeAccessor<int> KeyMap => new (NativePtr->KeyMap, 645);
+    public RangeAccessor<byte> KeysDown => new (&NativePtr->KeysDown0, 512);
+    public RangeAccessor<byte> MouseDown => new (&NativePtr->MouseDown0, 5);
+    public RangeAccessor<float> NavInputs => new (NativePtr->NavInputs, 20);
+    public RangeAccessor<ImGuiKeyData> KeysData => new (&NativePtr->KeysData0, 645);
+    public RangeAccessor<Vector2> MouseClickedPos => new (&NativePtr->MouseClickedPos0, 5);
+    public RangeAccessor<double> MouseClickedTime => new (NativePtr->MouseClickedTime, 5);
+    public RangeAccessor<byte> MouseClicked => new (&NativePtr->MouseClicked0, 5);
+    public RangeAccessor<byte> MouseDoubleClicked => new (&NativePtr->MouseDoubleClicked0, 5);
+    public RangeAccessor<ushort> MouseClickedCount => new (&NativePtr->MouseClickedCount0, 5);
+    public RangeAccessor<ushort> MouseClickedLastCount => new (&NativePtr->MouseClickedLastCount0, 5);
+    public RangeAccessor<byte> MouseReleased => new (&NativePtr->MouseReleased0, 5);
+    public RangeAccessor<byte> MouseDownOwned => new (&NativePtr->MouseDownOwned0, 5);
+    public RangeAccessor<byte> MouseDownOwnedUnlessPopupClose => new (&NativePtr->MouseDownOwnedUnlessPopupClose0, 5);
+    public RangeAccessor<float> MouseDownDuration => new (NativePtr->MouseDownDuration, 5);
+    public RangeAccessor<float> MouseDownDurationPrev => new (NativePtr->MouseDownDurationPrev, 5);
+    public RangeAccessor<float> MouseDragMaxDistanceSqr => new (NativePtr->MouseDragMaxDistanceSqr, 5);
+    public RangeAccessor<float> NavInputsDownDuration => new (NativePtr->NavInputsDownDuration, 20);
+    public RangeAccessor<float> NavInputsDownDurationPrev => new (NativePtr->NavInputsDownDurationPrev, 20);
+}

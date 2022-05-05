@@ -12,3 +12,12 @@ public unsafe partial struct ImGuiSettingsHandler
         public IntPtr WriteAllFn;
         public void* UserData;
 }
+public unsafe partial struct ImGuiSettingsHandlerPtr
+{
+    public ImGuiSettingsHandler* NativePtr { get; }
+    public ImGuiSettingsHandlerPtr(ImGuiSettingsHandler* nativePtr) => NativePtr = nativePtr;
+    public ImGuiSettingsHandlerPtr(IntPtr nativePtr) => NativePtr = (ImGuiSettingsHandler*)nativePtr;
+    public static implicit operator ImGuiSettingsHandlerPtr(ImGuiSettingsHandler* nativePtr) => new (nativePtr);
+    public static implicit operator ImGuiSettingsHandler* (ImGuiSettingsHandlerPtr wrappedPtr) => wrappedPtr.NativePtr;
+    public static implicit operator ImGuiSettingsHandlerPtr(IntPtr nativePtr) => new (nativePtr);
+}

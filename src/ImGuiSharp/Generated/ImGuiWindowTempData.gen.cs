@@ -37,3 +37,12 @@ public unsafe partial struct ImGuiWindowTempData
         public ImVector ItemWidthStack;
         public ImVector TextWrapPosStack;
 }
+public unsafe partial struct ImGuiWindowTempDataPtr
+{
+    public ImGuiWindowTempData* NativePtr { get; }
+    public ImGuiWindowTempDataPtr(ImGuiWindowTempData* nativePtr) => NativePtr = nativePtr;
+    public ImGuiWindowTempDataPtr(IntPtr nativePtr) => NativePtr = (ImGuiWindowTempData*)nativePtr;
+    public static implicit operator ImGuiWindowTempDataPtr(ImGuiWindowTempData* nativePtr) => new (nativePtr);
+    public static implicit operator ImGuiWindowTempData* (ImGuiWindowTempDataPtr wrappedPtr) => wrappedPtr.NativePtr;
+    public static implicit operator ImGuiWindowTempDataPtr(IntPtr nativePtr) => new (nativePtr);
+}

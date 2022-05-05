@@ -17,3 +17,21 @@ public unsafe partial struct {{FriendlyName}}
     {{end}}
  {{end}}
 }
+
+public unsafe partial struct {{Name}}Ptr
+{
+    public {{Name}}* NativePtr { get; }
+    public {{Name}}Ptr({{Name}}* nativePtr) => NativePtr = nativePtr;
+    public {{Name}}Ptr(IntPtr nativePtr) => NativePtr = ({{Name}}*)nativePtr;
+    public static implicit operator {{Name}}Ptr({{Name}}* nativePtr) => new (nativePtr);
+    public static implicit operator {{Name}}* ({{Name}}Ptr wrappedPtr) => wrappedPtr.NativePtr;
+    public static implicit operator {{Name}}Ptr(IntPtr nativePtr) => new (nativePtr);
+
+{{for field in Fields}}
+    {{if field.IsArray}}
+public RangeAccessor<{{field.TypeName}}> {{field.FriendlyName}} => new ({{field.AddressTarget}}, {{field.ArraySize}});
+    {{else}}
+
+    {{end}}
+ {{end}}
+}

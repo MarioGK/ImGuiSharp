@@ -9,3 +9,12 @@ public unsafe partial struct ImGuiTableSettings
         public sbyte ColumnsCountMax;
         public byte WantApply;
 }
+public unsafe partial struct ImGuiTableSettingsPtr
+{
+    public ImGuiTableSettings* NativePtr { get; }
+    public ImGuiTableSettingsPtr(ImGuiTableSettings* nativePtr) => NativePtr = nativePtr;
+    public ImGuiTableSettingsPtr(IntPtr nativePtr) => NativePtr = (ImGuiTableSettings*)nativePtr;
+    public static implicit operator ImGuiTableSettingsPtr(ImGuiTableSettings* nativePtr) => new (nativePtr);
+    public static implicit operator ImGuiTableSettings* (ImGuiTableSettingsPtr wrappedPtr) => wrappedPtr.NativePtr;
+    public static implicit operator ImGuiTableSettingsPtr(IntPtr nativePtr) => new (nativePtr);
+}

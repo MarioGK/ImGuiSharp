@@ -130,9 +130,9 @@ internal static class StringHelpers
             return typeStr;
         }
 
-        if (TypeInfo.Types.TryGetValue(typeName.Substring(0, typeName.Length - pointerLevel), out typeStr))
+        if (TypeInfo.Types.TryGetValue(typeName[..^pointerLevel], out typeStr))
         {
-            typeStr = typeStr + new string('*', pointerLevel);
+            typeStr += new string('*', pointerLevel);
         }
         else if (!TypeInfo.Types.TryGetValue(typeName, out typeStr))
         {

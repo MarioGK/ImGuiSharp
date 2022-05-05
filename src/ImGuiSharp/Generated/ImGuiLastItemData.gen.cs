@@ -9,3 +9,12 @@ public unsafe partial struct ImGuiLastItemData
         public ImRect NavRect;
         public ImRect DisplayRect;
 }
+public unsafe partial struct ImGuiLastItemDataPtr
+{
+    public ImGuiLastItemData* NativePtr { get; }
+    public ImGuiLastItemDataPtr(ImGuiLastItemData* nativePtr) => NativePtr = nativePtr;
+    public ImGuiLastItemDataPtr(IntPtr nativePtr) => NativePtr = (ImGuiLastItemData*)nativePtr;
+    public static implicit operator ImGuiLastItemDataPtr(ImGuiLastItemData* nativePtr) => new (nativePtr);
+    public static implicit operator ImGuiLastItemData* (ImGuiLastItemDataPtr wrappedPtr) => wrappedPtr.NativePtr;
+    public static implicit operator ImGuiLastItemDataPtr(IntPtr nativePtr) => new (nativePtr);
+}

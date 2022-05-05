@@ -15,3 +15,12 @@ public unsafe partial struct ImGuiTableTempData
         public float HostBackupItemWidth;
         public int HostBackupItemWidthStackSize;
 }
+public unsafe partial struct ImGuiTableTempDataPtr
+{
+    public ImGuiTableTempData* NativePtr { get; }
+    public ImGuiTableTempDataPtr(ImGuiTableTempData* nativePtr) => NativePtr = nativePtr;
+    public ImGuiTableTempDataPtr(IntPtr nativePtr) => NativePtr = (ImGuiTableTempData*)nativePtr;
+    public static implicit operator ImGuiTableTempDataPtr(ImGuiTableTempData* nativePtr) => new (nativePtr);
+    public static implicit operator ImGuiTableTempData* (ImGuiTableTempDataPtr wrappedPtr) => wrappedPtr.NativePtr;
+    public static implicit operator ImGuiTableTempDataPtr(IntPtr nativePtr) => new (nativePtr);
+}

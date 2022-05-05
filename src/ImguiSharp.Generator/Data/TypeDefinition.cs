@@ -33,7 +33,8 @@ internal class TypeDefinition : BaseDefinition
     [JsonIgnore]
     public string TypeName => Type.GetTypeString(IsFunctionPointer);
 
-    public string AddressTarget => IsLegalType ? $"NativePtr->{Name}" : $"&NativePtr->{Name}_0";
+    //TODO move this to struct.template file
+    public string AddressTarget => IsLegalType ? $"NativePtr->{FriendlyName}" : $"&NativePtr->{FriendlyName}0";
 
     public bool IsFunctionPointer => Type.IndexOf('(') != -1;
 

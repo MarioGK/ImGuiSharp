@@ -9,3 +9,12 @@ public unsafe partial struct ImGuiListClipper
         public float StartPosY;
         public void* TempData;
 }
+public unsafe partial struct ImGuiListClipperPtr
+{
+    public ImGuiListClipper* NativePtr { get; }
+    public ImGuiListClipperPtr(ImGuiListClipper* nativePtr) => NativePtr = nativePtr;
+    public ImGuiListClipperPtr(IntPtr nativePtr) => NativePtr = (ImGuiListClipper*)nativePtr;
+    public static implicit operator ImGuiListClipperPtr(ImGuiListClipper* nativePtr) => new (nativePtr);
+    public static implicit operator ImGuiListClipper* (ImGuiListClipperPtr wrappedPtr) => wrappedPtr.NativePtr;
+    public static implicit operator ImGuiListClipperPtr(IntPtr nativePtr) => new (nativePtr);
+}

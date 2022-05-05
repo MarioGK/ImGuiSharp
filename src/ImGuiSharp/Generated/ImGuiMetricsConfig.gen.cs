@@ -11,3 +11,12 @@ public unsafe partial struct ImGuiMetricsConfig
         public int ShowWindowsRectsType;
         public int ShowTablesRectsType;
 }
+public unsafe partial struct ImGuiMetricsConfigPtr
+{
+    public ImGuiMetricsConfig* NativePtr { get; }
+    public ImGuiMetricsConfigPtr(ImGuiMetricsConfig* nativePtr) => NativePtr = nativePtr;
+    public ImGuiMetricsConfigPtr(IntPtr nativePtr) => NativePtr = (ImGuiMetricsConfig*)nativePtr;
+    public static implicit operator ImGuiMetricsConfigPtr(ImGuiMetricsConfig* nativePtr) => new (nativePtr);
+    public static implicit operator ImGuiMetricsConfig* (ImGuiMetricsConfigPtr wrappedPtr) => wrappedPtr.NativePtr;
+    public static implicit operator ImGuiMetricsConfigPtr(IntPtr nativePtr) => new (nativePtr);
+}

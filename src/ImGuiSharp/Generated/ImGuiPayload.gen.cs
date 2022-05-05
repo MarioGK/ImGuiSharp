@@ -11,3 +11,13 @@ public unsafe partial struct ImGuiPayload
         public byte Preview;
         public byte Delivery;
 }
+public unsafe partial struct ImGuiPayloadPtr
+{
+    public ImGuiPayload* NativePtr { get; }
+    public ImGuiPayloadPtr(ImGuiPayload* nativePtr) => NativePtr = nativePtr;
+    public ImGuiPayloadPtr(IntPtr nativePtr) => NativePtr = (ImGuiPayload*)nativePtr;
+    public static implicit operator ImGuiPayloadPtr(ImGuiPayload* nativePtr) => new (nativePtr);
+    public static implicit operator ImGuiPayload* (ImGuiPayloadPtr wrappedPtr) => wrappedPtr.NativePtr;
+    public static implicit operator ImGuiPayloadPtr(IntPtr nativePtr) => new (nativePtr);
+    public RangeAccessor<byte> DataType => new (NativePtr->DataType, 33);
+}

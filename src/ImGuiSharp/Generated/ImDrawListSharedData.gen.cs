@@ -126,3 +126,14 @@ public unsafe partial struct ImDrawListSharedData
         public byte CircleSegmentCounts64;
         public Vector4* TexUvLines;
 }
+public unsafe partial struct ImDrawListSharedDataPtr
+{
+    public ImDrawListSharedData* NativePtr { get; }
+    public ImDrawListSharedDataPtr(ImDrawListSharedData* nativePtr) => NativePtr = nativePtr;
+    public ImDrawListSharedDataPtr(IntPtr nativePtr) => NativePtr = (ImDrawListSharedData*)nativePtr;
+    public static implicit operator ImDrawListSharedDataPtr(ImDrawListSharedData* nativePtr) => new (nativePtr);
+    public static implicit operator ImDrawListSharedData* (ImDrawListSharedDataPtr wrappedPtr) => wrappedPtr.NativePtr;
+    public static implicit operator ImDrawListSharedDataPtr(IntPtr nativePtr) => new (nativePtr);
+    public RangeAccessor<Vector2> ArcFastVtx => new (&NativePtr->ArcFastVtx0, 48);
+    public RangeAccessor<byte> CircleSegmentCounts => new (&NativePtr->CircleSegmentCounts0, 64);
+}

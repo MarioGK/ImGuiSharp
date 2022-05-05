@@ -234,3 +234,15 @@ public unsafe partial struct ImGuiContext
         public int WantTextInputNextFrame;
         public fixed byte TempBuffer[3073];
 }
+public unsafe partial struct ImGuiContextPtr
+{
+    public ImGuiContext* NativePtr { get; }
+    public ImGuiContextPtr(ImGuiContext* nativePtr) => NativePtr = nativePtr;
+    public ImGuiContextPtr(IntPtr nativePtr) => NativePtr = (ImGuiContext*)nativePtr;
+    public static implicit operator ImGuiContextPtr(ImGuiContext* nativePtr) => new (nativePtr);
+    public static implicit operator ImGuiContext* (ImGuiContextPtr wrappedPtr) => wrappedPtr.NativePtr;
+    public static implicit operator ImGuiContextPtr(IntPtr nativePtr) => new (nativePtr);
+    public RangeAccessor<byte> DragDropPayloadBufLocal => new (&NativePtr->DragDropPayloadBufLocal0, 16);
+    public RangeAccessor<float> FramerateSecPerFrame => new (NativePtr->FramerateSecPerFrame, 120);
+    public RangeAccessor<byte> TempBuffer => new (NativePtr->TempBuffer, 3073);
+}

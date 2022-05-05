@@ -15,3 +15,12 @@ public unsafe partial struct ImFontGlyph
         public float U1;
         public float V1;
 }
+public unsafe partial struct ImFontGlyphPtr
+{
+    public ImFontGlyph* NativePtr { get; }
+    public ImFontGlyphPtr(ImFontGlyph* nativePtr) => NativePtr = nativePtr;
+    public ImFontGlyphPtr(IntPtr nativePtr) => NativePtr = (ImFontGlyph*)nativePtr;
+    public static implicit operator ImFontGlyphPtr(ImFontGlyph* nativePtr) => new (nativePtr);
+    public static implicit operator ImFontGlyph* (ImFontGlyphPtr wrappedPtr) => wrappedPtr.NativePtr;
+    public static implicit operator ImFontGlyphPtr(IntPtr nativePtr) => new (nativePtr);
+}

@@ -18,3 +18,12 @@ public unsafe partial struct ImDrawList
         public ImDrawListSplitter Splitter;
         public float FringeScale;
 }
+public unsafe partial struct ImDrawListPtr
+{
+    public ImDrawList* NativePtr { get; }
+    public ImDrawListPtr(ImDrawList* nativePtr) => NativePtr = nativePtr;
+    public ImDrawListPtr(IntPtr nativePtr) => NativePtr = (ImDrawList*)nativePtr;
+    public static implicit operator ImDrawListPtr(ImDrawList* nativePtr) => new (nativePtr);
+    public static implicit operator ImDrawList* (ImDrawListPtr wrappedPtr) => wrappedPtr.NativePtr;
+    public static implicit operator ImDrawListPtr(IntPtr nativePtr) => new (nativePtr);
+}

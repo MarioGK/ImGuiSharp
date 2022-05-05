@@ -20,3 +20,12 @@ public unsafe partial struct ImGuiOldColumns
         public ImVector Columns;
         public ImDrawListSplitter Splitter;
 }
+public unsafe partial struct ImGuiOldColumnsPtr
+{
+    public ImGuiOldColumns* NativePtr { get; }
+    public ImGuiOldColumnsPtr(ImGuiOldColumns* nativePtr) => NativePtr = nativePtr;
+    public ImGuiOldColumnsPtr(IntPtr nativePtr) => NativePtr = (ImGuiOldColumns*)nativePtr;
+    public static implicit operator ImGuiOldColumnsPtr(ImGuiOldColumns* nativePtr) => new (nativePtr);
+    public static implicit operator ImGuiOldColumns* (ImGuiOldColumnsPtr wrappedPtr) => wrappedPtr.NativePtr;
+    public static implicit operator ImGuiOldColumnsPtr(IntPtr nativePtr) => new (nativePtr);
+}

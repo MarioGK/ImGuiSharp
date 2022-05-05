@@ -65,7 +65,7 @@ public static class TypeInfo
         {"ImPool_ImGuiTabBar", "IntPtr"},       //TODO
         {"ImGuiContextHookCallback", "IntPtr"}, //TODO
         {"ImGuiErrorLogCallback", "IntPtr"},    //TODO
-        {"ImVector_ImU32", "ImVector"}          //TODO 1
+        {"ImVector_ImU32", "ImVector"},          //TODO 1
     };
 
     public static readonly List<string> WellKnownEnums = new()

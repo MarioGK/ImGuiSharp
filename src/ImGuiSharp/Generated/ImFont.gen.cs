@@ -23,3 +23,13 @@ public unsafe partial struct ImFont
         public byte Used4kPagesMap1;
         public byte Used4kPagesMap2;
 }
+public unsafe partial struct ImFontPtr
+{
+    public ImFont* NativePtr { get; }
+    public ImFontPtr(ImFont* nativePtr) => NativePtr = nativePtr;
+    public ImFontPtr(IntPtr nativePtr) => NativePtr = (ImFont*)nativePtr;
+    public static implicit operator ImFontPtr(ImFont* nativePtr) => new (nativePtr);
+    public static implicit operator ImFont* (ImFontPtr wrappedPtr) => wrappedPtr.NativePtr;
+    public static implicit operator ImFontPtr(IntPtr nativePtr) => new (nativePtr);
+    public RangeAccessor<byte> Used4kPagesMap => new (&NativePtr->Used4kPagesMap0, 2);
+}

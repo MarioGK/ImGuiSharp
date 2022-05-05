@@ -93,3 +93,14 @@ public unsafe partial struct ImGuiWindow
         public int MemoryDrawListVtxCapacity;
         public byte MemoryCompacted;
 }
+public unsafe partial struct ImGuiWindowPtr
+{
+    public ImGuiWindow* NativePtr { get; }
+    public ImGuiWindowPtr(ImGuiWindow* nativePtr) => NativePtr = nativePtr;
+    public ImGuiWindowPtr(IntPtr nativePtr) => NativePtr = (ImGuiWindow*)nativePtr;
+    public static implicit operator ImGuiWindowPtr(ImGuiWindow* nativePtr) => new (nativePtr);
+    public static implicit operator ImGuiWindow* (ImGuiWindowPtr wrappedPtr) => wrappedPtr.NativePtr;
+    public static implicit operator ImGuiWindowPtr(IntPtr nativePtr) => new (nativePtr);
+    public RangeAccessor<uint> NavLastIds => new (&NativePtr->NavLastIds0, 2);
+    public RangeAccessor<ImRect> NavRectRel => new (&NativePtr->NavRectRel0, 2);
+}

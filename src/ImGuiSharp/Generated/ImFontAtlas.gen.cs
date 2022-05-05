@@ -88,3 +88,13 @@ public unsafe partial struct ImFontAtlas
         public int PackIdMouseCursors;
         public int PackIdLines;
 }
+public unsafe partial struct ImFontAtlasPtr
+{
+    public ImFontAtlas* NativePtr { get; }
+    public ImFontAtlasPtr(ImFontAtlas* nativePtr) => NativePtr = nativePtr;
+    public ImFontAtlasPtr(IntPtr nativePtr) => NativePtr = (ImFontAtlas*)nativePtr;
+    public static implicit operator ImFontAtlasPtr(ImFontAtlas* nativePtr) => new (nativePtr);
+    public static implicit operator ImFontAtlas* (ImFontAtlasPtr wrappedPtr) => wrappedPtr.NativePtr;
+    public static implicit operator ImFontAtlasPtr(IntPtr nativePtr) => new (nativePtr);
+    public RangeAccessor<Vector4> TexUvLines => new (&NativePtr->TexUvLines0, 64);
+}

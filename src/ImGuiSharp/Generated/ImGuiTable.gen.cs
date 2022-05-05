@@ -108,3 +108,13 @@ public unsafe partial struct ImGuiTable
         public byte MemoryCompacted;
         public byte HostSkipItems;
 }
+public unsafe partial struct ImGuiTablePtr
+{
+    public ImGuiTable* NativePtr { get; }
+    public ImGuiTablePtr(ImGuiTable* nativePtr) => NativePtr = nativePtr;
+    public ImGuiTablePtr(IntPtr nativePtr) => NativePtr = (ImGuiTable*)nativePtr;
+    public static implicit operator ImGuiTablePtr(ImGuiTable* nativePtr) => new (nativePtr);
+    public static implicit operator ImGuiTable* (ImGuiTablePtr wrappedPtr) => wrappedPtr.NativePtr;
+    public static implicit operator ImGuiTablePtr(IntPtr nativePtr) => new (nativePtr);
+    public RangeAccessor<uint> RowBgColor => new (&NativePtr->RowBgColor0, 2);
+}

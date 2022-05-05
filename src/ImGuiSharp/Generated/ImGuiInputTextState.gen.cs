@@ -18,3 +18,12 @@ public unsafe partial struct ImGuiInputTextState
         public byte Edited;
         public ImGuiInputTextFlags Flags;
 }
+public unsafe partial struct ImGuiInputTextStatePtr
+{
+    public ImGuiInputTextState* NativePtr { get; }
+    public ImGuiInputTextStatePtr(ImGuiInputTextState* nativePtr) => NativePtr = nativePtr;
+    public ImGuiInputTextStatePtr(IntPtr nativePtr) => NativePtr = (ImGuiInputTextState*)nativePtr;
+    public static implicit operator ImGuiInputTextStatePtr(ImGuiInputTextState* nativePtr) => new (nativePtr);
+    public static implicit operator ImGuiInputTextState* (ImGuiInputTextStatePtr wrappedPtr) => wrappedPtr.NativePtr;
+    public static implicit operator ImGuiInputTextStatePtr(IntPtr nativePtr) => new (nativePtr);
+}

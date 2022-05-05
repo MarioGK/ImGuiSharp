@@ -34,3 +34,12 @@ public unsafe partial struct ImGuiTabBar
         public Vector2 BackupCursorPos;
         public ImGuiTextBuffer TabsNames;
 }
+public unsafe partial struct ImGuiTabBarPtr
+{
+    public ImGuiTabBar* NativePtr { get; }
+    public ImGuiTabBarPtr(ImGuiTabBar* nativePtr) => NativePtr = nativePtr;
+    public ImGuiTabBarPtr(IntPtr nativePtr) => NativePtr = (ImGuiTabBar*)nativePtr;
+    public static implicit operator ImGuiTabBarPtr(ImGuiTabBar* nativePtr) => new (nativePtr);
+    public static implicit operator ImGuiTabBar* (ImGuiTabBarPtr wrappedPtr) => wrappedPtr.NativePtr;
+    public static implicit operator ImGuiTabBarPtr(IntPtr nativePtr) => new (nativePtr);
+}
