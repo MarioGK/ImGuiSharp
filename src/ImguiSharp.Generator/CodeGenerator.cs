@@ -36,7 +36,10 @@ internal class CodeGenerator
 
     private IEnumerable<GeneratedFile> GenerateStructs()
     {
-        return DefinitionsParser.StructDefinitions.Select(x => ParseWithTemplate("Struct.template", x));
+        return DefinitionsParser.StructDefinitions
+                                .Where(x => !TypeInfo.CustomDefinedTypes.Contains(x.Name))
+                                .Where(x => !TypeInfo.IgnoredEnums.Contains(x.Name))
+                                .Select(x => ParseWithTemplate("Struct.template", x));
     }
 
     private static GeneratedFile ParseWithTemplate(string templateName, BaseDefinition data)

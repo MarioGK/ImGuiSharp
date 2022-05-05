@@ -73,11 +73,6 @@ public static class TypeInfo
         "ImGuiMouseButton"
     };
 
-    public static readonly Dictionary<string, string> WellKnownFieldReplacements = new()
-    {
-        {"bool", "bool"} // Force bool to remain as bool in type-safe wrappers.
-    };
-
     public static readonly HashSet<string> CustomDefinedTypes = new()
     {
         "ImVector",
@@ -155,6 +150,11 @@ public static class TypeInfo
         "igInputTextMultiline",
         "igCalcTextSize",
         "igInputTextWithHint"
+    };
+
+    public static readonly List<string> IgnoredEnums = new()
+    {
+        "ImGuiKeyPrivate"
     };
 
     public static readonly List<string> PrefixToRemove = new()

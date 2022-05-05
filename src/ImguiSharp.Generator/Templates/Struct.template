@@ -13,7 +13,7 @@ public unsafe partial struct {{FriendlyName}}
     {{end}}
     {{end}}
     {{else}}
-    public {{field.Type}} {{field.Name}};
+    public {{field.TypeName}} {{field.Name}};
     {{end}}
  {{end}}
 }

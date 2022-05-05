@@ -127,6 +127,7 @@ internal class DefinitionsParser
             }
 
             //Sanitize the names and values
+            enumDef.FixSize();
             enumDef.NameSpace = ProjInfo.NameSpace;
             enumDef.SanitizeNames();
 

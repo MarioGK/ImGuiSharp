@@ -71,7 +71,7 @@ internal class TypeReference
         var plusStart = sizePart.IndexOf('+');
         if (plusStart != -1)
         {
-            var first = sizePart.Substring(0, plusStart);
+            var first = sizePart[..plusStart];
             var second = sizePart.Substring(plusStart, sizePart.Length - plusStart);
             var firstVal = int.Parse(first);
             var secondVal = int.Parse(second);
