@@ -7,8 +7,10 @@ namespace ImGuiSharp.Generator;
 
 internal class CodeGenerator
 {
-    public CodeGenerator(ProjectInfo projectInfo)
+    public string Output { get; }
+    public CodeGenerator(ProjectInfo projectInfo, string output)
     {
+        Output = output;
         DefinitionsParser = new DefinitionsParser(projectInfo);
     }
 
@@ -22,6 +24,12 @@ internal class CodeGenerator
         var enums = GenerateEnums();
 
         return structs.Concat(enums);
+    }
+
+    public void WriteAll()
+    {
+        var files = GenerateAll();
+        WriteFiles(files);
     }
 
     private IEnumerable<GeneratedFile> GeneratedClasses()
@@ -44,7 +52,7 @@ internal class CodeGenerator
 
     private static GeneratedFile ParseWithTemplate(string templateName, BaseDefinition data)
     {
-        var templateString = ResourceReader.GetResource(templateName);
+        var templateString = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "Templates", templateName));
         var template = Template.Parse(templateString);
         var code = template.Render(data, member => member.Name);
         code = code.RemoveEmptyLines();
@@ -55,5 +63,25 @@ internal class CodeGenerator
         }
 
         return new GeneratedFile(data.FriendlyName + ".gen.cs", code);
+    }
+
+    private void WriteFiles(IEnumerable<GeneratedFile> files)
+    {
+        if (Directory.Exists(Output))
+        {
+            Directory.Delete(Output, true);
+            Directory.CreateDirectory(Output);
+        }
+        else
+        {
+            Directory.CreateDirectory(Output);
+        }
+        
+        foreach (var file in files)
+        {
+            var path = Path.Combine(Output, file.FileName);
+            Console.WriteLine($"Writing file: {path}");
+            File.WriteAllText(path, file.Content);
+        }
     }
 }

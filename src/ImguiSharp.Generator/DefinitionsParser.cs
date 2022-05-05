@@ -12,8 +12,10 @@ internal class DefinitionsParser
     public DefinitionsParser(ProjectInfo projInfo)
     {
         ProjInfo = projInfo;
+        DefinitionsDirectory = Path.Combine(AppContext.BaseDirectory, "defs", projInfo.NativeProjectName);
     }
 
+    public string      DefinitionsDirectory { get; }
     public ProjectInfo ProjInfo { get; set; }
 
     public List<VariantDefinition> VariantDefinitions { get; } = new();
@@ -33,7 +35,7 @@ internal class DefinitionsParser
 
     public void ParseImplementedDefinitions()
     {
-        var content = GetFileContent("impl_definitions.json");
+        var content = ReadFile("impl_definitions.json");
 
         if (string.IsNullOrEmpty(content))
         {
@@ -63,7 +65,7 @@ internal class DefinitionsParser
 
     public void ParseDefinitions()
     {
-        var content = GetFileContent("definitions.json");
+        var content = ReadFile("definitions.json");
 
         if (string.IsNullOrEmpty(content))
         {
@@ -94,7 +96,7 @@ internal class DefinitionsParser
 
     public void ParseEnums()
     {
-        var content = GetFileContent("structs_and_enums.json");
+        var content = ReadFile("structs_and_enums.json");
 
         if (string.IsNullOrEmpty(content))
         {
@@ -108,7 +110,7 @@ internal class DefinitionsParser
         foreach (var enumProp in enumsElement.EnumerateObject())
         {
             var id = enumProp.Name;
-            if (id.Contains("Private", StringComparison.OrdinalIgnoreCase))
+            if (id.Contains("Private"))
             {
                 continue;
             }
@@ -142,7 +144,7 @@ internal class DefinitionsParser
 
     public void ParseStructs()
     {
-        var content = GetFileContent("structs_and_enums.json");
+        var content = ReadFile("structs_and_enums.json");
 
         if (string.IsNullOrEmpty(content))
         {
@@ -191,7 +193,7 @@ internal class DefinitionsParser
 
     public void ParseVariants()
     {
-        var content = GetFileContent("variants.json");
+        var content = ReadFile("variants.json");
 
         if (string.IsNullOrEmpty(content))
         {
@@ -217,10 +219,11 @@ internal class DefinitionsParser
             }
         }
     }
-
-    private string GetFileContent(string file)
+    
+    private string ReadFile(string file)
     {
-        return ResourceReader.GetResource($"{ProjInfo.NativeProjectName}.{file}") ?? string.Empty;
+        file = Path.Combine(DefinitionsDirectory, file);
+        return !File.Exists(file) ? string.Empty : File.ReadAllText(file);
     }
 
     private TypeDefinition FixSize(TypeDefinition typeDefinition)

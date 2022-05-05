@@ -1,0 +1,31 @@
+// ReSharper disable once CheckNamespace
+namespace ImGui;
+public enum ImGuiStyleVar
+{
+    ImGuiStyleVarAlpha = 0,
+    ImGuiStyleVarDisabledAlpha = 1,
+    ImGuiStyleVarWindowPadding = 2,
+    ImGuiStyleVarWindowRounding = 3,
+    ImGuiStyleVarWindowBorderSize = 4,
+    ImGuiStyleVarWindowMinSize = 5,
+    ImGuiStyleVarWindowTitleAlign = 6,
+    ImGuiStyleVarChildRounding = 7,
+    ImGuiStyleVarChildBorderSize = 8,
+    ImGuiStyleVarPopupRounding = 9,
+    ImGuiStyleVarPopupBorderSize = 10,
+    ImGuiStyleVarFramePadding = 11,
+    ImGuiStyleVarFrameRounding = 12,
+    ImGuiStyleVarFrameBorderSize = 13,
+    ImGuiStyleVarItemSpacing = 14,
+    ImGuiStyleVarItemInnerSpacing = 15,
+    ImGuiStyleVarIndentSpacing = 16,
+    ImGuiStyleVarCellPadding = 17,
+    ImGuiStyleVarScrollbarSize = 18,
+    ImGuiStyleVarScrollbarRounding = 19,
+    ImGuiStyleVarGrabMinSize = 20,
+    ImGuiStyleVarGrabRounding = 21,
+    ImGuiStyleVarTabRounding = 22,
+    ImGuiStyleVarButtonTextAlign = 23,
+    ImGuiStyleVarSelectableTextAlign = 24,
+    ImGuiStyleVarCOUNT = 25,
+}
