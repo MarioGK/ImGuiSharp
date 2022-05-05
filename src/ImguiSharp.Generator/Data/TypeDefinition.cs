@@ -3,12 +3,12 @@ using ImGuiSharp.Generator.Helpers;
 
 namespace ImGuiSharp.Generator.Data;
 
-internal class TypeDefinition
+internal class TypeDefinition : BaseDefinition
 {
     [JsonPropertyName("name")]
     public string Name { get; set; }
 
-    public string FriendlyName => GetFriendlyName();
+    public new string FriendlyName => GetFriendlyName();
 
     [JsonPropertyName("type")]
     public string Type { get; set; }

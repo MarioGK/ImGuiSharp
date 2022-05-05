@@ -48,9 +48,9 @@ internal class CodeGenerator
 
         if (string.IsNullOrEmpty(code))
         {
-            throw new Exception($"Code could not be generated for {data.Name}");
+            throw new Exception($"Code could not be generated for {data.FriendlyName}");
         }
         
-        return new GeneratedFile(data.Name + ".gen.cs", code);
+        return new GeneratedFile(data.FriendlyName + ".gen.cs", code);
     }
 }
