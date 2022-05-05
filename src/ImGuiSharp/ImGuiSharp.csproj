@@ -57,9 +57,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\ImguiSharp.Generator\ImguiSharp.Generator.csproj" 
-                          OutputItemType="Analyzer" 
-                          ReferenceOutputAssembly="false" />
+        <ProjectReference Include="..\ImguiSharp.Generator\ImguiSharp.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
     </ItemGroup>
 
     <ItemGroup>

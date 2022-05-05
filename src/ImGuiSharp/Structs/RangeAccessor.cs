@@ -1,7 +1,4 @@
-﻿using System;
-using System.Runtime.CompilerServices;
-
-namespace ImGuiSharp.Structs;
+﻿namespace ImGuiSharp.Structs;
 
 public unsafe readonly struct RangeAccessor<T> where T : struct
 {

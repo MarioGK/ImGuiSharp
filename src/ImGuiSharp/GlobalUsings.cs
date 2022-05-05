@@ -1,4 +1,5 @@
-﻿global using ImGuiSharp;
+﻿global using ImGui;
+global using ImGuiSharp;
 global using ImGuiSharp.Structs;
 global using ImGuiSharp.Extensions;
 global using System;

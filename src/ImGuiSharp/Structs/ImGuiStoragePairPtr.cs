@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ImGuiSharp.Structs;
+﻿namespace ImGuiSharp.Structs;
 
 public unsafe struct ImGuiStoragePairPtr
 {

@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace ImGuiSharp.Extensions;
+﻿namespace ImGuiSharp.Extensions;
 
 public static class RangeAccessorExtensions
 {
