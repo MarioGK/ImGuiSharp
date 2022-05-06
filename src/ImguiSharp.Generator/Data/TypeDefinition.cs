@@ -32,11 +32,43 @@ internal class TypeDefinition : BaseDefinition
 
     [JsonIgnore]
     public string TypeName => Type.GetTypeString(IsFunctionPointer);
+    public string? WrappedPointerType => GetWrappedType(true);
+    public string? WrappedType => GetWrappedType();
 
     //TODO move this to struct.template file
     public string AddressTarget => IsLegalType ? $"NativePtr->{FriendlyName}" : $"&NativePtr->{FriendlyName}0";
 
     public bool IsFunctionPointer => Type.IndexOf('(') != -1;
+    
+    private string? GetWrappedType(bool pointer = false)
+    {
+        if (!Type.StartsWith("Im") || !pointer || !TypeInfo.TypesToNotToWrap.AnyStartsWith(Type))
+        {
+            return null;
+        }
+        
+        if (TypeInfo.Types.ContainsKey(Type))
+        {
+            return null;
+        }
+        
+        return Type + "Ptr";
+
+        //var pointerLevel = Type.Length - Type.IndexOf('*');
+        //if (pointerLevel > 1)
+        //{
+        //    return null; // TODO
+        //}
+        //
+        //var nonPtrType = Type[..^pointerLevel];
+        //
+        //if (TypeInfo.Types.ContainsKey(nonPtrType))
+        //{
+        //    return null;
+        //}
+        //
+        //return nonPtrType + "Ptr";
+    }
 
     private string GetFriendlyName()
     {

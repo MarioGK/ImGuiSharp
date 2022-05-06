@@ -10,7 +10,7 @@ namespace CodeGenerator;
 
 internal static class Generator
 {
-    private static readonly List<ProjectInfo> ProjectInfos = new()
+    public static readonly List<ProjectInfo> ProjectInfos = new()
     {
         new ProjectInfo
         {
@@ -159,6 +159,7 @@ internal static class Generator
                                          : $"&NativePtr->{field.Name}_0";
                     writer.WriteLine($"public RangeAccessor<{typeStr}> {field.Name} => new RangeAccessor<{typeStr}>({addrTarget}, {field.ArraySize});");
                 }
+                //TODO
                 else if (typeStr.Contains("ImVector"))
                 {
                     var vectorElementType = GetTypeString(field.TemplateType, false);
@@ -184,6 +185,7 @@ internal static class Generator
                 }
                 else
                 {
+                    //TODO
                     if (typeStr.Contains('*') && !typeStr.Contains("ImVector"))
                     {
                         if (GetWrappedType(typeStr, out var wrappedTypeName))
@@ -687,8 +689,10 @@ internal static class Generator
                 var isOutParam = tr.Name.Contains("out_") || tr.Name == "out";
                 var direction = isOutParam ? "out" : "ref";
                 marshalledParameters[i] =
-                    new MarshalledParameter($"{direction} {nonPtrType}", true, nativeArgName, false);
-                marshalledParameters[i].PinTarget = CorrectIdentifier(tr.Name);
+                    new MarshalledParameter($"{direction} {nonPtrType}", true, nativeArgName, false)
+                    {
+                        PinTarget = CorrectIdentifier(tr.Name)
+                    };
             }
             else
             {

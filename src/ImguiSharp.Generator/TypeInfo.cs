@@ -156,6 +156,15 @@ public static class TypeInfo
     {
         "ImGuiKeyPrivate"
     };
+    
+    /// <summary>
+    /// Used in the GetWrappedType()
+    /// </summary>
+    public static readonly List<string> TypesToNotToWrap = new()
+    {
+        "ImVector",
+        "ImChunkStream"
+    };
 
     public static readonly List<string> PrefixToRemove = new()
     {

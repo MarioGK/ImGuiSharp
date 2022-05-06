@@ -31,7 +31,9 @@ public unsafe partial struct {{Name}}Ptr
     {{if field.IsArray}}
 public RangeAccessor<{{field.TypeName}}> {{field.FriendlyName}} => new ({{field.AddressTarget}}, {{field.ArraySize}});
     {{else}}
-
+//TODO ARRAY ACCESSOR
     {{end}}
  {{end}}
+
+//TODO Functions
 }

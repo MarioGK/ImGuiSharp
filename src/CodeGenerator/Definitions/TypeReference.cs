@@ -65,6 +65,29 @@ internal class TypeReference
     public bool IsFunctionPointer { get; }
     public string[] TypeVariants { get; }
     public bool IsEnum { get; }
+    
+    private static string? GetWrappedType(string nativeType)
+    {
+        if (nativeType.StartsWith("Im") && nativeType.EndsWith("*") && !nativeType.StartsWith("ImVector"))
+        {
+            var pointerLevel = nativeType.Length - nativeType.IndexOf('*');
+            if (pointerLevel > 1)
+            {
+                return null; // TODO
+            }
+
+            var nonPtrType = nativeType.Substring(0, nativeType.Length - pointerLevel);
+
+            if (TypeInfo.WellKnownTypes.ContainsKey(nonPtrType))
+            {
+                return null;
+            }
+
+            return nonPtrType + "Ptr";
+        }
+
+        return null;
+    }
 
     private int ParseSizeString(string sizePart, EnumDefinition[] enums)
     {

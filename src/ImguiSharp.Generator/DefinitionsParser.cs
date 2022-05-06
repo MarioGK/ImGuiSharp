@@ -21,8 +21,8 @@ internal class DefinitionsParser
     public List<VariantDefinition> VariantDefinitions { get; } = new();
     public List<EnumDefinition> EnumDefinitions { get; } = new();
     public List<StructDefinition> StructDefinitions { get; } = new();
-    public List<FunctionDefinition> FunctionDefinitions { get; } = new();
-    public List<FunctionDefinition> ImplementedDefinitions { get; } = new();
+    public List<FunctionOverload> FunctionDefinitions { get; } = new();
+    public List<FunctionOverload> ImplementedDefinitions { get; } = new();
 
     public void ParseAll()
     {
@@ -50,7 +50,7 @@ internal class DefinitionsParser
 
             foreach (var innerProp in enumProp.Value.EnumerateArray())
             {
-                var functionDefinition = innerProp.Deserialize<FunctionDefinition>();
+                var functionDefinition = innerProp.Deserialize<FunctionOverload>();
 
                 if (functionDefinition == null)
                 {
@@ -77,19 +77,30 @@ internal class DefinitionsParser
         foreach (var enumProp in document.RootElement.EnumerateObject())
         {
             var id = enumProp.Name;
-
-
+            var functionDefinition = new FunctionDefinition
+            {
+                Name = id
+            };
+            
             foreach (var innerProp in enumProp.Value.EnumerateArray())
             {
-                var functionDefinition = innerProp.Deserialize<FunctionDefinition>();
+                var functionOverload = innerProp.Deserialize<FunctionOverload>();
 
-                if (functionDefinition == null)
+                if (functionOverload == null || 
+                    functionOverload.Cimguiname.EndsWith("nonUDT") ||
+                    functionOverload.ExportedName.Contains('~'))
                 {
                     continue;
                 }
+                
+                if (functionOverload.ArgumentDefinitions.Any(tr => tr.Type.Contains('(')))
+                {
+                    continue;
+                } // TODO: Parse function pointer parameters.
 
-                functionDefinition.Id = id;
-                FunctionDefinitions.Add(functionDefinition);
+                functionOverload.FixReturnType();
+                functionOverload.Id = id;
+                functionDefinition.Overloads.Add(functionOverload);
             }
         }
     }

@@ -1,0 +1,10 @@
+﻿// ReSharper disable once CheckNamespace
+namespace {{NameSpace}};
+
+public static unsafe partial class {{FriendlyName}}Native
+{
+{{for functionOverload in Overloads}}
+[DllImport(\"{{projectInfo.NativeProjectName}}\", CallingConvention = CallingConvention.Cdecl)]
+public static extern {functionOverload.ReturnType} {functionOverload.ExportedName}({functionOverload.Parameters});
+{{end}}
+}
