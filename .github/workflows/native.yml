@@ -26,6 +26,7 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
       - name: Build
-        run:  |
-              build.ps1
         shell: pwsh
+        run:  |
+              ./build.ps1
+        
