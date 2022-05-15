@@ -30,5 +30,24 @@ public unsafe partial struct ImFontConfigPtr
     public static implicit operator ImFontConfigPtr(ImFontConfig* nativePtr) => new (nativePtr);
     public static implicit operator ImFontConfig* (ImFontConfigPtr wrappedPtr) => wrappedPtr.NativePtr;
     public static implicit operator ImFontConfigPtr(IntPtr nativePtr) => new (nativePtr);
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
     public RangeAccessor<byte> Name => new (NativePtr->Name, 40);
+    //TODO ARRAY ACCESSOR
+//TODO Functions
 }

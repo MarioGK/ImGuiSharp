@@ -19,5 +19,13 @@ public unsafe partial struct ImGuiPayloadPtr
     public static implicit operator ImGuiPayloadPtr(ImGuiPayload* nativePtr) => new (nativePtr);
     public static implicit operator ImGuiPayload* (ImGuiPayloadPtr wrappedPtr) => wrappedPtr.NativePtr;
     public static implicit operator ImGuiPayloadPtr(IntPtr nativePtr) => new (nativePtr);
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
     public RangeAccessor<byte> DataType => new (NativePtr->DataType, 33);
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+//TODO Functions
 }

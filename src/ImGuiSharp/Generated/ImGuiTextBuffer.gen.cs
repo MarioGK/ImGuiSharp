@@ -12,4 +12,6 @@ public unsafe partial struct ImGuiTextBufferPtr
     public static implicit operator ImGuiTextBufferPtr(ImGuiTextBuffer* nativePtr) => new (nativePtr);
     public static implicit operator ImGuiTextBuffer* (ImGuiTextBufferPtr wrappedPtr) => wrappedPtr.NativePtr;
     public static implicit operator ImGuiTextBufferPtr(IntPtr nativePtr) => new (nativePtr);
+    //TODO ARRAY ACCESSOR
+//TODO Functions
 }

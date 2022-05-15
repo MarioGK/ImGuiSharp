@@ -14,4 +14,8 @@ public unsafe partial struct ImGuiTableSortSpecsPtr
     public static implicit operator ImGuiTableSortSpecsPtr(ImGuiTableSortSpecs* nativePtr) => new (nativePtr);
     public static implicit operator ImGuiTableSortSpecs* (ImGuiTableSortSpecsPtr wrappedPtr) => wrappedPtr.NativePtr;
     public static implicit operator ImGuiTableSortSpecsPtr(IntPtr nativePtr) => new (nativePtr);
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+//TODO Functions
 }

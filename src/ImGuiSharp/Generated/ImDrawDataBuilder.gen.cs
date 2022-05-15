@@ -15,4 +15,5 @@ public unsafe partial struct ImDrawDataBuilderPtr
     public static implicit operator ImDrawDataBuilder* (ImDrawDataBuilderPtr wrappedPtr) => wrappedPtr.NativePtr;
     public static implicit operator ImDrawDataBuilderPtr(IntPtr nativePtr) => new (nativePtr);
     public RangeAccessor<ImVector> Layers => new (&NativePtr->Layers0, 2);
+//TODO Functions
 }

@@ -19,4 +19,13 @@ public unsafe partial struct ImFontAtlasCustomRectPtr
     public static implicit operator ImFontAtlasCustomRectPtr(ImFontAtlasCustomRect* nativePtr) => new (nativePtr);
     public static implicit operator ImFontAtlasCustomRect* (ImFontAtlasCustomRectPtr wrappedPtr) => wrappedPtr.NativePtr;
     public static implicit operator ImFontAtlasCustomRectPtr(IntPtr nativePtr) => new (nativePtr);
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+//TODO Functions
 }

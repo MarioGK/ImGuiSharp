@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using ImGuiSharp.Generator.Data;
+using ImGuiSharp.Generator.Helpers;
 using ImGuiSharp.Generator.Models;
 
 namespace ImGuiSharp.Generator;
@@ -22,7 +23,6 @@ internal class DefinitionsParser
     public List<EnumDefinition> EnumDefinitions { get; } = new();
     public List<StructDefinition> StructDefinitions { get; } = new();
     public List<FunctionOverload> FunctionDefinitions { get; } = new();
-    public List<FunctionOverload> ImplementedDefinitions { get; } = new();
 
     public void ParseAll()
     {
@@ -30,58 +30,23 @@ internal class DefinitionsParser
         ParseEnums();
         ParseStructs();
         ParseDefinitions();
-        ParseImplementedDefinitions();
-    }
-
-    public void ParseImplementedDefinitions()
-    {
-        var content = ReadFile("impl_definitions.json");
-
-        if (string.IsNullOrEmpty(content))
-        {
-            return;
-        }
-
-        var document = JsonDocument.Parse(content);
-
-        foreach (var enumProp in document.RootElement.EnumerateObject())
-        {
-            var id = enumProp.Name;
-
-            foreach (var innerProp in enumProp.Value.EnumerateArray())
-            {
-                var functionDefinition = innerProp.Deserialize<FunctionOverload>();
-
-                if (functionDefinition == null)
-                {
-                    continue;
-                }
-
-                functionDefinition.Id = id;
-                ImplementedDefinitions.Add(functionDefinition);
-            }
-        }
     }
 
     public void ParseDefinitions()
     {
-        var content = ReadFile("definitions.json");
+        var definitionsContent = ReadFile("definitions.json");
+        var implDefinitionContent = ReadFile("impl_definitions.json");
 
-        if (string.IsNullOrEmpty(content))
-        {
-            return;
-        }
+        var definitionsDocument = JsonDocument.Parse(definitionsContent);
+        var implDefinitionDocument = JsonDocument.Parse(implDefinitionContent);
 
-        var document = JsonDocument.Parse(content);
+        var objects = definitionsDocument.RootElement.EnumerateObject()
+                                          .Concat(implDefinitionDocument.RootElement.EnumerateObject());
 
-        foreach (var enumProp in document.RootElement.EnumerateObject())
+        foreach (var enumProp in objects)
         {
             var id = enumProp.Name;
-            var functionDefinition = new FunctionDefinition
-            {
-                Name = id
-            };
-            
+
             foreach (var innerProp in enumProp.Value.EnumerateArray())
             {
                 var functionOverload = innerProp.Deserialize<FunctionOverload>();
@@ -98,9 +63,15 @@ internal class DefinitionsParser
                     continue;
                 } // TODO: Parse function pointer parameters.
 
-                functionOverload.FixReturnType();
+                functionOverload.RunFixes();
                 functionOverload.Id = id;
-                functionDefinition.Overloads.Add(functionOverload);
+
+                if (string.IsNullOrEmpty(functionOverload.ReturnType) || functionOverload.ExportedName.ContainsAny(TypeInfo.FunctionsToIgnore))
+                {
+                    continue;
+                }
+
+                FunctionDefinitions.Add(functionOverload);
             }
         }
     }

@@ -157,18 +157,34 @@ public static class TypeInfo
         "ImGuiKeyPrivate"
     };
     
+    //TODO: Maybe join all the below lists into one?
     /// <summary>
     /// Used in the GetWrappedType()
     /// </summary>
     public static readonly List<string> TypesToNotToWrap = new()
     {
         "ImVector",
-        "ImChunkStream"
+        "ImChunkStream",
+        "ImVector",
+        "ImChunkStream",
+        "ImSpan",
+        "ImPool"
     };
 
     public static readonly List<string> PrefixToRemove = new()
     {
         "ImVector_",
-        "ImChunkStream_"
+        "ImChunkStream_",
+        "ImSpan_",
+        "ImPool_"
+    };
+    
+    public static readonly List<string> FunctionsToIgnore = new()
+    {
+        "~",
+        "ImVector_",
+        "ImChunkStream_",
+        "ImSpan_",
+        "ImPool_"
     };
 }

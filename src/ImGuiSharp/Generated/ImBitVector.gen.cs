@@ -12,4 +12,6 @@ public unsafe partial struct ImBitVectorPtr
     public static implicit operator ImBitVectorPtr(ImBitVector* nativePtr) => new (nativePtr);
     public static implicit operator ImBitVector* (ImBitVectorPtr wrappedPtr) => wrappedPtr.NativePtr;
     public static implicit operator ImBitVectorPtr(IntPtr nativePtr) => new (nativePtr);
+    //TODO ARRAY ACCESSOR
+//TODO Functions
 }

@@ -17,4 +17,11 @@ public unsafe partial struct ImGuiComboPreviewDataPtr
     public static implicit operator ImGuiComboPreviewDataPtr(ImGuiComboPreviewData* nativePtr) => new (nativePtr);
     public static implicit operator ImGuiComboPreviewData* (ImGuiComboPreviewDataPtr wrappedPtr) => wrappedPtr.NativePtr;
     public static implicit operator ImGuiComboPreviewDataPtr(IntPtr nativePtr) => new (nativePtr);
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+//TODO Functions
 }

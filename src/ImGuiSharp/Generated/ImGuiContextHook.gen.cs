@@ -16,4 +16,10 @@ public unsafe partial struct ImGuiContextHookPtr
     public static implicit operator ImGuiContextHookPtr(ImGuiContextHook* nativePtr) => new (nativePtr);
     public static implicit operator ImGuiContextHook* (ImGuiContextHookPtr wrappedPtr) => wrappedPtr.NativePtr;
     public static implicit operator ImGuiContextHookPtr(IntPtr nativePtr) => new (nativePtr);
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+//TODO Functions
 }

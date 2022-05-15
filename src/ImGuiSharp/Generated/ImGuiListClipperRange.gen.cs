@@ -16,4 +16,10 @@ public unsafe partial struct ImGuiListClipperRangePtr
     public static implicit operator ImGuiListClipperRangePtr(ImGuiListClipperRange* nativePtr) => new (nativePtr);
     public static implicit operator ImGuiListClipperRange* (ImGuiListClipperRangePtr wrappedPtr) => wrappedPtr.NativePtr;
     public static implicit operator ImGuiListClipperRangePtr(IntPtr nativePtr) => new (nativePtr);
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+//TODO Functions
 }

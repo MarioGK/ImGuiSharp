@@ -23,4 +23,17 @@ public unsafe partial struct ImGuiTableTempDataPtr
     public static implicit operator ImGuiTableTempDataPtr(ImGuiTableTempData* nativePtr) => new (nativePtr);
     public static implicit operator ImGuiTableTempData* (ImGuiTableTempDataPtr wrappedPtr) => wrappedPtr.NativePtr;
     public static implicit operator ImGuiTableTempDataPtr(IntPtr nativePtr) => new (nativePtr);
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+//TODO Functions
 }

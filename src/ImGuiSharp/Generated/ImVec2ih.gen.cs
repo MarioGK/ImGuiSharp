@@ -13,4 +13,7 @@ public unsafe partial struct ImVec2ihPtr
     public static implicit operator ImVec2ihPtr(ImVec2ih* nativePtr) => new (nativePtr);
     public static implicit operator ImVec2ih* (ImVec2ihPtr wrappedPtr) => wrappedPtr.NativePtr;
     public static implicit operator ImVec2ihPtr(IntPtr nativePtr) => new (nativePtr);
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+//TODO Functions
 }

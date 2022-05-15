@@ -1,8 +1,9 @@
 ﻿using System.Text.Json.Serialization;
+using ImGuiSharp.Generator.Helpers;
 
 namespace ImGuiSharp.Generator.Data;
 
-internal class FunctionOverload
+internal class FunctionOverload : BaseDefinition
 {
     public string Id { get; set; }
 
@@ -34,7 +35,7 @@ internal class FunctionOverload
     public string? CimguiName { get; set; }
 
     [JsonPropertyName("ret")]
-    public string ReturnType { get; set; }
+    public string? ReturnType { get; set; }
 
     [JsonPropertyName("signature")]
     public string Signature { get; set; }
@@ -57,8 +58,31 @@ internal class FunctionOverload
         return exportedName;
     }
 
-    public void FixReturnType()
+    public void RunFixes()
     {
-        ReturnType = ReturnType.Replace("const", string.Empty).Replace("inline", string.Empty).Trim();
+        FixReturnType();
+        
+        
+    }
+
+    private void FixReturnType()
+    {
+        switch (ReturnType)
+        {
+            case "bool":
+                ReturnType =  "bool";
+                return;
+            case "char*":
+                ReturnType = "string";
+                return;
+            case "ImWchar*":
+            case "void*":
+                ReturnType = "IntPtr";
+                return;
+        }
+
+        ReturnType = ReturnType?.Replace("const", string.Empty).Replace("inline", string.Empty).Trim() ?? string.Empty;
+
+        ReturnType = ReturnType.GetTypeString(false);
     }
 }

@@ -16,4 +16,10 @@ public unsafe partial struct ImGuiWindowSettingsPtr
     public static implicit operator ImGuiWindowSettingsPtr(ImGuiWindowSettings* nativePtr) => new (nativePtr);
     public static implicit operator ImGuiWindowSettings* (ImGuiWindowSettingsPtr wrappedPtr) => wrappedPtr.NativePtr;
     public static implicit operator ImGuiWindowSettingsPtr(IntPtr nativePtr) => new (nativePtr);
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+//TODO Functions
 }

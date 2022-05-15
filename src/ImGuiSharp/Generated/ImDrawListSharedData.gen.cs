@@ -134,6 +134,16 @@ public unsafe partial struct ImDrawListSharedDataPtr
     public static implicit operator ImDrawListSharedDataPtr(ImDrawListSharedData* nativePtr) => new (nativePtr);
     public static implicit operator ImDrawListSharedData* (ImDrawListSharedDataPtr wrappedPtr) => wrappedPtr.NativePtr;
     public static implicit operator ImDrawListSharedDataPtr(IntPtr nativePtr) => new (nativePtr);
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
     public RangeAccessor<Vector2> ArcFastVtx => new (&NativePtr->ArcFastVtx0, 48);
+    //TODO ARRAY ACCESSOR
     public RangeAccessor<byte> CircleSegmentCounts => new (&NativePtr->CircleSegmentCounts0, 64);
+    //TODO ARRAY ACCESSOR
+//TODO Functions
 }

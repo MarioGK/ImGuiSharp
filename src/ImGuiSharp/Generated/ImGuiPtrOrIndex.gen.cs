@@ -13,4 +13,7 @@ public unsafe partial struct ImGuiPtrOrIndexPtr
     public static implicit operator ImGuiPtrOrIndexPtr(ImGuiPtrOrIndex* nativePtr) => new (nativePtr);
     public static implicit operator ImGuiPtrOrIndex* (ImGuiPtrOrIndexPtr wrappedPtr) => wrappedPtr.NativePtr;
     public static implicit operator ImGuiPtrOrIndexPtr(IntPtr nativePtr) => new (nativePtr);
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+//TODO Functions
 }

@@ -12,4 +12,6 @@ public unsafe partial struct ImGuiInputEventTextPtr
     public static implicit operator ImGuiInputEventTextPtr(ImGuiInputEventText* nativePtr) => new (nativePtr);
     public static implicit operator ImGuiInputEventText* (ImGuiInputEventTextPtr wrappedPtr) => wrappedPtr.NativePtr;
     public static implicit operator ImGuiInputEventTextPtr(IntPtr nativePtr) => new (nativePtr);
+    //TODO ARRAY ACCESSOR
+//TODO Functions
 }

@@ -21,4 +21,5 @@ public unsafe partial struct ImGuiDataTypeTempStoragePtr
     public static implicit operator ImGuiDataTypeTempStorage* (ImGuiDataTypeTempStoragePtr wrappedPtr) => wrappedPtr.NativePtr;
     public static implicit operator ImGuiDataTypeTempStoragePtr(IntPtr nativePtr) => new (nativePtr);
     public RangeAccessor<byte> Data => new (&NativePtr->Data0, 8);
+//TODO Functions
 }

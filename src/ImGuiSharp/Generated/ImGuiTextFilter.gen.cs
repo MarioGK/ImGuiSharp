@@ -15,4 +15,7 @@ public unsafe partial struct ImGuiTextFilterPtr
     public static implicit operator ImGuiTextFilter* (ImGuiTextFilterPtr wrappedPtr) => wrappedPtr.NativePtr;
     public static implicit operator ImGuiTextFilterPtr(IntPtr nativePtr) => new (nativePtr);
     public RangeAccessor<byte> InputBuf => new (NativePtr->InputBuf, 256);
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+//TODO Functions
 }

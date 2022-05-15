@@ -22,6 +22,14 @@ public unsafe partial struct ImGuiViewportPPtr
     public static implicit operator ImGuiViewportPPtr(ImGuiViewportP* nativePtr) => new (nativePtr);
     public static implicit operator ImGuiViewportP* (ImGuiViewportPPtr wrappedPtr) => wrappedPtr.NativePtr;
     public static implicit operator ImGuiViewportPPtr(IntPtr nativePtr) => new (nativePtr);
+    //TODO ARRAY ACCESSOR
     public RangeAccessor<int> DrawListsLastFrame => new (NativePtr->DrawListsLastFrame, 2);
     public RangeAccessor<ImDrawList> DrawLists => new (&NativePtr->DrawLists0, 2);
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+//TODO Functions
 }

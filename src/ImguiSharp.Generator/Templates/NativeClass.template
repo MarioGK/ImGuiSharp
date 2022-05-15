@@ -3,8 +3,8 @@ namespace {{NameSpace}};
 
 public static unsafe partial class {{FriendlyName}}Native
 {
-{{for functionOverload in Overloads}}
-[DllImport(\"{{projectInfo.NativeProjectName}}\", CallingConvention = CallingConvention.Cdecl)]
-public static extern {functionOverload.ReturnType} {functionOverload.ExportedName}({functionOverload.Parameters});
+{{for function in Functions}}
+    [DllImport("{{NativeProjectName}}", CallingConvention = CallingConvention.Cdecl)]
+    public static extern {{function.ReturnType}} {{function.ExportedName}}({{function.Parameters}});
 {{end}}
 }

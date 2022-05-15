@@ -12,4 +12,6 @@ public unsafe partial struct ImGuiInputEventAppFocusedPtr
     public static implicit operator ImGuiInputEventAppFocusedPtr(ImGuiInputEventAppFocused* nativePtr) => new (nativePtr);
     public static implicit operator ImGuiInputEventAppFocused* (ImGuiInputEventAppFocusedPtr wrappedPtr) => wrappedPtr.NativePtr;
     public static implicit operator ImGuiInputEventAppFocusedPtr(IntPtr nativePtr) => new (nativePtr);
+    //TODO ARRAY ACCESSOR
+//TODO Functions
 }

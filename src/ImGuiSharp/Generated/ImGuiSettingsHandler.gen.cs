@@ -20,4 +20,14 @@ public unsafe partial struct ImGuiSettingsHandlerPtr
     public static implicit operator ImGuiSettingsHandlerPtr(ImGuiSettingsHandler* nativePtr) => new (nativePtr);
     public static implicit operator ImGuiSettingsHandler* (ImGuiSettingsHandlerPtr wrappedPtr) => wrappedPtr.NativePtr;
     public static implicit operator ImGuiSettingsHandlerPtr(IntPtr nativePtr) => new (nativePtr);
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+//TODO Functions
 }

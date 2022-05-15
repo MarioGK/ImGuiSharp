@@ -13,4 +13,7 @@ public unsafe partial struct ImGuiTableCellDataPtr
     public static implicit operator ImGuiTableCellDataPtr(ImGuiTableCellData* nativePtr) => new (nativePtr);
     public static implicit operator ImGuiTableCellData* (ImGuiTableCellDataPtr wrappedPtr) => wrappedPtr.NativePtr;
     public static implicit operator ImGuiTableCellDataPtr(IntPtr nativePtr) => new (nativePtr);
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+//TODO Functions
 }

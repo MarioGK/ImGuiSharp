@@ -14,4 +14,8 @@ public unsafe partial struct ImDrawCmdHeaderPtr
     public static implicit operator ImDrawCmdHeaderPtr(ImDrawCmdHeader* nativePtr) => new (nativePtr);
     public static implicit operator ImDrawCmdHeader* (ImDrawCmdHeaderPtr wrappedPtr) => wrappedPtr.NativePtr;
     public static implicit operator ImDrawCmdHeaderPtr(IntPtr nativePtr) => new (nativePtr);
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+//TODO Functions
 }

@@ -23,5 +23,13 @@ public unsafe partial struct ImGuiMenuColumnsPtr
     public static implicit operator ImGuiMenuColumnsPtr(ImGuiMenuColumns* nativePtr) => new (nativePtr);
     public static implicit operator ImGuiMenuColumns* (ImGuiMenuColumnsPtr wrappedPtr) => wrappedPtr.NativePtr;
     public static implicit operator ImGuiMenuColumnsPtr(IntPtr nativePtr) => new (nativePtr);
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
     public RangeAccessor<ushort> Widths => new (&NativePtr->Widths0, 4);
+//TODO Functions
 }

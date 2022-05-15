@@ -17,4 +17,11 @@ public unsafe partial struct ImGuiLastItemDataPtr
     public static implicit operator ImGuiLastItemDataPtr(ImGuiLastItemData* nativePtr) => new (nativePtr);
     public static implicit operator ImGuiLastItemData* (ImGuiLastItemDataPtr wrappedPtr) => wrappedPtr.NativePtr;
     public static implicit operator ImGuiLastItemDataPtr(IntPtr nativePtr) => new (nativePtr);
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+//TODO Functions
 }

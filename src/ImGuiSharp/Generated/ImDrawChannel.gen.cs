@@ -13,4 +13,7 @@ public unsafe partial struct ImDrawChannelPtr
     public static implicit operator ImDrawChannelPtr(ImDrawChannel* nativePtr) => new (nativePtr);
     public static implicit operator ImDrawChannel* (ImDrawChannelPtr wrappedPtr) => wrappedPtr.NativePtr;
     public static implicit operator ImDrawChannelPtr(IntPtr nativePtr) => new (nativePtr);
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+//TODO Functions
 }

@@ -12,4 +12,6 @@ public unsafe partial struct ImGuiOnceUponAFramePtr
     public static implicit operator ImGuiOnceUponAFramePtr(ImGuiOnceUponAFrame* nativePtr) => new (nativePtr);
     public static implicit operator ImGuiOnceUponAFrame* (ImGuiOnceUponAFramePtr wrappedPtr) => wrappedPtr.NativePtr;
     public static implicit operator ImGuiOnceUponAFramePtr(IntPtr nativePtr) => new (nativePtr);
+    //TODO ARRAY ACCESSOR
+//TODO Functions
 }

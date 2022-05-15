@@ -13,4 +13,7 @@ public unsafe partial struct ImGuiInputEventMouseWheelPtr
     public static implicit operator ImGuiInputEventMouseWheelPtr(ImGuiInputEventMouseWheel* nativePtr) => new (nativePtr);
     public static implicit operator ImGuiInputEventMouseWheel* (ImGuiInputEventMouseWheelPtr wrappedPtr) => wrappedPtr.NativePtr;
     public static implicit operator ImGuiInputEventMouseWheelPtr(IntPtr nativePtr) => new (nativePtr);
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+//TODO Functions
 }

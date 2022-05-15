@@ -22,4 +22,16 @@ public unsafe partial struct ImGuiGroupDataPtr
     public static implicit operator ImGuiGroupDataPtr(ImGuiGroupData* nativePtr) => new (nativePtr);
     public static implicit operator ImGuiGroupData* (ImGuiGroupDataPtr wrappedPtr) => wrappedPtr.NativePtr;
     public static implicit operator ImGuiGroupDataPtr(IntPtr nativePtr) => new (nativePtr);
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+//TODO Functions
 }

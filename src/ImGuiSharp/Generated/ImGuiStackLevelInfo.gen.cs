@@ -15,5 +15,9 @@ public unsafe partial struct ImGuiStackLevelInfoPtr
     public static implicit operator ImGuiStackLevelInfoPtr(ImGuiStackLevelInfo* nativePtr) => new (nativePtr);
     public static implicit operator ImGuiStackLevelInfo* (ImGuiStackLevelInfoPtr wrappedPtr) => wrappedPtr.NativePtr;
     public static implicit operator ImGuiStackLevelInfoPtr(IntPtr nativePtr) => new (nativePtr);
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
     public RangeAccessor<byte> Desc => new (NativePtr->Desc, 58);
+//TODO Functions
 }

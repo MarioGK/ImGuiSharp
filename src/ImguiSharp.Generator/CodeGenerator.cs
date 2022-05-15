@@ -2,17 +2,26 @@
 using ImGuiSharp.Generator.Helpers;
 using ImGuiSharp.Generator.Models;
 using Scriban;
+using Scriban.Runtime;
 
 namespace ImGuiSharp.Generator;
 
 internal class CodeGenerator
 {
+    private readonly ProjectInfo _projectInfo;
     public string Output { get; }
     public CodeGenerator(ProjectInfo projectInfo, string output)
     {
+        _projectInfo = projectInfo;
         Output = output;
         DefinitionsParser = new DefinitionsParser(projectInfo);
+        _templateContext = new TemplateContext
+        {
+            LoopLimit = 0,
+            MemberRenamer = member => member.Name
+        };
     }
+    private readonly TemplateContext _templateContext;
 
     public DefinitionsParser DefinitionsParser { get; set; }
 
@@ -22,8 +31,10 @@ internal class CodeGenerator
 
         var structs = GenerateStructs();
         var enums = GenerateEnums();
+        var classes = GeneratedClasses();
 
-        return structs.Concat(enums);
+        //return classes;
+        return structs.Concat(enums).Concat(classes);
     }
 
     public void WriteAll()
@@ -34,12 +45,26 @@ internal class CodeGenerator
 
     private IEnumerable<GeneratedFile> GeneratedClasses()
     {
-        yield return new GeneratedFile("", "");
+        var template = GetTemplate("NativeClass");
+        var obj = new
+        {
+            NameSpace = "ImGui",
+            FriendlyName = "ImGui",
+            NativeProjectName = _projectInfo.NativeProjectName,
+            Functions = DefinitionsParser.FunctionDefinitions
+        };
+        var scriptObject = new ScriptObject();
+        scriptObject.Import(obj, renamer: _templateContext.MemberRenamer, filter: _templateContext.MemberFilter);
+        _templateContext.PushGlobal(scriptObject);
+        var code = template.Render(_templateContext).RemoveEmptyLines();
+        _templateContext.PopGlobal();
+        
+        yield return new GeneratedFile("NativeClass.cs", code);
     }
 
     private IEnumerable<GeneratedFile> GenerateEnums()
     {
-        return DefinitionsParser.EnumDefinitions.Select(x => ParseWithTemplate("Enum.template", x));
+        return DefinitionsParser.EnumDefinitions.Select(x => ParseWithTemplate("Enum", x));
     }
 
     private IEnumerable<GeneratedFile> GenerateStructs()
@@ -47,14 +72,41 @@ internal class CodeGenerator
         return DefinitionsParser.StructDefinitions
                                 .Where(x => !TypeInfo.CustomDefinedTypes.Contains(x.Name) &&
                                             !TypeInfo.IgnoredEnums.Contains(x.Name))
-                                .Select(x => ParseWithTemplate("Struct.template", x));
+                                .Select(x => ParseWithTemplate("Struct", x));
+    }
+    
+    private static Template GetTemplate(string templateName)
+    {
+        if (!templateName.EndsWith(".template"))
+        {
+            templateName += ".template";
+        }
+        
+        var templateString = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "Templates", templateName));
+
+        var template = Template.Parse(templateString);
+
+        if (template.HasErrors)
+        {
+            foreach(var error in template.Messages)
+            {
+                Console.WriteLine(error);
+            }
+            Console.WriteLine("Waiting key ...");
+            Console.Read();
+        }
+
+        return template;
     }
 
-    private static GeneratedFile ParseWithTemplate(string templateName, BaseDefinition data)
+    private GeneratedFile ParseWithTemplate(string templateName, BaseDefinition data)
     {
-        var templateString = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "Templates", templateName));
-        var template = Template.Parse(templateString);
-        var code = template.Render(data, member => member.Name);
+        var template = GetTemplate(templateName);
+        var scriptObject = new ScriptObject();
+        scriptObject.Import(data, renamer: _templateContext.MemberRenamer, filter: _templateContext.MemberFilter);
+        _templateContext.PushGlobal(scriptObject);
+        var code = template.Render(_templateContext);
+        _templateContext.PopGlobal();
         code = code.RemoveEmptyLines();
 
         if (string.IsNullOrEmpty(code))

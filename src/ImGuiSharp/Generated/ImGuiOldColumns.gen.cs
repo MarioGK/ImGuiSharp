@@ -28,4 +28,22 @@ public unsafe partial struct ImGuiOldColumnsPtr
     public static implicit operator ImGuiOldColumnsPtr(ImGuiOldColumns* nativePtr) => new (nativePtr);
     public static implicit operator ImGuiOldColumns* (ImGuiOldColumnsPtr wrappedPtr) => wrappedPtr.NativePtr;
     public static implicit operator ImGuiOldColumnsPtr(IntPtr nativePtr) => new (nativePtr);
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+//TODO Functions
 }

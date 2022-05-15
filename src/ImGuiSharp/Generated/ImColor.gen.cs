@@ -12,4 +12,6 @@ public unsafe partial struct ImColorPtr
     public static implicit operator ImColorPtr(ImColor* nativePtr) => new (nativePtr);
     public static implicit operator ImColor* (ImColorPtr wrappedPtr) => wrappedPtr.NativePtr;
     public static implicit operator ImColorPtr(IntPtr nativePtr) => new (nativePtr);
+    //TODO ARRAY ACCESSOR
+//TODO Functions
 }

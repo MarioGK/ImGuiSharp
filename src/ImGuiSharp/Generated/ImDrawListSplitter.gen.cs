@@ -14,4 +14,8 @@ public unsafe partial struct ImDrawListSplitterPtr
     public static implicit operator ImDrawListSplitterPtr(ImDrawListSplitter* nativePtr) => new (nativePtr);
     public static implicit operator ImDrawListSplitter* (ImDrawListSplitterPtr wrappedPtr) => wrappedPtr.NativePtr;
     public static implicit operator ImDrawListSplitterPtr(IntPtr nativePtr) => new (nativePtr);
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+//TODO Functions
 }

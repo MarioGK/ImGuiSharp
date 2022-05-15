@@ -12,4 +12,6 @@ public unsafe partial struct ImGuiStyleModPtr
     public static implicit operator ImGuiStyleModPtr(ImGuiStyleMod* nativePtr) => new (nativePtr);
     public static implicit operator ImGuiStyleMod* (ImGuiStyleModPtr wrappedPtr) => wrappedPtr.NativePtr;
     public static implicit operator ImGuiStyleModPtr(IntPtr nativePtr) => new (nativePtr);
+    //TODO ARRAY ACCESSOR
+//TODO Functions
 }

@@ -1117,4 +1117,9 @@ public unsafe partial struct StbUndoStatePtr
     public static implicit operator StbUndoStatePtr(IntPtr nativePtr) => new (nativePtr);
     public RangeAccessor<StbUndoRecord> UndoRec => new (&NativePtr->UndoRec0, 99);
     public RangeAccessor<ushort> UndoChar => new (&NativePtr->UndoChar0, 999);
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+    //TODO ARRAY ACCESSOR
+//TODO Functions
 }

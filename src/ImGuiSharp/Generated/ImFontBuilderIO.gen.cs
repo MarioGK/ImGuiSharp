@@ -12,4 +12,6 @@ public unsafe partial struct ImFontBuilderIOPtr
     public static implicit operator ImFontBuilderIOPtr(ImFontBuilderIO* nativePtr) => new (nativePtr);
     public static implicit operator ImFontBuilderIO* (ImFontBuilderIOPtr wrappedPtr) => wrappedPtr.NativePtr;
     public static implicit operator ImFontBuilderIOPtr(IntPtr nativePtr) => new (nativePtr);
+    //TODO ARRAY ACCESSOR
+//TODO Functions
 }
