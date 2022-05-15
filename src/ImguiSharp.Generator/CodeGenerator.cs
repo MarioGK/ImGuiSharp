@@ -48,9 +48,9 @@ internal class CodeGenerator
         var template = GetTemplate("NativeClass");
         var obj = new
         {
-            NameSpace = "ImGui",
-            FriendlyName = "ImGui",
-            NativeProjectName = _projectInfo.NativeProjectName,
+            _projectInfo.NameSpace,
+            FriendlyName = _projectInfo.NameSpace,
+            _projectInfo.NativeProjectName,
             Functions = DefinitionsParser.FunctionDefinitions
         };
         var scriptObject = new ScriptObject();
@@ -59,7 +59,7 @@ internal class CodeGenerator
         var code = template.Render(_templateContext).RemoveEmptyLines();
         _templateContext.PopGlobal();
         
-        yield return new GeneratedFile("NativeClass.cs", code);
+        yield return new GeneratedFile($"{_projectInfo.NameSpace}NativeClass.cs", code);
     }
 
     private IEnumerable<GeneratedFile> GenerateEnums()

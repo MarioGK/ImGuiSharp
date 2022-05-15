@@ -3,10 +3,8 @@ using ImGuiSharp.Generator.Helpers;
 
 namespace ImGuiSharp.Generator.Data;
 
-internal class FunctionOverload : BaseDefinition
+internal class FunctionDefinition : BaseDefinition
 {
-    public string Id { get; set; }
-
     [JsonPropertyName("args")]
     public string RawArguments { get; set; }
 
@@ -61,8 +59,6 @@ internal class FunctionOverload : BaseDefinition
     public void RunFixes()
     {
         FixReturnType();
-        
-        
     }
 
     private void FixReturnType()

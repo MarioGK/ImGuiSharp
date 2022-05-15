@@ -165,8 +165,6 @@ public static class TypeInfo
     {
         "ImVector",
         "ImChunkStream",
-        "ImVector",
-        "ImChunkStream",
         "ImSpan",
         "ImPool"
     };

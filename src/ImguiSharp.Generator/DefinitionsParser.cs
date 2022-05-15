@@ -22,7 +22,7 @@ internal class DefinitionsParser
     public List<VariantDefinition> VariantDefinitions { get; } = new();
     public List<EnumDefinition> EnumDefinitions { get; } = new();
     public List<StructDefinition> StructDefinitions { get; } = new();
-    public List<FunctionOverload> FunctionDefinitions { get; } = new();
+    public List<FunctionDefinition> FunctionDefinitions { get; } = new();
 
     public void ParseAll()
     {
@@ -49,7 +49,7 @@ internal class DefinitionsParser
 
             foreach (var innerProp in enumProp.Value.EnumerateArray())
             {
-                var functionOverload = innerProp.Deserialize<FunctionOverload>();
+                var functionOverload = innerProp.Deserialize<FunctionDefinition>();
 
                 if (functionOverload == null || 
                     functionOverload.Cimguiname.EndsWith("nonUDT") ||
