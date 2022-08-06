@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "Sample.Veldrid": {
-      "commandName": "Project",
-      "nativeDebugging": true
-    }
-  }
-}

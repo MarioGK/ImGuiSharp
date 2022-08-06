@@ -1,6 +1,0 @@
-﻿namespace ImGuiSharp.Generator.Templates.Overloads;
-
-public class Bool_template
-{
-    
-}

@@ -1,5 +1,5 @@
 $BuildArch = "x64"
-$BuildConfig = "Debug"
+$BuildConfig = "Release"
 $BuildPlatform = "x64"
 $buildPath
 $libsFolder
