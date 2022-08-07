@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImGuiSharp.Generator", "ImGuiSharp.Generator\ImGuiSharp.Generator.csproj", "{C2BE62B2-51D6-43F0-8577-E0DE1A3FD410}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImGuiSharp", "ImGuiSharp\ImGuiSharp.csproj", "{E7E7E195-FB54-4CC7-90A9-94303F3B8539}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImGuiSharp.Example", "ImGuiSharp.Example\ImGuiSharp.Example.csproj", "{DAD3D4B4-FF67-4BAD-9F95-637D7415B44E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C2BE62B2-51D6-43F0-8577-E0DE1A3FD410}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2BE62B2-51D6-43F0-8577-E0DE1A3FD410}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2BE62B2-51D6-43F0-8577-E0DE1A3FD410}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2BE62B2-51D6-43F0-8577-E0DE1A3FD410}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7E7E195-FB54-4CC7-90A9-94303F3B8539}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7E7E195-FB54-4CC7-90A9-94303F3B8539}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7E7E195-FB54-4CC7-90A9-94303F3B8539}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7E7E195-FB54-4CC7-90A9-94303F3B8539}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DAD3D4B4-FF67-4BAD-9F95-637D7415B44E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAD3D4B4-FF67-4BAD-9F95-637D7415B44E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAD3D4B4-FF67-4BAD-9F95-637D7415B44E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAD3D4B4-FF67-4BAD-9F95-637D7415B44E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
