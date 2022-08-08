@@ -6,10 +6,38 @@
         <Nullable>enable</Nullable>
         <LangVersion>preview</LangVersion>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageTags>ImGui ImGuiSharp Immediate Mode GUI</PackageTags>
+        <PackageProjectUrl>https://github.com/MarioGK/ImGuiSharp</PackageProjectUrl>
+        <PackageId>ImGuiSharp</PackageId>
+        <Description>A .NET wrapper for the Dear ImGui library.</Description>
+        <AssemblyVersion>2.0.0.1</AssemblyVersion>
+        <PackageVersion>2.0.0.1</PackageVersion>
+        <Authors>MarioGK</Authors>
     </PropertyGroup>
 
     <ItemGroup>
       <PackageReference Include="CppSharp.Runtime" Version="1.0.21.52894" />
+      <PackageReference Include="System.Numerics.Vectors" Version="4.5.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="..\..\libs\win-x64\cimgui.dll" Condition="$([MSBuild]::IsOSPlatform('Windows'))">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <Pack>true</Pack>
+            <PackagePath>lib\$(TargetFramework)</PackagePath>
+        </Content>
+        <Content Include="..\..\libs\linux-x64\cimgui.so" Condition="$([MSBuild]::IsOSPlatform('Linux'))">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <Pack>true</Pack>
+            <PackagePath>lib\$(TargetFramework)</PackagePath>
+        </Content>
+        <Content Include="..\..\libs\osx-universal\cimgui.dylib" Condition="$([MSBuild]::IsOSPlatform('OSX'))">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <Pack>true</Pack>
+            <PackagePath>lib\$(TargetFramework)</PackagePath>
+        </Content>
     </ItemGroup>
 
 </Project>

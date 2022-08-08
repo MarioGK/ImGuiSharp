@@ -4,7 +4,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImGuiSharp.Generator", "ImG
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImGuiSharp", "ImGuiSharp\ImGuiSharp.csproj", "{E7E7E195-FB54-4CC7-90A9-94303F3B8539}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImGuiSharp.Example", "ImGuiSharp.Example\ImGuiSharp.Example.csproj", "{DAD3D4B4-FF67-4BAD-9F95-637D7415B44E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImGuiSharp.Silk.NET", "ImGuiSharp.Silk.NET\ImGuiSharp.Silk.NET.csproj", "{E36789FA-CA26-4F65-A92C-98DFA9FB8CC5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImGuiSharp.Veldrid", "ImGuiSharp.Veldrid\ImGuiSharp.Veldrid.csproj", "{052E9E5C-A1BC-4C4F-883B-FA6ECF18C75F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{511B17E1-8325-4DAB-BB89-4EDC25604373}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImGuiSharp.Examples.Silk.NET", "Examples\ImGuiSharp.Examples.Silk.NET\ImGuiSharp.Examples.Silk.NET.csproj", "{DF913E44-B0F9-4A72-842D-71DB2AF5C2AC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,9 +26,20 @@ Global
 		{E7E7E195-FB54-4CC7-90A9-94303F3B8539}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E7E7E195-FB54-4CC7-90A9-94303F3B8539}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E7E7E195-FB54-4CC7-90A9-94303F3B8539}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DAD3D4B4-FF67-4BAD-9F95-637D7415B44E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DAD3D4B4-FF67-4BAD-9F95-637D7415B44E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DAD3D4B4-FF67-4BAD-9F95-637D7415B44E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DAD3D4B4-FF67-4BAD-9F95-637D7415B44E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E36789FA-CA26-4F65-A92C-98DFA9FB8CC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E36789FA-CA26-4F65-A92C-98DFA9FB8CC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E36789FA-CA26-4F65-A92C-98DFA9FB8CC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E36789FA-CA26-4F65-A92C-98DFA9FB8CC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{052E9E5C-A1BC-4C4F-883B-FA6ECF18C75F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{052E9E5C-A1BC-4C4F-883B-FA6ECF18C75F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{052E9E5C-A1BC-4C4F-883B-FA6ECF18C75F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{052E9E5C-A1BC-4C4F-883B-FA6ECF18C75F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF913E44-B0F9-4A72-842D-71DB2AF5C2AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF913E44-B0F9-4A72-842D-71DB2AF5C2AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF913E44-B0F9-4A72-842D-71DB2AF5C2AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF913E44-B0F9-4A72-842D-71DB2AF5C2AC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DF913E44-B0F9-4A72-842D-71DB2AF5C2AC} = {511B17E1-8325-4DAB-BB89-4EDC25604373}
 	EndGlobalSection
 EndGlobal
