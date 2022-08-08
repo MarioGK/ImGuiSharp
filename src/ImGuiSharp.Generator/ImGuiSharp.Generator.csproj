@@ -9,6 +9,7 @@
 
     <ItemGroup>
       <PackageReference Include="CppSharp" Version="1.0.21.52894" />
+      <PackageReference Include="Humanizer.Core" Version="2.14.1" />
     </ItemGroup>
     
 

@@ -18,8 +18,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="CppSharp.Runtime" Version="1.0.21.52894" />
-      <PackageReference Include="System.Numerics.Vectors" Version="4.5.0" />
+        <PackageReference Include="CppSharp.Runtime" Version="1.0.21.52894"/>
+        <PackageReference Include="System.Numerics.Vectors" Version="4.5.0"/>
     </ItemGroup>
 
     <ItemGroup>

@@ -14,14 +14,12 @@ public class ImGui : ILibrary
         options.GeneratorKind                     = GeneratorKind.CSharp;
         options.GenerateDefaultValuesForArguments = true;
         options.GenerateSequentialLayout          = true;
-        options.GenerationOutputMode              = GenerationOutputMode.FilePerModule;
         options.OutputDir                         = "./GeneratedFiles";
 
         var module = options.AddModule("cimgui");
         module.OutputNamespace = "ImGuiSharp";
         module.Defines.Add("CIMGUI_DEFINE_ENUMS_AND_STRUCTS");
-        //module.IncludeDirs.Add("../native/cimgui");
-        module.IncludeDirs.Add(@"F:\Projects\ImGuiSharp\native\cimgui");
+        module.IncludeDirs.Add("../../../../../native/cimgui");
         module.Headers.Add("cimgui.h");
     }
 
@@ -37,14 +35,13 @@ public class ImGui : ILibrary
         translationUnit.AddPass(new MakeProtectedNestedTypesPublicPass());
         translationUnit.AddPass(new SpecializationMethodsWithDependentPointersPass());
         translationUnit.AddPass(new CheckDuplicatedNamesPass());
-        
         translationUnit.AddPass(new ConstructorToConversionOperatorPass());
         translationUnit.AddPass(new FixDefaultParamValuesOfOverridesPass());
         translationUnit.AddPass(new HandleDefaultParamValuesPass());
         
         var generatorOutput = driver.Context.GeneratorOutputPasses;
         generatorOutput.AddPass(new RenameCimguiClass());
-        generatorOutput.AddPass(new RenameEnumValues());
+        generatorOutput.AddPass(new RemoveEnumValuesPrefix());
         generatorOutput.AddPass(new SetComponentsPublicPass());
     }
 
@@ -82,7 +79,7 @@ public class ImGui : ILibrary
         }
     }
     
-    private void RecursiveRemovePrefix(IEnumerable<Namespace> namespaces, ASTContext ctx)
+    private static void RecursiveRemovePrefix(IEnumerable<Namespace> namespaces, ASTContext ctx)
     {
         foreach (var ns in namespaces)
         {
@@ -93,14 +90,14 @@ public class ImGui : ILibrary
             }
         }
     }
-    private string GetNameWithoutPrefix(string name) => name.TrimStart("ig".ToCharArray());
+    private static string GetNameWithoutPrefix(string name) => name.TrimStart("ig".ToCharArray());
 
     public void Postprocess(Driver driver, ASTContext ctx)
     {
         IgnoreProperty("ImVectorImTextureID", "Data", ctx);
     }
 
-    private void IgnoreProperty(string className, string propertyName, ASTContext ctx)
+    private static void IgnoreProperty(string className, string propertyName, ASTContext ctx)
     {
         try
         {
@@ -116,5 +113,6 @@ public class ImGui : ILibrary
 
     public void GenerateCode(Driver driver, List<GeneratorOutput> outputs)
     {
+        
     }
 }
